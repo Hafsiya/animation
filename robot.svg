@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Rolling Vibration (Simulates wheels on a floor) */
+      .rolling-chassis {
+        animation: rollVibrate 0.3s infinite alternate linear;
+        transform-origin: 100px 160px;
+      }
+
+      @keyframes rollVibrate {
+        0% { transform: translateY(0px) rotate(0deg); }
+        100% { transform: translateY(-1px) rotate(0.5deg); }
+      }
+
+      /* 2. The Tray Balance (Counter-bounces to keep the drink steady) */
+      .tray-group {
+        animation: trayBalance 0.6s infinite alternate ease-in-out;
+      }
+
+      @keyframes trayBalance {
+        0% { transform: translateY(-1px); }
+        100% { transform: translateY(1px); }
+      }
+
+      /* 3. The Happy Eye Blink */
+      .happy-eyes {
+        animation: cuteBlink 4s infinite;
+        transform-origin: 85px 65px;
+      }
+
+      @keyframes cuteBlink {
+        0%, 46% { transform: scaleY(1); opacity: 1; }
+        48% { transform: scaleY(0.1); opacity: 0.8; } /* Quick blink */
+        50%, 96% { transform: scaleY(1); opacity: 1; } 
+        98% { transform: scaleY(0.1); opacity: 0.8; } 
+        100% { transform: scaleY(1); opacity: 1; }
+      }
+
+      /* 4. Ground Speed Lines (Creates the illusion of forward movement) */
+      .speed-line {
+        stroke-dasharray: 40 100;
+        animation: rushPast 1s linear infinite;
+      }
+      
+      .speed-line:nth-child(2) { animation-duration: 0.8s; animation-delay: 0.2s; }
+      .speed-line:nth-child(3) { animation-duration: 1.2s; animation-delay: 0.5s; }
+
+      @keyframes rushPast {
+        0% { stroke-dashoffset: -50; opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { stroke-dashoffset: 150; opacity: 0; }
+      }
+
+      /* 5. Steaming Coffee */
+      .steam {
+        animation: riseSteam 2s infinite ease-in;
+      }
+
+      @keyframes riseSteam {
+        0% { transform: translateY(0px) scale(0.8); opacity: 0; }
+        50% { opacity: 0.6; }
+        100% { transform: translateY(-15px) scale(1.2); opacity: 0; }
+      }
+    </style>
+
+    <linearGradient id="whitePlastic" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#f5f6fa"/>
+      <stop offset="100%" stop-color="#dcdde1"/>
+    </linearGradient>
+
+    <linearGradient id="whitePlasticDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5f6fa"/>
+      <stop offset="100%" stop-color="#718093"/>
+    </linearGradient>
+
+    <linearGradient id="screenGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2f3640"/>
+      <stop offset="50%" stop-color="#192a56"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+
+    <filter id="neonBlue" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <linearGradient id="metalTray" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#b2bec3"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="170" rx="45" ry="12" fill="#2d3436" opacity="0.15" />
+  
+  <g stroke="#00a8ff" stroke-width="2" stroke-linecap="round" opacity="0.4">
+    <line x1="160" y1="165" x2="40" y2="165" class="speed-line" />
+    <line x1="150" y1="175" x2="30" y2="175" class="speed-line" />
+    <line x1="170" y1="180" x2="50" y2="180" class="speed-line" />
+  </g>
+
+  <g class="rolling-chassis">
+    
+    <path d="M 65 140 L 55 160 A 45 12 0 0 0 145 160 L 135 140 Z" fill="url(#whitePlasticDark)" />
+    <path d="M 58 155 A 42 10 0 0 0 142 155" fill="none" stroke="#00a8ff" stroke-width="2" filter="url(#neonBlue)" opacity="0.8" />
+    
+    <path d="M 70 80 L 65 140 A 35 10 0 0 0 135 140 L 130 80 Z" fill="url(#whitePlastic)" />
+    <ellipse cx="100" cy="140" rx="35" ry="10" fill="none" stroke="#dcdde1" stroke-width="1.5" />
+
+    <ellipse cx="100" cy="65" rx="35" ry="25" fill="url(#whitePlastic)" />
+    
+    <path d="M 75 50 L 70 30 L 85 42 Z" fill="url(#whitePlasticDark)" stroke="#ffffff" stroke-width="1" stroke-linejoin="round" />
+    <path d="M 76 47 L 72 35 L 82 42 Z" fill="#00a8ff" opacity="0.5" />
+    <path d="M 125 50 L 130 30 L 115 42 Z" fill="url(#whitePlasticDark)" stroke="#ffffff" stroke-width="1" stroke-linejoin="round" />
+    <path d="M 124 47 L 128 35 L 118 42 Z" fill="#00a8ff" opacity="0.5" />
+
+    <path d="M 70 55 C 70 45, 130 45, 130 55 C 135 70, 125 80, 100 80 C 75 80, 65 70, 70 55 Z" fill="url(#screenGlass)" />
+    <path d="M 72 55 C 75 50, 125 50, 128 55 C 115 65, 85 65, 72 55 Z" fill="#ffffff" opacity="0.1" />
+
+    <g class="happy-eyes" fill="none" stroke="#00a8ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonBlue)">
+      <path d="M 80 65 Q 85 55 90 65" />
+      <path d="M 110 65 Q 115 55 120 65" />
+    </g>
+
+    <g class="tray-group">
+      <ellipse cx="100" cy="100" rx="45" ry="15" fill="#2d3436" opacity="0.2" />
+      
+      <ellipse cx="100" cy="95" rx="48" ry="18" fill="url(#metalTray)" />
+      <path d="M 52 95 L 52 98 A 48 18 0 0 0 148 98 L 148 95 Z" fill="#636e72" />
+
+      <ellipse cx="100" cy="95" rx="15" ry="6" fill="#2d3436" opacity="0.2" /> <path d="M 90 85 L 92 95 A 8 4 0 0 0 108 95 L 110 85 Z" fill="#ff4757" /> <ellipse cx="100" cy="85" rx="10" ry="4" fill="#ffffff" /> <ellipse cx="100" cy="85" rx="8" ry="3" fill="#8c1c0b" /> <path d="M 98 80 Q 95 75 100 70 T 98 60" fill="none" stroke="#dfe6e9" stroke-width="2" stroke-linecap="round" class="steam" />
+      <path d="M 104 82 Q 107 77 102 72 T 104 62" fill="none" stroke="#dfe6e9" stroke-width="1.5" stroke-linecap="round" class="steam" style="animation-delay: 1s;" />
+    </g>
+
+  </g>
+</svg>

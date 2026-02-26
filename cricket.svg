@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Bat Swing Sequence (4 second loop) */
+      .bat-assembly {
+        animation: classicDrive 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        transform-origin: 100px 30px; /* Pivot from the top of the handle */
+      }
+
+      @keyframes classicDrive {
+        0%, 15% { transform: rotate(15deg); } 
+        30%, 42% { transform: rotate(35deg); } 
+        48% { transform: rotate(-15deg); } /* The precise impact angle */
+        55%, 65% { transform: rotate(-35deg); } 
+        85%, 100% { transform: rotate(15deg); } 
+      }
+
+      /* 2. The Ball Trajectory (Synced to exactly meet the rotated sweet spot at 48%) */
+      .ball-assembly {
+        animation: bowlAndHit 4s linear infinite;
+      }
+
+      @keyframes bowlAndHit {
+        0%, 15% { transform: translate(-120px, -60px) scale(0.8); opacity: 0; } 
+        20% { opacity: 1; }
+        38% { transform: translate(10px, 68px) scale(0.9); } /* Bounces on the pitch */
+        48% { transform: translate(49px, 30px) scale(1); opacity: 1; } /* Exact Impact */
+        58% { transform: translate(-80px, -40px) scale(1.1); opacity: 1; } /* Flies off */
+        65%, 100% { transform: translate(-160px, -80px) scale(1.1); opacity: 0; } 
+      }
+
+      /* 3. The Ball Spin */
+      .ball-spin {
+        animation: spinSeam 4s linear infinite;
+        transform-origin: 75px 105px; 
+      }
+
+      @keyframes spinSeam {
+        0% { transform: rotate(0deg); }
+        48% { transform: rotate(360deg); } 
+        100% { transform: rotate(-720deg); } 
+      }
+
+      /* 4. The Impact Burst (Centered exactly at X:124, Y:135) */
+      .impact-spark {
+        animation: flashSpark 4s steps(1) infinite;
+        transform-origin: 124px 135px; /* Updated to match new coordinates */
+      }
+
+      @keyframes flashSpark {
+        0%, 47% { opacity: 0; transform: scale(0.5); }
+        48% { opacity: 1; transform: scale(1.2); } 
+        50%, 100% { opacity: 0; transform: scale(0); }
+      }
+
+      /* 5. Floor Shadow */
+      .ball-shadow {
+        animation: shadowBounce 4s linear infinite;
+        transform-origin: 45px 175px;
+      }
+
+      @keyframes shadowBounce {
+        0%, 15% { opacity: 0; transform: scale(0.5) translate(-120px, 0); }
+        38% { opacity: 0.4; transform: scale(1) translate(10px, 0); } 
+        48% { opacity: 0.15; transform: scale(0.8) translate(49px, 0); } 
+        58% { opacity: 0.25; transform: scale(1) translate(-80px, 0); } 
+        65%, 100% { opacity: 0; transform: scale(1.2) translate(-160px, 0); } 
+      }
+    </style>
+
+    <linearGradient id="grassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#27ae60"/>
+      <stop offset="100%" stop-color="#2ecc71"/>
+    </linearGradient>
+
+    <linearGradient id="willowFace" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5e6d3"/>
+      <stop offset="100%" stop-color="#e2cba4"/>
+    </linearGradient>
+
+    <linearGradient id="willowEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c8ae85"/>
+      <stop offset="100%" stop-color="#b0956c"/>
+    </linearGradient>
+
+    <linearGradient id="rubberGrip" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0984e3"/>
+      <stop offset="70%" stop-color="#00cec9"/>
+      <stop offset="100%" stop-color="#0652dd"/>
+    </linearGradient>
+
+    <radialGradient id="cherryRed" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff4757"/>
+      <stop offset="60%" stop-color="#c23616"/>
+      <stop offset="100%" stop-color="#8c1c0b"/>
+    </radialGradient>
+
+    <filter id="batShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="-5" dy="10" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.15"/>
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#grassGrad)" rx="20" />
+  
+  <polygon points="30,200 170,200 115,50 85,50" fill="#dfd6c2" opacity="0.95" />
+  
+  <line x1="45" y1="170" x2="155" y2="170" stroke="#ffffff" stroke-width="2" opacity="0.8" />
+  <line x1="82" y1="55" x2="118" y2="55" stroke="#ffffff" stroke-width="1.5" opacity="0.8" />
+
+  <ellipse cx="100" cy="185" rx="35" ry="8" fill="#2d3436" opacity="0.15" />
+  
+  <ellipse cx="75" cy="175" rx="15" ry="4" fill="#2d3436" class="ball-shadow" />
+
+  <g class="ball-assembly">
+    <g class="ball-spin">
+      <circle cx="75" cy="105" r="12" fill="url(#cherryRed)" />
+      
+      <path d="M 65 98 C 72 108, 78 108, 85 112" fill="none" stroke="#f1f2f6" stroke-width="1.5" stroke-linecap="round" />
+      <g stroke="#ffffff" stroke-width="1" opacity="0.8">
+        <line x1="65" y1="96" x2="68" y2="100" />
+        <line x1="70" y1="100" x2="73" y2="104" />
+        <line x1="75" y1="103" x2="78" y2="107" />
+        <line x1="80" y1="106" x2="83" y2="110" />
+        <line x1="84" y1="109" x2="87" y2="113" />
+      </g>
+    </g>
+  </g>
+
+  <g class="bat-assembly" filter="url(#batShadow)">
+    <path d="M 96 25 L 104 22 L 104 70 L 96 70 Z" fill="#e2cba4" />
+    <path d="M 95 30 L 105 27 L 105 60 L 95 60 Z" fill="url(#rubberGrip)" />
+    
+    <g stroke="#0652dd" stroke-width="1.5" opacity="0.6">
+      <line x1="95" y1="35" x2="105" y2="32" />
+      <line x1="95" y1="40" x2="105" y2="37" />
+      <line x1="95" y1="45" x2="105" y2="42" />
+      <line x1="95" y1="50" x2="105" y2="47" />
+      <line x1="95" y1="55" x2="105" y2="52" />
+    </g>
+
+    <ellipse cx="100" cy="23.5" rx="4" ry="1.5" fill="#2d3436" transform="rotate(-15 100 23)" />
+
+    <path d="M 104 70 L 112 65 L 114 160 C 114 165, 108 172, 102 170 L 104 70 Z" fill="url(#willowEdge)" />
+    <path d="M 88 72 L 104 70 L 102 170 C 96 172, 88 165, 86 160 Z" fill="url(#willowFace)" />
+
+    <path d="M 88 72 L 104 70 L 96 90 Z" fill="#c8ae85" opacity="0.5" />
+    
+    <path d="M 87 100 L 103 98 L 103 115 L 87 115 Z" fill="#ff4757" opacity="0.8" />
+    <path d="M 87 105 L 103 103 L 103 110 L 87 110 Z" fill="#ffffff" />
+    <polygon points="95,103 98,110 92,110" fill="#2d3436" />
+    
+    <path d="M 86 160 L 102 170 L 101 172 C 95 174, 87 167, 85 162 Z" fill="#2d3436" />
+    <path d="M 102 170 L 114 160 L 113 162 C 113 167, 107 174, 101 172 Z" fill="#636e72" />
+  </g>
+
+  <g class="impact-spark">
+    <circle cx="124" cy="135" r="15" fill="#fbc531" opacity="0.4" filter="url(#batShadow)" />
+    <circle cx="124" cy="135" r="6" fill="#ffffff" />
+    
+    <g stroke="#fbc531" stroke-width="3" stroke-linecap="round">
+      <line x1="124" y1="125" x2="124" y2="110" />
+      <line x1="124" y1="145" x2="124" y2="160" />
+      <line x1="114" y1="135" x2="99" y2="135" />
+      <line x1="134" y1="135" x2="149" y2="135" />
+      <line x1="117" y1="128" x2="107" y2="118" />
+      <line x1="131" y1="142" x2="141" y2="152" />
+    </g>
+  </g>
+
+</svg>

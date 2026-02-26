@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* --- MAIN RL LOOP: 6 SECONDS --- */
+
+      /* 1. The Autonomous Car (Drifting, Correcting, and Driving) */
+      .auto-car {
+        animation: driveAndLearn 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+
+      @keyframes driveAndLearn {
+        0% { transform: translate(0px, 80px) rotate(0deg); } /* Starts centered */
+        25% { transform: translate(40px, 15px) rotate(15deg); } /* DRIFTS RIGHT into the hazard */
+        35% { transform: translate(40px, 15px) rotate(-15deg); } /* Pauses, updates policy, steers left */
+        55% { transform: translate(0px, -40px) rotate(0deg); } /* Back to center lane */
+        100% { transform: translate(0px, -130px) rotate(0deg); } /* Drives off optimally */
+      }
+
+      /* 2. The Lidar Sensor Cone (Changes color based on reward state) */
+      .lidar-cone {
+        animation: sensorState 6s linear infinite;
+      }
+
+      @keyframes sensorState {
+        0%, 24% { fill: rgba(0, 206, 201, 0.2); stroke: #00cec9; } /* Normal */
+        25%, 34% { fill: rgba(255, 71, 87, 0.4); stroke: #ff4757; } /* HAZARD DETECTED */
+        35%, 100% { fill: rgba(0, 206, 201, 0.2); stroke: #00cec9; } /* Corrected */
+      }
+
+      /* 3. The AI Brain Core (Visualizing the Neural Network Weight Updates) */
+      .ai-core {
+        animation: brainState 6s linear infinite;
+      }
+
+      @keyframes brainState {
+        0%, 24% { fill: #00cec9; filter: url(#glowCyan); } /* Neutral / Exploring */
+        25%, 31% { fill: #ff4757; filter: url(#glowRed); transform: scale(1.3); } /* NEGATIVE REWARD */
+        32%, 39% { fill: #fbc531; filter: url(#glowGold); transform: scale(1.5); } /* BACKPROPAGATION / LEARNING */
+        40%, 100% { fill: #00cec9; filter: url(#glowCyan); transform: scale(1); } /* Optimized Policy */
+      }
+
+      /* 4. The Projected Trajectory Lines (Bad path vs Optimal path) */
+      .traj-bad { animation: showBadPath 6s linear infinite; }
+      .traj-good { animation: showGoodPath 6s linear infinite; }
+
+      @keyframes showBadPath {
+        0%, 24% { opacity: 0.6; }
+        25%, 34% { opacity: 1; stroke: #ff4757; } /* Turns red when hitting wall */
+        35%, 100% { opacity: 0; } /* Erased from memory */
+      }
+
+      @keyframes showGoodPath {
+        0%, 34% { opacity: 0; }
+        35%, 45% { opacity: 1; stroke: #fbc531; } /* New optimal path generated */
+        46%, 100% { opacity: 0.6; stroke: #00cec9; }
+      }
+
+      /* 5. The AR Environment Feedback (Lane Boundary flashing) */
+      .hazard-wall { animation: flashWall 6s linear infinite; }
+      
+      @keyframes flashWall {
+        0%, 24% { stroke: #dfe6e9; filter: none; stroke-width: 2px; }
+        25%, 34% { stroke: #ff4757; filter: url(#glowRed); stroke-width: 4px; } /* Boundary Hit */
+        35%, 100% { stroke: #dfe6e9; filter: none; stroke-width: 2px; }
+      }
+
+      /* 6. Floating Math (RL Values) */
+      .penalty-text { animation: popPenalty 6s ease-out infinite; }
+      .reward-text { animation: popReward 6s ease-out infinite; }
+
+      @keyframes popPenalty {
+        0%, 24% { opacity: 0; transform: translate(25px, 0px) scale(0.5); }
+        25% { opacity: 1; transform: translate(25px, -10px) scale(1); }
+        35% { opacity: 0; transform: translate(25px, -30px) scale(1); }
+        100% { opacity: 0; }
+      }
+      
+      @keyframes popReward {
+        0%, 34% { opacity: 0; transform: translate(-25px, 0px) scale(0.5); }
+        35% { opacity: 1; transform: translate(-25px, -10px) scale(1); }
+        45% { opacity: 0; transform: translate(-25px, -30px) scale(1); }
+        100% { opacity: 0; }
+      }
+
+      /* Levitation */
+      .rl-assembly { animation: floatEnv 6s ease-in-out infinite alternate; transform-origin: 100px 100px; }
+      @keyframes floatEnv { 0% { transform: translateY(0px); } 100% { transform: translateY(-4px); } }
+      .floor-shadow { animation: shadowBreathe 6s ease-in-out infinite alternate; transform-origin: 100px 170px; }
+      @keyframes shadowBreathe { 0% { transform: scale(1); opacity: 0.15; } 100% { transform: scale(1.05); opacity: 0.1; } }
+    </style>
+
+    <linearGradient id="carBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#74b9ff"/>
+      <stop offset="100%" stop-color="#0984e3"/>
+    </linearGradient>
+    <linearGradient id="roadSurface" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d3436"/>
+      <stop offset="100%" stop-color="#141718"/>
+    </linearGradient>
+
+    <filter id="glowCyan" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowRed" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowGold" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="3"/><feOffset dx="0" dy="5" result="offsetblur"/><feComponentTransfer><feFuncA type="linear" slope="0.4"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="170" rx="70" ry="15" fill="#2d3436" class="floor-shadow" />
+
+  <g class="rl-assembly">
+
+    <g transform="translate(100, 110) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
+      
+      <rect x="-60" y="-120" width="120" height="240" fill="url(#roadSurface)" />
+      
+      <line x1="-50" y1="-120" x2="-50" y2="120" stroke="#dfe6e9" stroke-width="2" /> <line x1="50" y1="-120" x2="50" y2="120" stroke="#dfe6e9" stroke-width="2" class="hazard-wall" /> <line x1="0" y1="-120" x2="0" y2="120" stroke="#fbc531" stroke-width="2" stroke-dasharray="10 10" opacity="0.8" />
+
+
+      <g class="auto-car">
+        
+        <line x1="0" y1="-20" x2="0" y2="-80" stroke="#00cec9" stroke-width="2" stroke-dasharray="4 4" class="traj-bad" />
+        <path d="M 0 -20 Q -40 -50 0 -90" fill="none" stroke-width="2" stroke-dasharray="4 4" class="traj-good" />
+
+        <path d="M 0 -20 L -25 -50 Q 0 -60 25 -50 Z" stroke-width="1" class="lidar-cone" />
+
+        <rect x="-8" y="-16" width="24" height="40" rx="4" fill="#111111" opacity="0.6" />
+        
+        <rect x="-12" y="-20" width="24" height="40" rx="4" fill="url(#carBody)" />
+        
+        <rect x="-9" y="-10" width="18" height="20" rx="2" fill="#1e272e" />
+        <rect x="-7" y="-8" width="14" height="16" rx="2" fill="#b2bec3" />
+
+        <circle cx="0" cy="0" r="4" class="ai-core" transform-origin="0px 0px" />
+
+        <text class="penalty-text" x="0" y="0" font-family="monospace" font-weight="bold" font-size="14" fill="#ff4757" filter="url(#glowRed)">-1</text>
+        <text class="reward-text" x="0" y="0" font-family="monospace" font-weight="bold" font-size="14" fill="#fbc531" filter="url(#glowGold)">+1</text>
+      </g>
+    </g>
+
+  </g>
+</svg>

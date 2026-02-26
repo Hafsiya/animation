@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Set Square Sliding along the Ruler */
+      .slider-group {
+        animation: slideRuler 3s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+      }
+
+      /* Translates exactly along the 0.5 isometric slope */
+      @keyframes slideRuler {
+        0%, 5% { transform: translate(15px, 7.5px); }
+        95%, 100% { transform: translate(-45px, -22.5px); }
+      }
+
+      /* 2. The Math Diagram Drawing Itself (Now Technical Ink) */
+      .draw-path {
+        stroke-dasharray: 260;
+        stroke-dashoffset: 260;
+        animation: drawGeometry 3s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+      }
+
+      @keyframes drawGeometry {
+        0%, 15% { stroke-dashoffset: 260; }
+        85%, 100% { stroke-dashoffset: 0; }
+      }
+
+      /* 3. The Scanner Beam Pulse (Kept the glow here for contrast) */
+      .scanner-beam {
+        animation: pulseLaser 0.1s infinite alternate linear;
+      }
+
+      @keyframes pulseLaser {
+        0% { opacity: 0.6; stroke-width: 1.5px; }
+        100% { opacity: 1; stroke-width: 3px; }
+      }
+
+      /* 4. Floating Holographic Data */
+      .float-text {
+        animation: hoverData 3s ease-in-out infinite alternate;
+      }
+
+      @keyframes hoverData {
+        0% { transform: translateY(0px); opacity: 0.5; }
+        100% { transform: translateY(-8px); opacity: 1; }
+      }
+    </style>
+
+    <linearGradient id="metalTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfe6e9"/>
+      <stop offset="50%" stop-color="#b2bec3"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+
+    <linearGradient id="metalEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#636e72"/>
+      <stop offset="100%" stop-color="#2d3436"/>
+    </linearGradient>
+
+    <linearGradient id="glassFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(129, 236, 236, 0.4)"/>
+      <stop offset="100%" stop-color="rgba(0, 206, 201, 0.1)"/>
+    </linearGradient>
+    
+    <linearGradient id="glassThick" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(0, 206, 201, 0.6)"/>
+      <stop offset="100%" stop-color="rgba(9, 132, 227, 0.3)"/>
+    </linearGradient>
+
+    <filter id="tightGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <g transform="translate(100, 130) scale(1, 0.5) rotate(45)">
+    
+    <g stroke="#bdc3c7" stroke-width="1">
+      <line x1="-100" y1="-50" x2="100" y2="-50" />
+      <line x1="-100" y1="0" x2="100" y2="0" stroke-width="2" stroke="#95a5a6" />
+      <line x1="-100" y1="50" x2="100" y2="50" />
+      
+      <line x1="-50" y1="-100" x2="-50" y2="100" />
+      <line x1="0" y1="-100" x2="0" y2="100" stroke-width="2" stroke="#95a5a6" />
+      <line x1="50" y1="-100" x2="50" y2="100" />
+    </g>
+
+    <g>
+      <circle cx="0" cy="0" r="50" stroke="#008c9e" stroke-width="2.5" fill="none" class="draw-path" />
+      <rect x="-35.35" y="-35.35" width="70.7" height="70.7" stroke="#2c3e50" stroke-width="2" fill="none" class="draw-path" />
+      <polygon points="0,-50 43.3,25 -43.3,25" stroke="#d35400" stroke-width="2" fill="none" class="draw-path" />
+      <circle cx="0" cy="-50" r="3" fill="#2c3e50" />
+      <circle cx="43.3" cy="25" r="3" fill="#2c3e50" />
+      <circle cx="-43.3" cy="25" r="3" fill="#2c3e50" />
+    </g>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M 30 115 L 150 175 L 150 179 L 30 119 Z" fill="url(#metalEdge)" />
+    <path d="M 150 175 L 170 165 L 170 169 L 150 179 Z" fill="#1e272e" />
+    
+    <path d="M 170 165 L 150 175 L 30 115 L 50 105 Z" fill="url(#metalTop)" />
+    
+    <g stroke="#2d3436" stroke-width="1.5" stroke-linecap="round">
+      <line x1="146" y1="153" x2="142" y2="155" />
+      <line x1="122" y1="141" x2="116" y2="144" />
+      <line x1="98" y1="129" x2="94" y2="131" />
+      <line x1="74" y1="117" x2="68" y2="120" />
+      <line x1="50" y1="105" x2="46" y2="107" />
+    </g>
+  </g>
+
+  <g class="slider-group">
+    
+    <line x1="140" y1="160" x2="140" y2="60" stroke="#00cec9" stroke-linecap="round" class="scanner-beam" filter="url(#tightGlow)" />
+    <line x1="140" y1="160" x2="80" y2="130" stroke="#008c9e" stroke-width="2" stroke-dasharray="4 4" opacity="0.4" />
+
+    <path d="M 132 156 L 72 126 L 132 56 Z" fill="url(#glassThick)" opacity="0.8" />
+    
+    <path d="M 140 160 L 132 156 L 132 56 L 140 60 Z" fill="url(#glassThick)" />
+    
+    <path d="M 140 60 L 132 56 L 72 126 L 80 130 Z" fill="#81ecec" opacity="0.5" />
+
+    <path d="M 140 160 L 80 130 L 140 60 Z" fill="url(#glassFace)" stroke="#81ecec" stroke-width="1.5" stroke-linejoin="round" />
+    
+    <g stroke="#008c9e" stroke-width="1" opacity="0.5">
+      <line x1="135" y1="150" x2="131" y2="150" />
+      <line x1="135" y1="130" x2="128" y2="130" />
+      <line x1="135" y1="110" x2="131" y2="110" />
+      <line x1="135" y1="90" x2="128" y2="90" />
+      <line x1="135" y1="70" x2="131" y2="70" />
+    </g>
+
+    <g class="float-text" transform="translate(150, 80)">
+      <text fill="#008c9e" font-family="monospace" font-size="9" font-weight="bold">φ=1.618</text>
+    </g>
+  </g>
+
+</svg>

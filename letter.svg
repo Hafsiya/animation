@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. Paper is now static (animation removed) */
+      .paper-group {
+        transform-origin: 100px 100px;
+      }
+
+      /* 2. Pen sequence updated to write two lines over 8 seconds */
+      .pen-wrapper {
+        animation: penSequence 8s ease-in-out infinite;
+      }
+
+      @keyframes penSequence {
+        0%, 15% { transform: translate(100px, 250px) rotate(20deg); opacity: 0;} /* Hidden below */
+        20% { transform: translate(100px, 250px) rotate(20deg); opacity: 1;} /* Appears */
+        25% { transform: translate(45px, 55px) rotate(0deg); } /* Reaches start of Line 1 */
+        45% { transform: translate(155px, 60px) rotate(0deg); } /* Sweeps across Line 1 */
+        50% { transform: translate(45px, 85px) rotate(0deg); } /* Drops to start of Line 2 */
+        70% { transform: translate(155px, 90px) rotate(0deg); } /* Sweeps across Line 2 */
+        75%, 100% { transform: translate(200px, 250px) rotate(30deg); opacity: 0; } /* Swoops away */
+      }
+
+      /* 3. High-frequency pen jitter */
+      .pen-wiggle-active {
+          animation: quickJitter 0.15s infinite alternate ease-in-out;
+          transform-origin: 0px 0px; 
+      }
+      
+      @keyframes quickJitter {
+        0% { transform: rotate(0deg) translate(0,0); }
+        100% { transform: rotate(3deg) translate(2px, -1px); }
+      }
+      
+      /* Wiggle synced to Line 1 and Line 2 timing */
+      .pen-wiggle-container {
+         animation: activateWiggle 8s steps(1) infinite;
+      }
+      
+      @keyframes activateWiggle {
+         0%, 25% { opacity: 1; } 
+         25.1%, 45% { opacity: 0.99; } /* Wiggle active L1 */
+         45.1%, 50% { opacity: 1; }    /* Moving, no wiggle */
+         50.1%, 70% { opacity: 0.99; } /* Wiggle active L2 */
+         70.1%, 100% { opacity: 1; } 
+      }
+
+      /* 4. Two Ink Trails perfectly timed to the sweeps */
+      .ink-trail-1, .ink-trail-2 {
+        stroke-dasharray: 140;
+        stroke-dashoffset: 140;
+        fill: none;
+        stroke: #5e4330;
+        stroke-width: 3;
+        stroke-linecap: round;
+      }
+
+      .ink-trail-1 { animation: revealInk1 8s linear infinite; }
+      .ink-trail-2 { animation: revealInk2 8s linear infinite; }
+
+      @keyframes revealInk1 {
+        0%, 25% { stroke-dashoffset: 140; } 
+        45%, 100% { stroke-dashoffset: 0; } 
+      }
+
+      @keyframes revealInk2 {
+        0%, 50% { stroke-dashoffset: 140; } 
+        70%, 100% { stroke-dashoffset: 0; } 
+      }
+    </style>
+
+    <radialGradient id="parchmentSurface" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#f4ecd8"/>
+      <stop offset="80%" stop-color="#e0d5b7"/>
+      <stop offset="100%" stop-color="#c7b299"/>
+    </radialGradient>
+    
+    <linearGradient id="parchmentEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c7b299"/>
+      <stop offset="100%" stop-color="#a6937c"/>
+    </linearGradient>
+
+    <linearGradient id="classicBarrel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5e4330"/>
+      <stop offset="50%" stop-color="#3d2b1f"/>
+      <stop offset="100%" stop-color="#261a13"/>
+    </linearGradient>
+    
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbc531"/>
+      <stop offset="50%" stop-color="#e1b12c"/>
+      <stop offset="100%" stop-color="#c29a26"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+      <feOffset dx="0" dy="8" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <g class="paper-group">
+    <path d="M 22 175 C 25 180, 175 180, 178 175 L 178 185 C 178 190, 170 193, 160 193 L 40 193 C 30 193, 22 190, 22 185 Z" fill="url(#parchmentEdge)" filter="url(#softShadow)" />
+    
+    <path d="M 22 25 C 25 20, 175 20, 178 25 C 182 30, 180 170, 178 175 C 175 178, 25 178, 22 175 C 20 170, 18 30, 22 25 Z" fill="url(#parchmentSurface)" stroke="#c7b299" stroke-width="0.5" />
+
+    <g stroke="#d1c4b2" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
+        <line x1="35" y1="85" x2="165" y2="85" />
+        <line x1="35" y1="105" x2="165" y2="105" />
+        <line x1="35" y1="125" x2="165" y2="125" />
+        <line x1="35" y1="145" x2="135" y2="145" />
+    </g>
+
+    <path d="M 45 55 C 55 45, 65 65, 75 52 C 85 45, 95 65, 105 55 C 115 45, 125 65, 135 58 C 145 55, 150 55, 155 60" class="ink-trail-1" />
+    <path d="M 45 85 C 55 75, 65 95, 75 82 C 85 75, 95 95, 105 85 C 115 75, 125 95, 135 88 C 145 85, 150 85, 155 90" class="ink-trail-2" />
+  </g>
+
+  <g class="pen-wrapper">
+    <g class="pen-wiggle-container">
+        <g class="pen-wiggle-active">
+          <ellipse cx="0" cy="0" rx="6" ry="2" fill="#3d2b1f" opacity="0.3" transform="translate(2, 4)" />
+
+          <path d="M -5 15 L 5 15 L 0 0 Z" fill="url(#goldAccent)" />
+          <path d="M -1 15 L 1 15 L 0 0 Z" fill="#261a13" />
+          
+          <path d="M -10 30 L 10 30 L 5 15 L -5 15 Z" fill="url(#goldAccent)" />
+
+          <path d="M -15 150 L 15 150 L 10 30 L -10 30 Z" fill="url(#classicBarrel)" />
+        </g>
+    </g>
+  </g>
+</svg>

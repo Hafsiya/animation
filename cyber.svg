@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Padlock Shackle Snapping Shut */
+      .lock-shackle {
+        animation: snapLock 4s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+      }
+
+      @keyframes snapLock {
+        0%, 25% { transform: translateY(-10px); } /* Open */
+        30%, 85% { transform: translateY(0px); } /* Snaps shut at 30% */
+        95%, 100% { transform: translateY(-10px); } /* Resets */
+      }
+
+      /* 2. The Forcefield Pulse (Triggers when the lock shuts) */
+      .shield-pulse {
+        animation: emitPulse 4s ease-out infinite;
+        transform-origin: 90px 120px;
+      }
+
+      @keyframes emitPulse {
+        0%, 29% { opacity: 0; transform: scale(0.2) skewX(30deg); stroke-width: 4px; }
+        30% { opacity: 0.8; transform: scale(0.5) skewX(30deg); stroke-width: 4px; } /* Bursts out */
+        50% { opacity: 0; transform: scale(2.5) skewX(30deg); stroke-width: 1px; } /* Dissipates over the bug */
+        100% { opacity: 0; transform: scale(2.5) skewX(30deg); }
+      }
+
+      /* 3. The Red Malware Bug (Creeping in and getting blasted away) */
+      .malware-bug {
+        animation: bugAttack 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+      }
+
+      @keyframes bugAttack {
+        0% { transform: translate(30px, -15px); opacity: 0; }
+        25% { transform: translate(-5px, 2.5px); opacity: 1; } /* Creeps dangerously close */
+        30% { transform: translate(-5px, 2.5px); opacity: 1; filter: drop-shadow(0px 0px 5px #ff4757) brightness(2); } /* Hits the shield, flashes */
+        45%, 85% { transform: translate(40px, -20px); opacity: 0.2; filter: none; } /* Blasted backward and damaged */
+        100% { transform: translate(30px, -15px); opacity: 0; }
+      }
+
+      /* 4. Bug Legs crawling animation */
+      .bug-leg-1 { animation: crawl 0.4s infinite alternate; }
+      .bug-leg-2 { animation: crawl 0.4s infinite alternate-reverse; }
+
+      @keyframes crawl {
+        0% { transform: rotate(-10deg); }
+        100% { transform: rotate(10deg); }
+      }
+
+      /* 5. Entire Assembly Levitation */
+      .hover-group {
+        animation: floatDevice 6s ease-in-out infinite alternate;
+        transform-origin: 100px 140px;
+      }
+
+      @keyframes floatDevice {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-5px); }
+      }
+
+      /* Floor Shadow */
+      .floor-shadow {
+        animation: shadowBreathe 6s ease-in-out infinite alternate;
+        transform-origin: 100px 165px;
+      }
+
+      @keyframes shadowBreathe {
+        0% { transform: scale(1); opacity: 0.15; }
+        100% { transform: scale(1.05); opacity: 0.08; }
+      }
+    </style>
+
+    <linearGradient id="macSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfe6e9"/>
+      <stop offset="100%" stop-color="#b2bec3"/>
+    </linearGradient>
+    <linearGradient id="macEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b2bec3"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+
+    <linearGradient id="screenDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d3436"/>
+      <stop offset="100%" stop-color="#141718"/>
+    </linearGradient>
+
+    <linearGradient id="lockBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00cec9"/>
+      <stop offset="100%" stop-color="#0984e3"/>
+    </linearGradient>
+    <linearGradient id="lockEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0984e3"/>
+      <stop offset="100%" stop-color="#0652dd"/>
+    </linearGradient>
+    
+    <linearGradient id="shackleSteel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b2bec3"/>
+      <stop offset="50%" stop-color="#f5f6fa"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+
+    <linearGradient id="malwareRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff4757"/>
+      <stop offset="100%" stop-color="#c0392b"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="-2" dy="5" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="165" rx="65" ry="15" fill="#2d3436" class="floor-shadow" />
+
+  <g class="hover-group">
+
+    <g filter="url(#softShadow)">
+      
+      <path d="M 35 130 L 95 160 L 95 166 L 35 136 Z" fill="url(#macEdge)" />
+      <path d="M 95 160 L 155 130 L 155 136 L 95 166 Z" fill="#2d3436" />
+      <path d="M 35 130 L 95 160 L 155 130 L 95 100 Z" fill="url(#macSilver)" />
+      
+      <polygon points="85,150 105,140 120,147 100,157" fill="#b2bec3" />
+      <polygon points="55,135 90,118 135,140 100,157" fill="#636e72" opacity="0.1" />
+
+      <path d="M 95 100 L 35 130 L 35 60 L 95 30 Z" fill="url(#macSilver)" />
+      <path d="M 95 100 L 155 130 L 155 60 L 95 30 Z" fill="#1e272e" />
+      <path d="M 100 95 L 148 120 L 148 65 L 100 40 Z" fill="url(#screenDark)" />
+      
+      <g stroke="#00cec9" stroke-width="1.5" stroke-linecap="round" opacity="0.8">
+        <line x1="105" y1="50" x2="120" y2="58" />
+        <line x1="105" y1="56" x2="135" y2="72" />
+        <line x1="105" y1="62" x2="125" y2="72" />
+      </g>
+      <circle cx="138" cy="110" r="4" fill="#2ecc71" transform="scale(1, 0.8) skewY(25)" />
+    </g>
+
+    <ellipse cx="90" cy="120" rx="35" ry="15" fill="none" stroke="#00cec9" class="shield-pulse" filter="url(#neonGlow)" />
+    <ellipse cx="90" cy="120" rx="25" ry="10" fill="none" stroke="#00cec9" class="shield-pulse" style="animation-delay: 0.2s;" />
+
+    <g class="malware-bug" filter="url(#softShadow)">
+      <g transform="translate(130, 125) scale(0.8)">
+        
+        <g stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" fill="none">
+          <path d="M 5 0 L 15 -10" class="bug-leg-1" transform-origin="5px 0px" />
+          <path d="M 0 5 L 10 15" class="bug-leg-1" transform-origin="0px 5px" />
+          <path d="M -10 -5 L -20 -15" class="bug-leg-2" transform-origin="-10px -5px" />
+          <path d="M -5 -10 L -15 -20" class="bug-leg-2" transform-origin="-5px -10px" />
+        </g>
+
+        <ellipse cx="0" cy="0" rx="10" ry="6" fill="url(#malwareRed)" transform="rotate(45)" />
+        <ellipse cx="-2" cy="-2" r="3" fill="#141718" /> <circle cx="-3" cy="-3" r="1.5" fill="#ffffff" filter="drop-shadow(0px 0px 2px #ff4757)" />
+      </g>
+    </g>
+
+    <g transform="translate(85, 95)" filter="url(#softShadow)">
+      
+      <g class="lock-shackle">
+        <path d="M -8 -15 L -8 -30 C -8 -45, 18 -45, 18 -30 L 18 -15" fill="none" stroke="#636e72" stroke-width="6" stroke-linecap="round" />
+        <path d="M -8 -15 L -8 -30 C -8 -45, 18 -45, 18 -30 L 18 -15" fill="none" stroke="url(#shackleSteel)" stroke-width="4" stroke-linecap="round" />
+      </g>
+
+      <polygon points="-15,5 -15,-15 -20,-10 -20,10" fill="url(#lockEdge)" />
+      <polygon points="25,5 25,-15 30,-10 30,10" fill="#0652dd" />
+      <polygon points="-15,5 25,5 30,10 -20,10" fill="#0984e3" />
+      
+      <polygon points="-15,-15 25,-15 25,5 -15,5" fill="url(#lockBody)" />
+
+      <g filter="url(#neonGlow)">
+        <circle cx="5" cy="-7" r="4" fill="#141718" />
+        <polygon points="3,-5 7,-5 8,0 2,0" fill="#141718" />
+        
+        <circle cx="5" cy="-7" r="1.5" fill="#ffffff" />
+        <rect x="4.5" y="-6" width="1" height="4" fill="#ffffff" />
+      </g>
+
+      <polyline points="-10,0 -5,-5" fill="none" stroke="#81ecec" stroke-width="1" opacity="0.6" />
+      <polyline points="20,-10 15,-10 15,-5" fill="none" stroke="#81ecec" stroke-width="1" opacity="0.6" />
+
+    </g>
+
+  </g>
+</svg>

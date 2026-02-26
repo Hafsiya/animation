@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. Phone Screen Medical Scan */
+      .screen-scan {
+        animation: radarSweep 3s ease-in-out infinite;
+        transform-origin: 90px 130px;
+      }
+
+      @keyframes radarSweep {
+        0% { transform: scale(0); opacity: 0; }
+        20% { transform: scale(0.5); opacity: 0.8; }
+        60% { transform: scale(1.5); opacity: 0; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+
+      /* 2. Data traveling UP the entire stethoscope tube */
+      .data-travel {
+        /* The path length is roughly 180 */
+        stroke-dasharray: 15 200;
+        animation: flowUpTube 3s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+      }
+
+      @keyframes flowUpTube {
+        0%, 15% { stroke-dashoffset: 200; opacity: 0; }
+        20% { opacity: 1; }
+        75% { stroke-dashoffset: 0; opacity: 1; }
+        80%, 100% { stroke-dashoffset: 0; opacity: 0; }
+      }
+
+      /* 3. Earpieces glowing when data arrives */
+      .earpiece-glow {
+        animation: receiveData 3s ease-in-out infinite;
+      }
+
+      @keyframes receiveData {
+        0%, 70% { fill: #dcdde1; filter: none; }
+        75%, 85% { fill: #00cec9; filter: drop-shadow(0px 0px 4px #00cec9); }
+        95%, 100% { fill: #dcdde1; filter: none; }
+      }
+
+      /* 4. Soft levitation for the whole stethoscope to make it feel premium */
+      .steth-assembly {
+        animation: premiumHover 6s ease-in-out infinite alternate;
+        transform-origin: 100px 100px;
+      }
+
+      @keyframes premiumHover {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-4px); }
+      }
+      
+      /* 5. Floor Shadow */
+      .floor-shadow {
+        animation: shadowBreathe 6s ease-in-out infinite alternate;
+        transform-origin: 100px 170px;
+      }
+
+      @keyframes shadowBreathe {
+        0% { transform: scale(1); opacity: 0.15; }
+        100% { transform: scale(1.05); opacity: 0.1; }
+      }
+    </style>
+
+    <linearGradient id="phoneBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f6fa"/>
+    </linearGradient>
+    <linearGradient id="phoneEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dcdde1"/>
+      <stop offset="100%" stop-color="#a4b0be"/>
+    </linearGradient>
+
+    <linearGradient id="medScreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#48dbfb"/>
+      <stop offset="100%" stop-color="#0abde3"/>
+    </linearGradient>
+
+    <linearGradient id="tubeColor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0984e3"/>
+      <stop offset="100%" stop-color="#0097e6"/>
+    </linearGradient>
+
+    <linearGradient id="steelMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f6fa"/>
+      <stop offset="50%" stop-color="#dcdde1"/>
+      <stop offset="100%" stop-color="#a4b0be"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="-1" dy="4" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="165" rx="55" ry="15" fill="#2f3640" class="floor-shadow" />
+
+  <g filter="url(#softShadow)">
+    
+    <path d="M 45 130 L 95 160 L 95 166 L 45 136 Z" fill="url(#phoneEdge)" />
+    <path d="M 95 160 L 145 130 L 145 136 L 95 166 Z" fill="#7f8fa6" />
+
+    <path d="M 45 130 L 95 160 L 145 130 L 95 100 Z" fill="url(#phoneBody)" />
+    
+    <path d="M 50 130 L 95 157 L 140 130 L 95 103 Z" fill="url(#medScreen)" />
+    
+    <polygon points="50,130 75,145 125,103 95,103" fill="#ffffff" opacity="0.2" />
+
+    <ellipse cx="90" cy="135" rx="20" ry="12" fill="none" stroke="#ffffff" stroke-width="2" class="screen-scan" transform="rotate(-15 90 135)" />
+    <ellipse cx="90" cy="135" rx="10" ry="6" fill="none" stroke="#ffffff" stroke-width="1" class="screen-scan" transform="rotate(-15 90 135)" style="animation-delay: 0.2s;" />
+
+    <g stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8">
+      <line x1="65" y1="120" x2="75" y2="114" />
+      <line x1="70" y1="123" x2="80" y2="117" />
+    </g>
+  </g>
+
+  <g class="steth-assembly">
+    
+    <g filter="url(#softShadow)">
+      <path id="main-tube" d="M 105 135 C 165 115, 155 55, 100 70 L 100 50" fill="none" stroke="#273c75" stroke-width="8" stroke-linecap="round" />
+      <path d="M 105 135 C 165 115, 155 55, 100 70 L 100 50" fill="none" stroke="url(#tubeColor)" stroke-width="6" stroke-linecap="round" />
+      <path d="M 105 135 C 165 115, 155 55, 100 70 L 100 50" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.4" />
+    </g>
+
+    <path d="M 105 135 C 165 115, 155 55, 100 70 L 100 50" fill="none" stroke="#00cec9" stroke-width="3" stroke-linecap="round" class="data-travel" filter="url(#glow)" />
+
+    <g filter="url(#softShadow)">
+      <polygon points="96,52 104,52 102,40 98,40" fill="url(#steelMetal)" />
+      
+      <path id="left-ear" d="M 98 42 C 85 30, 75 35, 75 25" fill="none" stroke="url(#steelMetal)" stroke-width="3" stroke-linecap="round" />
+      <path d="M 98 42 C 85 30, 75 35, 75 25" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+      
+      <path id="right-ear" d="M 102 42 C 115 30, 125 35, 125 25" fill="none" stroke="url(#steelMetal)" stroke-width="3" stroke-linecap="round" />
+      <path d="M 102 42 C 115 30, 125 35, 125 25" fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+    </g>
+
+    <path d="M 98 42 C 85 30, 75 35, 75 25" fill="none" stroke="#00cec9" stroke-width="2" stroke-linecap="round" class="data-travel" style="animation-delay: 0.1s;" filter="url(#glow)" />
+    <path d="M 102 42 C 115 30, 125 35, 125 25" fill="none" stroke="#00cec9" stroke-width="2" stroke-linecap="round" class="data-travel" style="animation-delay: 0.1s;" filter="url(#glow)" />
+
+    <circle cx="75" cy="23" r="4" fill="#dcdde1" class="earpiece-glow" />
+    <circle cx="125" cy="23" r="4" fill="#dcdde1" class="earpiece-glow" />
+
+    <g filter="url(#softShadow)">
+      <path d="M 105 135 L 100 132 L 98 135 L 103 138 Z" fill="#7f8fa6" />
+      
+      <path d="M 85 135 L 85 142 C 90 148, 105 148, 110 142 L 110 135 Z" fill="#a4b0be" />
+      
+      <ellipse cx="97.5" cy="135" rx="15" ry="7" fill="url(#steelMetal)" transform="rotate(-15 97.5 135)" />
+      
+      <ellipse cx="97.5" cy="135" rx="10" ry="4.5" fill="#f5f6fa" transform="rotate(-15 97.5 135)" />
+      
+      <ellipse cx="97.5" cy="135" rx="4" ry="2" fill="#00cec9" transform="rotate(-15 97.5 135)" />
+    </g>
+
+  </g>
+
+</svg>

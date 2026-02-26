@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Precision Landing Sequence (6s Loop) */
+      .booster-body {
+        animation: suicideBurn 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+      }
+
+      @keyframes suicideBurn {
+        0% { transform: translateY(-180px); } 
+        15% { transform: translateY(-70px); } 
+        40% { transform: translateY(0px); } 
+        85% { transform: translateY(0px); opacity: 1; } 
+        95%, 100% { transform: translateY(-200px); opacity: 0; } 
+      }
+
+      /* 2. The Retro-Propulsion Engine Flame */
+      .engine-plume {
+        transform-origin: 100px 145px;
+        animation: thrustPulse 6s ease-out infinite;
+      }
+
+      @keyframes thrustPulse {
+        0%, 14% { transform: scaleY(0); opacity: 0; }
+        15% { transform: scaleY(1.8); opacity: 0.9; } 
+        25% { transform: scaleY(1.2); opacity: 0.8; } 
+        39% { transform: scaleY(0.4); opacity: 0.5; } 
+        40%, 100% { transform: scaleY(0); opacity: 0; } 
+      }
+
+      /* 3. The Steam/Smoke Billow on Touchdown */
+      .steam-cloud {
+        animation: billowSmoke 6s ease-out infinite;
+      }
+
+      .steam-left { transform-origin: 80px 150px; }
+      .steam-right { transform-origin: 120px 150px; }
+
+      @keyframes billowSmoke {
+        0%, 39% { transform: scale(0.2); opacity: 0; }
+        40% { transform: scale(0.5); opacity: 0.8; } 
+        55% { transform: scale(1.5) translateX(-15px); opacity: 0; } 
+        100% { transform: scale(0.2); opacity: 0; }
+      }
+      
+      @keyframes billowRight {
+        0%, 39% { transform: scale(0.2); opacity: 0; }
+        40% { transform: scale(0.5); opacity: 0.8; }
+        55% { transform: scale(1.5) translateX(15px); opacity: 0; }
+        100% { transform: scale(0.2); opacity: 0; }
+      }
+
+      /* 4. Pad Target Shadow (Grows as rocket approaches) */
+      .landing-shadow {
+        animation: shadowApproach 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        transform-origin: 100px 155px;
+      }
+
+      @keyframes shadowApproach {
+        0% { transform: scale(0.2); opacity: 0; }
+        15% { transform: scale(0.5); opacity: 0.2; }
+        40%, 85% { transform: scale(1); opacity: 0.5; }
+        95%, 100% { transform: scale(0.2); opacity: 0; }
+      }
+    </style>
+
+    <linearGradient id="boosterHull" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#dfe6e9"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+
+    <linearGradient id="boosterEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b2bec3"/>
+      <stop offset="60%" stop-color="#636e72"/>
+      <stop offset="100%" stop-color="#2d3436"/>
+    </linearGradient>
+
+    <linearGradient id="padSurface" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#95a5a6"/>
+      <stop offset="100%" stop-color="#34495e"/>
+    </linearGradient>
+
+    <linearGradient id="padThickness" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50"/>
+      <stop offset="100%" stop-color="#1a252f"/>
+    </linearGradient>
+
+    <linearGradient id="plasmaFlame" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="20%" stop-color="#00cec9"/>
+      <stop offset="60%" stop-color="#fdcb6e"/>
+      <stop offset="100%" stop-color="rgba(255, 118, 117, 0)"/>
+    </linearGradient>
+
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="6" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <g transform="translate(100, 155) scale(1, 0.45) rotate(45)" filter="url(#softShadow)">
+    
+    <rect x="-65" y="-65" width="130" height="130" rx="10" fill="url(#padThickness)" transform="translate(-2, 8)" />
+    
+    <rect x="-65" y="-65" width="130" height="130" rx="10" fill="url(#padSurface)" />
+    
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#fbc531" stroke-width="2" opacity="0.9" />
+    <circle cx="0" cy="0" r="45" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5" />
+
+    <g stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.9">
+      <line x1="-15" y1="-15" x2="15" y2="15" />
+      <line x1="-15" y1="15" x2="15" y2="-15" />
+    </g>
+  </g>
+
+  <ellipse cx="100" cy="155" rx="30" ry="10" fill="#1e272e" class="landing-shadow" />
+
+  <g class="booster-body">
+
+    <polygon points="90,145 110,145 100,195" fill="url(#plasmaFlame)" class="engine-plume" filter="url(#neonGlow)" />
+
+    <g filter="url(#softShadow)">
+      <path d="M 100 45 L 115 45 L 115 140 C 115 143, 108 145, 100 145 Z" fill="url(#boosterEdge)" />
+      <path d="M 85 45 L 100 45 L 100 145 C 92 145, 85 143, 85 140 Z" fill="url(#boosterHull)" />
+      
+      <path d="M 85 45 L 115 45 L 115 65 C 108 67, 92 67, 85 65 Z" fill="#2d3436" />
+      <path d="M 100 45 L 115 45 L 115 65 C 108 67, 100 66, 100 66 Z" fill="#141718" /> 
+
+      <line x1="108" y1="65" x2="108" y2="135" stroke="#2d3436" stroke-width="2" />
+    </g>
+
+    <polygon points="85,50 72,48 72,53 85,56" fill="#636e72" stroke="#2d3436" stroke-width="0.5" />
+    <polygon points="115,50 128,48 128,53 115,56" fill="#2d3436" />
+
+    <g filter="url(#softShadow)">
+      <polygon points="86,115 65,150 72,152 89,130" fill="#dfe6e9" />
+      <polygon points="87,115 65,150 67,148 87,125" fill="#636e72" /> 
+    </g>
+    <g filter="url(#softShadow)">
+      <polygon points="114,115 135,150 128,152 111,130" fill="#b2bec3" />
+      <polygon points="113,115 135,150 133,148 113,125" fill="#2d3436" /> 
+    </g>
+    <g filter="url(#softShadow)">
+      <polygon points="97,120 90,155 110,155 103,120" fill="#dfe6e9" />
+      <polygon points="100,120 110,155 105,155 100,120" fill="#636e72" /> 
+    </g>
+
+    <ellipse cx="100" cy="144" rx="14" ry="4" fill="#2d3436" />
+    <circle cx="100" cy="145" r="3" fill="#000000" /> 
+  </g>
+
+  <g fill="#dfe6e9" opacity="0.8" filter="url(#softShadow)">
+    <g class="steam-cloud steam-left">
+      <circle cx="70" cy="145" r="10" />
+      <circle cx="60" cy="150" r="12" fill="#b2bec3" />
+      <circle cx="80" cy="152" r="8" />
+    </g>
+    <g class="steam-cloud steam-right" style="animation-name: billowRight;">
+      <circle cx="130" cy="145" r="10" />
+      <circle cx="140" cy="150" r="12" fill="#b2bec3" />
+      <circle cx="120" cy="152" r="8" />
+    </g>
+  </g>
+
+</svg>

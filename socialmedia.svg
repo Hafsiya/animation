@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* --- MAIN LOOP CYCLE: 8 SECONDS --- */
+
+      /* 1. Content elements dropping into the phone (The Upload) */
+      .upload-item {
+        animation: uploadSequence 8s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .upload-photo { --dest-x: 30px; --dest-y: 40px; }
+      .upload-video { --dest-x: 0px; --dest-y: 30px; animation-delay: 0.2s; }
+      .upload-chat  { --dest-x: -30px; --dest-y: 40px; animation-delay: 0.4s; }
+
+      @keyframes uploadSequence {
+        0%, 10% { transform: translate(0, 0) scale(1); opacity: 1; filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.1)); }
+        30% { transform: translate(var(--dest-x), var(--dest-y)) scale(0.1); opacity: 0; } /* Sucked into screen */
+        100% { transform: translate(var(--dest-x), var(--dest-y)) scale(0.1); opacity: 0; }
+      }
+
+      /* 2. The Holographic Data Ripple broadcasting outwards */
+      .broadcast-ripple {
+        animation: rippleEffect 8s linear infinite;
+        transform-origin: 100px 135px; /* Center of phone screen */
+      }
+      @keyframes rippleEffect {
+        0%, 30% { r: 0; opacity: 0; stroke-width: 4; }
+        35% { opacity: 0.8; }
+        60% { r: 90; opacity: 0; stroke-width: 0.5; } /* Expands past network nodes */
+        100% { r: 90; opacity: 0; }
+      }
+
+      /* 3. Network Nodes reacting and sending feedback hearts back */
+      .network-node { animation: nodePulse 8s ease-out infinite; }
+      .feedback-heart { animation: returnFeedback 8s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+      /* Timing offsets for different nodes */
+      .node-top    { animation-delay: 3.5s; --start-x: 0px; --start-y: -70px; }
+      .node-right  { animation-delay: 3.7s; --start-x: 70px; --start-y: -20px; }
+      .node-bottom { animation-delay: 3.9s; --start-x: 0px; --start-y: 40px; }
+      .node-left   { animation-delay: 4.1s; --start-x: -70px; --start-y: -20px; }
+
+      @keyframes nodePulse {
+        0%, 90% { fill: #dfe6e9; transform: scale(1); filter: none; }
+        10% { fill: #fd79a8; transform: scale(1.3); filter: url(#glowMagenta); } /* Hit by ripple */
+        30% { fill: #dfe6e9; transform: scale(1); }
+      }
+
+      @keyframes returnFeedback {
+        0% { opacity: 0; transform: translate(var(--start-x), var(--start-y)) scale(0); }
+        10% { opacity: 1; transform: translate(var(--start-x), var(--start-y)) scale(1.2); } /* Pop up at node location */
+        30% { opacity: 1; transform: translate(0,0) scale(0.5); } /* Travel to center phone */
+        35% { opacity: 0; transform: translate(0,0) scale(0.1); } /* Absorbed */
+        100% { opacity: 0; }
+      }
+
+      /* 4. Phone Screen reaction (Notification tally) */
+      .screen-tally {
+        animation: tallyCount 8s steps(1) infinite;
+      }
+      @keyframes tallyCount {
+        0%, 55% { opacity: 0; }
+        56%, 60% { opacity: 1; transform: scale(1.2); } /* Pulse on receive */
+        65%, 90% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0; }
+      }
+
+      /* Levitation */
+      .social-assembly { animation: floatEnv 6s ease-in-out infinite alternate; transform-origin: 100px 100px; }
+      @keyframes floatEnv { 0% { transform: translateY(0px); } 100% { transform: translateY(-5px); } }
+      .floor-shadow { animation: shadowBreathe 6s ease-in-out infinite alternate; transform-origin: 100px 170px; }
+      @keyframes shadowBreathe { 0% { transform: scale(1); opacity: 0.15; } 100% { transform: scale(1.1); opacity: 0.1; } }
+    </style>
+
+    <linearGradient id="socialGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6c5ce7"/>
+      <stop offset="50%" stop-color="#fd79a8"/>
+      <stop offset="100%" stop-color="#fab1a0"/>
+    </linearGradient>
+    
+    <linearGradient id="phoneSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#b2bec3"/>
+    </linearGradient>
+
+    <filter id="glowMagenta" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="3"/><feOffset dx="0" dy="5" result="offsetblur"/><feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="170" rx="80" ry="20" fill="#2d3436" class="floor-shadow" />
+
+  <g class="social-assembly">
+
+    <g transform="translate(100, 135) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
+      <rect x="-35" y="-60" width="70" height="120" rx="8" fill="url(#phoneSilver)" stroke="#b2bec3" stroke-width="1"/>
+      <rect x="-30" y="-50" width="60" height="100" rx="4" fill="#1e272e" />
+      
+      <circle cx="0" cy="0" r="0" fill="none" stroke="url(#socialGrad)" class="broadcast-ripple" />
+
+      <g class="screen-tally" transform="translate(0, -10)">
+        <circle cx="0" cy="0" r="12" fill="#ff4757" filter="url(#glowMagenta)" />
+        <text x="0" y="4" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="14" fill="white">99+</text>
+      </g>
+    </g>
+
+    <g transform="translate(100, 70)">
+      
+      <g class="upload-item upload-photo" transform="translate(-50, -20)">
+        <rect x="-15" y="-15" width="30" height="30" rx="4" fill="url(#socialGrad)" />
+        <circle cx="0" cy="0" r="8" fill="none" stroke="white" stroke-width="2" />
+        <circle cx="8" cy="-8" r="2" fill="white" />
+      </g>
+      
+      <g class="upload-item upload-video" transform="translate(0, -40)">
+         <circle cx="0" cy="0" r="18" fill="url(#socialGrad)" />
+         <polygon points="-5,-8 10,0 -5,8" fill="white" />
+      </g>
+      
+      <g class="upload-item upload-chat" transform="translate(50, -20)">
+        <path d="M -15 -15 L 15 -15 L 15 5 L 5 5 L 0 15 L -5 5 L -15 5 Z" fill="url(#socialGrad)" />
+        <line x1="-8" y1="-5" x2="8" y2="-5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="-8" y1="0" x2="2" y2="0" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    </g>
+
+
+    <g transform="translate(100, 135)">
+      
+      <g stroke="#b2bec3" stroke-width="1" stroke-dasharray="4 4" opacity="0.6">
+        <line x1="0" y1="0" x2="0" y2="-70" /> <line x1="0" y1="0" x2="70" y2="-20" /> <line x1="0" y1="0" x2="0" y2="40" /> <line x1="0" y1="0" x2="-70" y2="-20" /> </g>
+
+      <g>
+        <circle cx="0" cy="-70" r="8" fill="#dfe6e9" class="network-node node-top" />
+        <path d="M 0 -6 L -4 -10 C -6 -12, -10 -10, -10 -6 C -10 -2, 0 4, 0 4 C 0 4, 10 -2, 10 -6 C 10 -10, 6 -12, 4 -10 Z" fill="#fd79a8" class="feedback-heart node-top"/>
+      </g>
+
+      <g>
+         <circle cx="70" cy="-20" r="8" fill="#dfe6e9" class="network-node node-right" />
+         <path d="M 0 -6 L -4 -10 C -6 -12, -10 -10, -10 -6 C -10 -2, 0 4, 0 4 C 0 4, 10 -2, 10 -6 C 10 -10, 6 -12, 4 -10 Z" fill="#fd79a8" class="feedback-heart node-right"/>
+      </g>
+      
+      <g>
+        <circle cx="0" cy="40" r="8" fill="#dfe6e9" class="network-node node-bottom" />
+        <path d="M 0 -6 L -4 -10 C -6 -12, -10 -10, -10 -6 C -10 -2, 0 4, 0 4 C 0 4, 10 -2, 10 -6 C 10 -10, 6 -12, 4 -10 Z" fill="#fd79a8" class="feedback-heart node-bottom"/>
+      </g>
+
+      <g>
+        <circle cx="-70" cy="-20" r="8" fill="#dfe6e9" class="network-node node-left" />
+        <path d="M 0 -6 L -4 -10 C -6 -12, -10 -10, -10 -6 C -10 -2, 0 4, 0 4 C 0 4, 10 -2, 10 -6 C 10 -10, 6 -12, 4 -10 Z" fill="#fd79a8" class="feedback-heart node-left"/>
+      </g>
+
+    </g>
+
+  </g>
+</svg>

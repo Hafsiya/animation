@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Anti-Gravity Hover (Smooth, constant bobbing) */
+      .hover-bot {
+        animation: floatBot 4s ease-in-out infinite;
+        transform-origin: 100px 100px;
+      }
+
+      @keyframes floatBot {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+      }
+
+      /* 2. Floor Shadow (Scales inversely as the bot hovers) */
+      .bot-shadow {
+        animation: shadowBreathe 4s ease-in-out infinite;
+        transform-origin: 100px 175px;
+      }
+
+      @keyframes shadowBreathe {
+        0%, 100% { transform: scale(1); opacity: 0.2; }
+        50% { transform: scale(0.8); opacity: 0.05; }
+      }
+
+      /* 3. The Thruster Flame (Rapid flickering jet) */
+      .thruster {
+        animation: jetBurn 0.1s infinite alternate linear;
+        transform-origin: 100px 130px;
+      }
+
+      @keyframes jetBurn {
+        0% { transform: scaleY(0.9); opacity: 0.8; }
+        100% { transform: scaleY(1.2); opacity: 1; }
+      }
+
+      /* 4. The Cybernetic Eye Blink (Occasional, natural feeling blinks) */
+      .eye {
+        animation: blinkEye 5s infinite;
+        transform-origin: 100px 88px;
+      }
+
+      @keyframes blinkEye {
+        0%, 46% { transform: scaleY(1); }
+        48% { transform: scaleY(0); } /* Quick close */
+        50%, 96% { transform: scaleY(1); } /* Open */
+        98% { transform: scaleY(0); } /* Double blink */
+        100% { transform: scaleY(1); }
+      }
+
+      /* 5. Antenna Processing Pulse */
+      .orb-pulse {
+        animation: pulseGlow 2s infinite alternate;
+      }
+
+      @keyframes pulseGlow {
+        0% { fill: #00cec9; transform: scale(0.9); }
+        100% { fill: #81ecec; transform: scale(1.2); }
+      }
+
+      /* 6. Radar Waves (Broadcasting from the antenna) */
+      .radar-wave {
+        animation: broadcast 2s linear infinite;
+        transform-origin: 100px 35px;
+      }
+      
+      .radar-wave:nth-child(2) {
+        animation-delay: 1s;
+      }
+
+      @keyframes broadcast {
+        0% { transform: scale(0.5); opacity: 1; stroke-width: 4px; }
+        100% { transform: scale(2.5); opacity: 0; stroke-width: 1px; }
+      }
+      
+      /* 7. Processing Data Lights (Blinking dots on the chest) */
+      .data-light-1 { animation: dataBlink 0.5s infinite alternate; }
+      .data-light-2 { animation: dataBlink 0.7s infinite alternate-reverse; }
+      .data-light-3 { animation: dataBlink 1.2s infinite alternate; }
+      
+      @keyframes dataBlink {
+        0% { opacity: 0.3; }
+        100% { opacity: 1; }
+      }
+    </style>
+
+    <linearGradient id="silverBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#dfe6e9"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#b2bec3"/>
+    </linearGradient>
+
+    <linearGradient id="silverTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dfe6e9"/>
+    </linearGradient>
+
+    <linearGradient id="darkMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2d3436"/>
+      <stop offset="50%" stop-color="#636e72"/>
+      <stop offset="100%" stop-color="#141718"/>
+    </linearGradient>
+
+    <linearGradient id="jetFire" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#81ecec"/>
+      <stop offset="50%" stop-color="#00cec9"/>
+      <stop offset="100%" stop-color="rgba(0, 206, 201, 0)"/>
+    </linearGradient>
+
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="175" rx="45" ry="12" fill="#2d3436" class="bot-shadow" />
+
+  <g class="hover-bot">
+    
+    <polygon points="85,130 115,130 100,165" fill="url(#jetFire)" class="thruster" />
+    <circle cx="100" cy="132" r="8" fill="#ffffff" class="thruster" filter="url(#neonGlow)" />
+    
+    <path d="M 80 120 L 80 130 A 20 8 0 0 0 120 130 L 120 120 Z" fill="#2d3436" />
+    <ellipse cx="100" cy="120" rx="20" ry="8" fill="url(#darkMetal)" />
+
+    <path d="M 60 65 L 60 115 A 40 16 0 0 0 140 115 L 140 65 Z" fill="url(#silverBody)" />
+
+    <path d="M 60 110 A 40 16 0 0 0 140 110" fill="none" stroke="#b2bec3" stroke-width="1.5" />
+    
+    <g transform="translate(0, 15)">
+      <circle cx="92" cy="100" r="2.5" fill="#00cec9" class="data-light-1" filter="url(#neonGlow)" />
+      <circle cx="100" cy="100" r="2.5" fill="#fdcb6e" class="data-light-2" filter="url(#neonGlow)" />
+      <circle cx="108" cy="100" r="2.5" fill="#ff7675" class="data-light-3" filter="url(#neonGlow)" />
+    </g>
+
+    <path d="M 60 75 L 60 95 A 40 16 0 0 0 140 95 L 140 75 A 40 16 0 0 1 60 75 Z" fill="url(#darkMetal)" />
+    
+    <path d="M 62 77 L 62 85 C 80 88, 110 85, 120 75 A 40 16 0 0 1 62 77 Z" fill="#ffffff" opacity="0.15" />
+
+    <g class="eye">
+      <ellipse cx="100" cy="88" rx="14" ry="7" fill="#00cec9" opacity="0.5" filter="url(#neonGlow)" />
+      <ellipse cx="100" cy="88" rx="8" ry="4" fill="#ffffff" filter="url(#neonGlow)" />
+    </g>
+
+    <path d="M 52 75 L 56 75 L 56 95 L 52 95 Z" fill="url(#darkMetal)" />
+    <ellipse cx="56" cy="85" rx="4" ry="10" fill="#b2bec3" />
+    <path d="M 148 75 L 144 75 L 144 95 L 148 95 Z" fill="url(#darkMetal)" />
+    <ellipse cx="144" cy="85" rx="4" ry="10" fill="#b2bec3" />
+
+    <ellipse cx="100" cy="65" rx="40" ry="16" fill="url(#silverTop)" />
+    <ellipse cx="100" cy="65" rx="35" ry="13" fill="none" stroke="#dfe6e9" stroke-width="1.5" />
+
+    <ellipse cx="100" cy="60" rx="10" ry="4" fill="url(#darkMetal)" />
+    
+    <line x1="100" y1="60" x2="100" y2="35" stroke="#636e72" stroke-width="4" stroke-linecap="round" />
+    <line x1="100" y1="60" x2="100" y2="35" stroke="#b2bec3" stroke-width="2" stroke-linecap="round" />
+
+    <ellipse cx="100" cy="35" rx="15" ry="5" fill="none" stroke="#00cec9" class="radar-wave" />
+    <ellipse cx="100" cy="35" rx="15" ry="5" fill="none" stroke="#00cec9" class="radar-wave" />
+
+    <g class="orb-pulse" transform-origin="100px 35px">
+      <circle cx="100" cy="35" r="6" fill="#00cec9" filter="url(#neonGlow)" />
+      <circle cx="101" cy="34" r="2" fill="#ffffff" opacity="0.8" />
+    </g>
+
+  </g>
+</svg>

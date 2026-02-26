@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The main flicker and ignite sequence */
+      .bulb-glow {
+        animation: eurekaStrike 5s infinite;
+        transform-origin: 100px 75px;
+      }
+      
+      .atom-ring {
+        animation: eurekaStrike 5s infinite, spinRing 3s linear infinite;
+        transform-origin: 100px 75px;
+      }
+
+      .atom-ring-reverse {
+        animation: eurekaStrike 5s infinite, spinRingReverse 4s linear infinite;
+        transform-origin: 100px 75px;
+      }
+
+      /* The lightbulb flickers, turns on brightly, and scales up slightly with "genius" energy */
+      @keyframes eurekaStrike {
+        0%, 30% { opacity: 0; transform: scale(0.95); } /* Off */
+        32% { opacity: 0.8; transform: scale(1); } /* Flicker on */
+        34% { opacity: 0; transform: scale(0.95); } /* Flicker off */
+        36% { opacity: 0.5; transform: scale(0.98); } /* Flicker half */
+        38% { opacity: 0; transform: scale(0.95); } /* Flicker off */
+        40%, 85% { opacity: 1; transform: scale(1.05); } /* EUREKA! Full power */
+        90%, 100% { opacity: 0; transform: scale(0.95); } /* Power down */
+      }
+
+      @keyframes spinRing {
+        0% { transform: scale(1.05) rotate(0deg); }
+        100% { transform: scale(1.05) rotate(360deg); }
+      }
+
+      @keyframes spinRingReverse {
+        0% { transform: scale(1.05) rotate(0deg); }
+        100% { transform: scale(1.05) rotate(-360deg); }
+      }
+
+      /* 2. Light Rays shooting out when ON */
+      .ray {
+        animation: shootRay 5s infinite;
+        transform-origin: 100px 75px;
+      }
+
+      .ray:nth-child(1) { --r: 0deg; }
+      .ray:nth-child(2) { --r: 45deg; }
+      .ray:nth-child(3) { --r: 90deg; }
+      .ray:nth-child(4) { --r: 135deg; }
+      .ray:nth-child(5) { --r: 180deg; }
+      .ray:nth-child(6) { --r: 225deg; }
+      .ray:nth-child(7) { --r: 270deg; }
+      .ray:nth-child(8) { --r: 315deg; }
+
+      @keyframes shootRay {
+        0%, 38% { opacity: 0; transform: rotate(var(--r)) translateY(0px) scaleY(0); }
+        40% { opacity: 1; transform: rotate(var(--r)) translateY(-55px) scaleY(1); }
+        45%, 85% { opacity: 0.8; transform: rotate(var(--r)) translateY(-65px) scaleY(0.8); }
+        90%, 100% { opacity: 0; transform: rotate(var(--r)) translateY(-70px) scaleY(0); }
+      }
+
+      /* 3. The physical bulb bobs up slightly when full of energy */
+      .bulb-assembly {
+        animation: physicalBob 5s ease-in-out infinite;
+        transform-origin: 100px 150px;
+      }
+
+      @keyframes physicalBob {
+        0%, 38% { transform: translateY(0px); }
+        40%, 85% { transform: translateY(-8px); }
+        90%, 100% { transform: translateY(0px); }
+      }
+
+      /* 4. Floor shadow reacts to the bobbing and the light */
+      .shadow {
+        animation: shadowReact 5s ease-in-out infinite;
+        transform-origin: 100px 175px;
+      }
+
+      @keyframes shadowReact {
+        0%, 38% { transform: scale(1); opacity: 0.3; } /* Dark shadow when off */
+        40%, 85% { transform: scale(0.8); opacity: 0.05; } /* Washed out by light */
+        90%, 100% { transform: scale(1); opacity: 0.3; }
+      }
+    </style>
+
+    <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b2bec3"/>
+      <stop offset="50%" stop-color="#dfe6e9"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+
+    <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2d3436"/>
+      <stop offset="100%" stop-color="#636e72"/>
+    </linearGradient>
+
+    <radialGradient id="lightCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#fbc531" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#fbc531" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="175" rx="35" ry="10" fill="#2d3436" class="shadow" />
+
+  <g class="bulb-assembly">
+    
+    <path d="M 88 155 L 88 162 A 12 5 0 0 0 112 162 L 112 155 Z" fill="url(#metalDark)" />
+    <ellipse cx="100" cy="155" rx="14" ry="6" fill="url(#metal)" />
+    <ellipse cx="100" cy="149" rx="16" ry="7" fill="url(#metal)" />
+    <ellipse cx="100" cy="143" rx="18" ry="8" fill="url(#metal)" />
+    <ellipse cx="100" cy="137" rx="20" ry="8" fill="url(#metal)" />
+    <ellipse cx="100" cy="130" rx="22" ry="9" fill="#2d3436" />
+    <ellipse cx="100" cy="129" rx="22" ry="9" fill="url(#metal)" />
+
+    <path d="M 94 129 L 94 105 A 6 3 0 0 0 106 105 L 106 129 Z" fill="rgba(116, 185, 255, 0.4)" />
+    <line x1="97" y1="105" x2="90" y2="85" stroke="#636e72" stroke-width="2" stroke-linecap="round" />
+    <line x1="103" y1="105" x2="110" y2="85" stroke="#636e72" stroke-width="2" stroke-linecap="round" />
+    <path d="M 90 85 L 95 75 L 105 75 L 110 85" fill="none" stroke="#2d3436" stroke-width="2" stroke-linejoin="round" />
+
+    <g class="bulb-glow">
+      <circle cx="100" cy="75" r="50" fill="url(#lightCore)" />
+      
+      <path d="M 90 85 L 95 75 L 105 75 L 110 85" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" filter="url(#neonGlow)" />
+      
+      <g stroke="#fbc531" stroke-width="3" stroke-linecap="round">
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+      </g>
+    </g>
+
+    <path d="M 78 129 C 75 105, 55 95, 55 70 A 45 45 0 1 1 145 70 C 145 95, 125 105, 122 129 Z" fill="rgba(116, 185, 255, 0.15)" stroke="rgba(116, 185, 255, 0.5)" stroke-width="2" />
+    
+    <path d="M 65 65 A 35 35 0 0 1 120 40 A 40 40 0 0 0 65 65 Z" fill="url(#glassReflection)" />
+
+    <g class="bulb-glow" filter="url(#neonGlow)">
+      <ellipse cx="100" cy="75" rx="65" ry="15" fill="none" stroke="#00a8ff" stroke-width="1.5" transform="rotate(30 100 75)" class="atom-ring" />
+      <circle cx="45" cy="43" r="3" fill="#ffffff" class="atom-ring" />
+      
+      <ellipse cx="100" cy="75" rx="65" ry="15" fill="none" stroke="#9c88ff" stroke-width="1.5" transform="rotate(-30 100 75)" class="atom-ring-reverse" />
+      <circle cx="155" cy="43" r="3" fill="#ffffff" class="atom-ring-reverse" />
+    </g>
+
+  </g>
+</svg>

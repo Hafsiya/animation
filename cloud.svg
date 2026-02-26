@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. The Cloud Core Hovering */
+      .cloud-core {
+        animation: levitate 4s ease-in-out infinite;
+        transform-origin: 100px 70px;
+      }
+
+      @keyframes levitate {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+
+      /* 2. Scalability: The Outer Glass Panels Expanding */
+      .panel-top { animation: expandTop 4s ease-in-out infinite; }
+      .panel-left { animation: expandLeft 4s ease-in-out infinite; }
+      .panel-right { animation: expandRight 4s ease-in-out infinite; }
+
+      /* They expand exactly along their respective 2.5D planes */
+      @keyframes expandTop {
+        0%, 20%, 100% { transform: translate(0, 0); opacity: 0.7; }
+        50%, 70% { transform: translateY(-10px); opacity: 1; }
+      }
+      @keyframes expandLeft {
+        0%, 20%, 100% { transform: translate(0, 0); opacity: 0.7; }
+        50%, 70% { transform: translate(-10px, 5px); opacity: 1; }
+      }
+      @keyframes expandRight {
+        0%, 20%, 100% { transform: translate(0, 0); opacity: 0.7; }
+        50%, 70% { transform: translate(10px, 5px); opacity: 1; }
+      }
+
+      /* 3. The Data Uplink Stream */
+      .uplink-ring {
+        animation: shootUp 2s linear infinite;
+      }
+      .uplink-ring.r2 { animation-delay: 0.6s; }
+      .uplink-ring.r3 { animation-delay: 1.2s; }
+
+      @keyframes shootUp {
+        0% { transform: translateY(30px) scale(0.5); opacity: 0; }
+        20% { opacity: 0.8; }
+        80% { transform: translateY(-40px) scale(1.2); opacity: 0.8; }
+        100% { transform: translateY(-50px) scale(1.3); opacity: 0; }
+      }
+
+      /* 4. Phone Screen Sync Pulse */
+      .screen-pulse {
+        animation: syncPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes syncPulse {
+        0%, 20%, 100% { fill: #6c5ce7; }
+        50%, 70% { fill: #00cec9; } /* Flashes Cyan when connected */
+      }
+      
+      /* 5. Floor Shadow */
+      .core-shadow {
+        animation: shadowPulse 4s ease-in-out infinite;
+        transform-origin: 100px 170px;
+      }
+      @keyframes shadowPulse {
+        0%, 100% { transform: scale(1); opacity: 0.15; }
+        50% { transform: scale(1.2); opacity: 0.05; }
+      }
+    </style>
+
+    <linearGradient id="coreTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="100%" stop-color="#6c5ce7"/>
+    </linearGradient>
+    <linearGradient id="coreLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#30336b"/>
+    </linearGradient>
+    <linearGradient id="coreRight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0984e3"/>
+      <stop offset="100%" stop-color="#273c75"/>
+    </linearGradient>
+
+    <linearGradient id="glassTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(129, 236, 236, 0.9)"/>
+      <stop offset="100%" stop-color="rgba(0, 206, 201, 0.4)"/>
+    </linearGradient>
+    <linearGradient id="glassLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(0, 206, 201, 0.8)"/>
+      <stop offset="100%" stop-color="rgba(9, 132, 227, 0.4)"/>
+    </linearGradient>
+    <linearGradient id="glassRight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(116, 185, 255, 0.7)"/>
+      <stop offset="100%" stop-color="rgba(9, 132, 227, 0.2)"/>
+    </linearGradient>
+
+    <linearGradient id="phoneEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b2bec3"/>
+      <stop offset="100%" stop-color="#2d3436"/>
+    </linearGradient>
+
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <ellipse cx="100" cy="170" rx="35" ry="12" fill="#2d3436" class="core-shadow" />
+
+  <g transform="translate(100, 160) scale(1, 0.5) rotate(45)">
+    <rect x="-25" y="-45" width="50" height="90" rx="6" fill="url(#phoneEdge)" transform="translate(-2, 4)" />
+    <rect x="-25" y="-45" width="50" height="90" rx="6" fill="#2d3436" />
+    <rect x="-22" y="-42" width="44" height="84" rx="4" class="screen-pulse" />
+    
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6" />
+    <circle cx="0" cy="0" r="4" fill="#ffffff" />
+  </g>
+
+  <g filter="url(#neonGlow)">
+    <g transform="translate(100, 130)">
+      <ellipse cx="0" cy="0" rx="20" ry="8" fill="none" stroke="#00cec9" stroke-width="2" class="uplink-ring" />
+      <ellipse cx="0" cy="0" rx="20" ry="8" fill="none" stroke="#00cec9" stroke-width="2" class="uplink-ring r2" />
+      <ellipse cx="0" cy="0" rx="20" ry="8" fill="none" stroke="#00cec9" stroke-width="2" class="uplink-ring r3" />
+    </g>
+    <line x1="100" y1="145" x2="100" y2="80" stroke="#81ecec" stroke-width="1" stroke-dasharray="2 4" opacity="0.5" />
+  </g>
+
+  <g class="cloud-core">
+    
+    <g filter="url(#neonGlow)">
+      <polygon points="100,45 118,54 100,63 82,54" fill="url(#coreTop)" />
+      <polygon points="82,54 100,63 100,83 82,74" fill="url(#coreLeft)" />
+      <polygon points="118,54 100,63 100,83 118,74" fill="url(#coreRight)" />
+      
+      <polyline points="82,54 100,63 118,54" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.6" />
+      <line x1="100" y1="63" x2="100" y2="83" stroke="#ffffff" stroke-width="1" opacity="0.6" />
+    </g>
+
+    <g class="panel-top">
+      <polygon points="100,30 125,42.5 100,55 75,42.5" fill="url(#glassTop)" stroke="#81ecec" stroke-width="1" stroke-linejoin="round" />
+      <polygon points="100,35 115,42.5 100,50 85,42.5" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.8" />
+    </g>
+    
+    <g class="panel-left">
+      <polygon points="75,42.5 100,55 100,85 75,72.5" fill="url(#glassLeft)" stroke="#00cec9" stroke-width="1" stroke-linejoin="round" />
+      <line x1="75" y1="42.5" x2="100" y2="55" stroke="#ffffff" stroke-width="1.5" opacity="0.9" /> </g>
+
+    <g class="panel-right">
+      <polygon points="125,42.5 100,55 100,85 125,72.5" fill="url(#glassRight)" stroke="#0984e3" stroke-width="1" stroke-linejoin="round" />
+      <line x1="125" y1="42.5" x2="100" y2="55" stroke="#ffffff" stroke-width="1.5" opacity="0.6" />
+    </g>
+
+  </g>
+</svg>

@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <style>
+      /* 1. Anti-gravity hover for the entire planet system */
+      .hover-group {
+        animation: float 6s ease-in-out infinite;
+        transform-origin: 100px 100px;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+      }
+
+      /* 2. Floor shadow scales based on the planet's altitude */
+      .shadow {
+        animation: shadowScale 6s ease-in-out infinite;
+        transform-origin: 100px 175px;
+      }
+
+      @keyframes shadowScale {
+        0%, 100% { transform: scale(1); opacity: 0.2; }
+        50% { transform: scale(0.8); opacity: 0.05; }
+      }
+
+      /* 3. Shooting Comet */
+      .comet-wrapper {
+        animation: shootComet 4s infinite linear;
+      }
+
+      @keyframes shootComet {
+        0% { transform: translate(150px, -50px); opacity: 0; }
+        10% { opacity: 1; }
+        30% { transform: translate(-50px, 150px); opacity: 0; }
+        100% { transform: translate(-50px, 150px); opacity: 0; }
+      }
+
+      /* 4. Twinkling Background Stars */
+      .star { animation: twinkle 3s infinite alternate ease-in-out; }
+      .star:nth-child(2) { animation-delay: 1s; animation-duration: 4s; }
+      .star:nth-child(3) { animation-delay: 2s; animation-duration: 2.5s; }
+
+      @keyframes twinkle {
+        0% { opacity: 0.2; transform: scale(0.8); }
+        100% { opacity: 1; transform: scale(1.2); }
+      }
+      
+      /* 5. Subtle Ring Rotation / Shimmer */
+      .ring-front { animation: pulseRing 3s ease-in-out infinite alternate; }
+      @keyframes pulseRing {
+        0% { stroke: #00cec9; }
+        100% { stroke: #81ecec; }
+      }
+    </style>
+
+    <radialGradient id="planetBody" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="60%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#30336b"/>
+    </radialGradient>
+
+    <linearGradient id="stripes" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.05)"/>
+    </linearGradient>
+
+    <linearGradient id="cometTail" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffeaa7" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#ffeaa7" stop-opacity="0"/>
+    </linearGradient>
+    
+    <clipPath id="planetClip">
+      <circle cx="100" cy="95" r="45" />
+    </clipPath>
+  </defs>
+
+  <rect width="200" height="200" fill="#ffffff" rx="20" />
+
+  <g fill="#feca57">
+    <circle cx="40" cy="50" r="2" class="star" />
+    <circle cx="160" cy="30" r="1.5" class="star" />
+    <circle cx="150" cy="140" r="2.5" class="star" />
+  </g>
+
+  <g class="comet-wrapper">
+    <line x1="0" y1="0" x2="40" y2="40" stroke="url(#cometTail)" stroke-width="3" stroke-linecap="round" />
+    <circle cx="0" cy="0" r="3" fill="#fff200" />
+  </g>
+
+  <ellipse cx="100" cy="175" rx="50" ry="12" fill="#2d3436" class="shadow" />
+
+  <g class="hover-group">
+    
+    <path d="M 20 95 A 80 28 0 0 1 180 95" fill="none" stroke="#74b9ff" stroke-width="12" stroke-linecap="round" opacity="0.6" />
+
+    <circle cx="100" cy="95" r="45" fill="url(#planetBody)" />
+    
+    <g clip-path="url(#planetClip)">
+      <path d="M 50 75 Q 100 85 150 75" fill="none" stroke="url(#stripes)" stroke-width="8" />
+      <path d="M 40 95 Q 100 110 160 95" fill="none" stroke="url(#stripes)" stroke-width="14" />
+      <path d="M 50 115 Q 100 125 150 115" fill="none" stroke="url(#stripes)" stroke-width="6" />
+    </g>
+
+    <circle cx="100" cy="95" r="45" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="3" />
+
+    <path d="M 20 95 A 80 28 0 0 0 180 95" fill="none" stroke="#00cec9" stroke-width="12" stroke-linecap="round" class="ring-front" />
+
+    <path d="M 20 95 A 80 28 0 0 0 180 95" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round" />
+    
+    <circle cx="35" cy="110" r="3" fill="#ffeaa7" />
+    <circle cx="165" cy="105" r="2" fill="#fd79a8" />
+
+  </g>
+</svg>
