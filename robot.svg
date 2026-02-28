@@ -1,86 +1,108 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* 1. The Rolling Vibration (Simulates wheels on a floor) */
-      .rolling-chassis {
-        animation: rollVibrate 0.3s infinite alternate linear;
-        transform-origin: 100px 160px;
-      }
 
-      @keyframes rollVibrate {
-        0% { transform: translateY(0px) rotate(0deg); }
-        100% { transform: translateY(-1px) rotate(0.5deg); }
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #d9f2ff 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
-
-      /* 2. The Tray Balance (Counter-bounces to keep the drink steady) */
-      .tray-group {
-        animation: trayBalance 0.6s infinite alternate ease-in-out;
+    
+      svg { cursor: pointer; }
+      /* --- 5s NARRATIVE ANIMATION SEQUENCE --- */
+      /* Story: Robot rests (0-0.5s) to Wakes up and detects order (0.5-1.5s) to Rushes to deliver (1.5-3.5s) to Skids to halt and serves (3.5-5s) */
+      /* 1. The Rolling Chassis (Bumps along the ground) */
+      .rolling-chassis { transform-origin: 100px 160px; }
+      svg:hover .rolling-chassis {
+        animation: chassisDrive 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
-
-      @keyframes trayBalance {
-        0% { transform: translateY(-1px); }
-        100% { transform: translateY(1px); }
+      @keyframes chassisDrive {
+        0%, 14% { transform: translateY(0px) rotate(0deg); }
+        15%, 35% { transform: translateY(-2px) rotate(5deg); } /* Tilts forward to accelerate */
+        36%, 69% { transform: translateY(-1px) rotate(3deg); } /* Driving bumps */
+        70%, 75% { transform: translateY(0px) rotate(-3deg); } /* Skids to a halt, tilts back */
+        80%, 100% { transform: translateY(0px) rotate(0deg); } /* Settles to serve */
       }
-
-      /* 3. The Happy Eye Blink */
-      .happy-eyes {
-        animation: cuteBlink 4s infinite;
-        transform-origin: 85px 65px;
+      /* 2. Gyroscopic Tray Balance */
+      .tray-group { transform-origin: 100px 95px; }
+      svg:hover .tray-group {
+        animation: trayLeveling 5s ease-in-out forwards;
       }
-
-      @keyframes cuteBlink {
-        0%, 46% { transform: scaleY(1); opacity: 1; }
-        48% { transform: scaleY(0.1); opacity: 0.8; } /* Quick blink */
-        50%, 96% { transform: scaleY(1); opacity: 1; } 
-        98% { transform: scaleY(0.1); opacity: 0.8; } 
-        100% { transform: scaleY(1); opacity: 1; }
+      @keyframes trayLeveling {
+        0%, 14% { transform: rotate(0deg); }
+        15%, 35% { transform: rotate(-5deg); } /* Counter-tilts to keep drinks level during acceleration */
+        36%, 69% { transform: rotate(-3deg); }
+        70%, 75% { transform: rotate(3deg); } /* Counter-tilts for braking */
+        80%, 100% { transform: rotate(0deg); }
       }
-
-      /* 4. Ground Speed Lines (Creates the illusion of forward movement) */
-      .speed-line {
-        stroke-dasharray: 40 100;
-        animation: rushPast 1s linear infinite;
+      /* 3. Expressions (Screen Face) */
+      .happy-eyes { transform-origin: 85px 65px; opacity: 1; }
+      .surprised-eyes { transform-origin: 85px 65px; opacity: 0; }
+      svg:hover .happy-eyes { animation: eyeSequenceHappy 5s forwards; }
+      svg:hover .surprised-eyes { animation: eyeSequenceSurprise 5s forwards; }
+      @keyframes eyeSequenceHappy {
+        0%, 9% { opacity: 0; transform: scaleY(0.1); } /* Asleep */
+        10%, 14% { opacity: 1; transform: scaleY(1); } /* Wakes up */
+        15%, 79% { opacity: 0; } /* Switches to active/surprised while working */
+        80%, 100% { opacity: 1; transform: scaleY(1); } /* Switches back to happy to serve */
       }
-      
-      .speed-line:nth-child(2) { animation-duration: 0.8s; animation-delay: 0.2s; }
-      .speed-line:nth-child(3) { animation-duration: 1.2s; animation-delay: 0.5s; }
-
-      @keyframes rushPast {
-        0% { stroke-dashoffset: -50; opacity: 0; }
+      @keyframes eyeSequenceSurprise {
+        0%, 14% { opacity: 0; }
+        15%, 79% { opacity: 1; } /* Wide eyed while rushing */
+        80%, 100% { opacity: 0; }
+      }
+      /* 4. Ground Speed Lines (Rushing effect) */
+      .speed-line { stroke-dasharray: 40 100; stroke-dashoffset: -50; opacity: 0; }
+      svg:hover .speed-line-1 { animation: rushLines 5s linear forwards; }
+      svg:hover .speed-line-2 { animation: rushLines 5s linear forwards; animation-delay: 0.2s; }
+      svg:hover .speed-line-3 { animation: rushLines 5s linear forwards; animation-delay: 0.1s; }
+      @keyframes rushLines {
+        15% { opacity: 0; stroke-dashoffset: -50; }
         20% { opacity: 1; }
-        80% { opacity: 1; }
-        100% { stroke-dashoffset: 150; opacity: 0; }
+        65% { opacity: 1; }
+        70%, 100% { stroke-dashoffset: 200; opacity: 0; } /* Lines stop moving as robot brakes */
       }
-
-      /* 5. Steaming Coffee */
-      .steam {
-        animation: riseSteam 2s infinite ease-in;
+      /* 5. Steaming Coffee (Reacts to physics) */
+      .steam-1, .steam-2 { opacity: 0; }
+      svg:hover .steam-1 { animation: steamRise 5s forwards ease-in; }
+      svg:hover .steam-2 { animation: steamRise 5s forwards ease-in; animation-delay: 0.5s; }
+      @keyframes steamRise {
+        0%, 14% { opacity: 0; transform: translateY(0px) scale(0.8); }
+        15%, 69% { opacity: 0; } /* Blown away by speed */
+        80% { opacity: 0.6; transform: translateY(-5px); } /* Reforms after stopping */
+        100% { transform: translateY(-20px) scale(1.2); opacity: 0; }
       }
-
-      @keyframes riseSteam {
-        0% { transform: translateY(0px) scale(0.8); opacity: 0; }
-        50% { opacity: 0.6; }
-        100% { transform: translateY(-15px) scale(1.2); opacity: 0; }
+      /* Coffee spill drops (physics detail during sudden stop) */
+      .coffee-drop { opacity: 0; transform-origin: 100px 85px; }
+      svg:hover .coffee-drop { animation: spillDrop 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes spillDrop {
+        0%, 69% { opacity: 0; transform: translate(0,0) scale(1); }
+        70% { opacity: 1; transform: translate(15px, -15px) scale(1.5); } /* Splash up on brake */
+        75%, 100% { opacity: 0; transform: translate(25px, 10px) scale(0); } /* Fall down */
       }
-    </style>
-
+      </style>
     <linearGradient id="whitePlastic" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#ffffff"/>
       <stop offset="60%" stop-color="#f5f6fa"/>
       <stop offset="100%" stop-color="#dcdde1"/>
     </linearGradient>
-
     <linearGradient id="whitePlasticDark" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#f5f6fa"/>
       <stop offset="100%" stop-color="#718093"/>
     </linearGradient>
-
     <linearGradient id="screenGlass" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#2f3640"/>
       <stop offset="50%" stop-color="#192a56"/>
       <stop offset="100%" stop-color="#000000"/>
     </linearGradient>
-
     <filter id="neonBlue" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="coloredBlur"/>
       <feMerge>
@@ -88,56 +110,70 @@
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-
     <linearGradient id="metalTray" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="50%" stop-color="#b2bec3"/>
-      <stop offset="100%" stop-color="#636e72"/>
+      <stop offset="50%" stop-color="#e0e0e0"/>
+      <stop offset="100%" stop-color="#b0bec5"/>
     </linearGradient>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="170" rx="45" ry="12" fill="#2d3436" opacity="0.15" />
   
-  <g stroke="#00a8ff" stroke-width="2" stroke-linecap="round" opacity="0.4">
-    <line x1="160" y1="165" x2="40" y2="165" class="speed-line" />
-    <line x1="150" y1="175" x2="30" y2="175" class="speed-line" />
-    <line x1="170" y1="180" x2="50" y2="180" class="speed-line" />
+  <!-- Floor Shadow -->
+  <ellipse cx="100" cy="170" rx="45" ry="12" fill="#00f2fe" opacity="0.3" />
+  <!-- Speed Lines Background -->
+  <g stroke="#00f2fe" stroke-width="2" stroke-linecap="round" opacity="0.4">
+    <line x1="160" y1="165" x2="40" y2="165" class="speed-line speed-line-1" />
+    <line x1="150" y1="175" x2="30" y2="175" class="speed-line speed-line-2" />
+    <line x1="170" y1="180" x2="50" y2="180" class="speed-line speed-line-3" />
   </g>
-
   <g class="rolling-chassis">
-    
+    <!-- Base Drive Train -->
     <path d="M 65 140 L 55 160 A 45 12 0 0 0 145 160 L 135 140 Z" fill="url(#whitePlasticDark)" />
-    <path d="M 58 155 A 42 10 0 0 0 142 155" fill="none" stroke="#00a8ff" stroke-width="2" filter="url(#neonBlue)" opacity="0.8" />
-    
+    <path d="M 58 155 A 42 10 0 0 0 142 155" fill="none" stroke="#00f2fe" stroke-width="2" filter="url(#neonBlue)" opacity="0.8" />
+    <!-- Main Body Cone -->
     <path d="M 70 80 L 65 140 A 35 10 0 0 0 135 140 L 130 80 Z" fill="url(#whitePlastic)" />
     <ellipse cx="100" cy="140" rx="35" ry="10" fill="none" stroke="#dcdde1" stroke-width="1.5" />
-
+    <!-- Head Dome -->
     <ellipse cx="100" cy="65" rx="35" ry="25" fill="url(#whitePlastic)" />
-    
+    <!-- Ears / Antennae -->
     <path d="M 75 50 L 70 30 L 85 42 Z" fill="url(#whitePlasticDark)" stroke="#ffffff" stroke-width="1" stroke-linejoin="round" />
-    <path d="M 76 47 L 72 35 L 82 42 Z" fill="#00a8ff" opacity="0.5" />
+    <path d="M 76 47 L 72 35 L 82 42 Z" fill="#00f2fe" opacity="0.5" />
     <path d="M 125 50 L 130 30 L 115 42 Z" fill="url(#whitePlasticDark)" stroke="#ffffff" stroke-width="1" stroke-linejoin="round" />
-    <path d="M 124 47 L 128 35 L 118 42 Z" fill="#00a8ff" opacity="0.5" />
-
+    <path d="M 124 47 L 128 35 L 118 42 Z" fill="#00f2fe" opacity="0.5" />
+    <!-- Visor Glass -->
     <path d="M 70 55 C 70 45, 130 45, 130 55 C 135 70, 125 80, 100 80 C 75 80, 65 70, 70 55 Z" fill="url(#screenGlass)" />
     <path d="M 72 55 C 75 50, 125 50, 128 55 C 115 65, 85 65, 72 55 Z" fill="#ffffff" opacity="0.1" />
-
-    <g class="happy-eyes" fill="none" stroke="#00a8ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonBlue)">
+    <!-- 1. Happy Eyes (Rest / Serve state) -->
+    <g class="happy-eyes" fill="none" stroke="#00f2fe" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonBlue)">
       <path d="M 80 65 Q 85 55 90 65" />
       <path d="M 110 65 Q 115 55 120 65" />
     </g>
-
-    <g class="tray-group">
-      <ellipse cx="100" cy="100" rx="45" ry="15" fill="#2d3436" opacity="0.2" />
-      
-      <ellipse cx="100" cy="95" rx="48" ry="18" fill="url(#metalTray)" />
-      <path d="M 52 95 L 52 98 A 48 18 0 0 0 148 98 L 148 95 Z" fill="#636e72" />
-
-      <ellipse cx="100" cy="95" rx="15" ry="6" fill="#2d3436" opacity="0.2" /> <path d="M 90 85 L 92 95 A 8 4 0 0 0 108 95 L 110 85 Z" fill="#ff4757" /> <ellipse cx="100" cy="85" rx="10" ry="4" fill="#ffffff" /> <ellipse cx="100" cy="85" rx="8" ry="3" fill="#8c1c0b" /> <path d="M 98 80 Q 95 75 100 70 T 98 60" fill="none" stroke="#dfe6e9" stroke-width="2" stroke-linecap="round" class="steam" />
-      <path d="M 104 82 Q 107 77 102 72 T 104 62" fill="none" stroke="#dfe6e9" stroke-width="1.5" stroke-linecap="round" class="steam" style="animation-delay: 1s;" />
+    <!-- 2. Surprised/Active Eyes (Driving state) -->
+    <g class="surprised-eyes" fill="none" stroke="#00f2fe" stroke-width="4" stroke-linecap="round" filter="url(#neonBlue)">
+      <ellipse cx="85" cy="60" rx="5" ry="8" />
+      <ellipse cx="115" cy="60" rx="5" ry="8" />
     </g>
-
+    <!-- Serving Tray and Drinks -->
+    <g class="tray-group">
+      <!-- Tray Shadow -->
+      <ellipse cx="100" cy="100" rx="45" ry="15" fill="#37474f" opacity="0.2" />
+      <!-- Metal Tray -->
+      <ellipse cx="100" cy="95" rx="48" ry="18" fill="url(#metalTray)" />
+      <path d="M 52 95 L 52 98 A 48 18 0 0 0 148 98 L 148 95 Z" fill="#b0bec5" />
+      <!-- Empty Glass -->
+      <path d="M 70 80 L 73 95 A 10 3 0 0 0 93 95 L 96 80 Z" fill="#e0f7fa" opacity="0.5" stroke="#ffffff" stroke-width="1"/>
+      <ellipse cx="83" cy="80" rx="13" ry="4" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.8"/>
+      <!-- Hot Coffee Mug -->
+      <path d="M 125 83 A 5 5 0 0 1 125 93" fill="none" stroke="#ffffff" stroke-width="2"/>
+      <ellipse cx="115" cy="95" rx="12" ry="4" fill="#37474f" opacity="0.3" /> 
+      <path d="M 105 85 L 107 95 A 8 4 0 0 0 123 95 L 125 85 Z" fill="#ff6b81" /> 
+      <ellipse cx="115" cy="85" rx="10" ry="4" fill="#ffffff" /> 
+      <ellipse cx="115" cy="85" rx="8" ry="3" fill="#8c1c0b" /> 
+      <circle cx="120" cy="85" r="2" fill="#8c1c0b" class="coffee-drop" />
+      <circle cx="115" cy="83" r="1" fill="#8c1c0b" class="coffee-drop" style="animation-duration: 4.8s;" />
+      <!-- Steam Lines -->
+      <path d="M 112 80 Q 109 75 114 70 T 112 60" fill="none" stroke="#fdfbfb" stroke-width="2" stroke-linecap="round" class="steam-1" />
+      <path d="M 118 82 Q 121 77 116 72 T 118 62" fill="none" stroke="#fdfbfb" stroke-width="1.5" stroke-linecap="round" class="steam-2" />
+    </g>
   </g>
 </svg>

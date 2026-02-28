@@ -1,11 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
-    <style>
-      /* --- ANIMATION SEQUENCES --- */
 
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <style>
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #e4f8fb 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
+      /* --- ANIMATION SEQUENCES --- */
       /* 1. Test Tube Pouring (Ingredient 1) */
-      .test-tube-group {
-        animation: pourLiquid 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+      .test-tube-group  {
         transform-origin: 50px 60px;
       }
       @keyframes pourLiquid {
@@ -14,19 +27,15 @@
         40% { transform: translate(20px, 10px) rotate(45deg); } 
         55%, 100% { transform: translate(0,0) rotate(0deg); } /* Returns */
       }
-
       /* Pouring Stream Effect */
-      .liquid-stream {
-        animation: streamFlow 4s steps(1) infinite;
+      .liquid-stream  {
         opacity: 0;
       }
       @keyframes streamFlow {
         25%, 40% { opacity: 1; } /* Visible only during pour */
       }
-
       /* 2. Scoop Dropping Catalyst (Ingredient 2) */
-      .scoop-group {
-        animation: dropCatalyst 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+      .scoop-group  {
         transform-origin: 150px 60px;
       }
       @keyframes dropCatalyst {
@@ -35,10 +44,8 @@
         35% { transform: translate(-30px, 20px) rotate(-60deg); } /* Dumps powder */
         55%, 100% { transform: translate(0,0) rotate(0deg); } /* Returns */
       }
-
       /* Powder falling effect */
-      .falling-powder {
-         animation: powderFall 4s linear infinite;
+      .falling-powder  {
          opacity: 0;
       }
       @keyframes powderFall {
@@ -46,10 +53,8 @@
         38% { opacity: 1; transform: translate(100px, 100px) scale(1); } /* Hits liquid */
         40% { opacity: 0; }
       }
-
       /* 3. The Main Flask Reaction (Liquid Color Change) */
-      .flask-contents {
-        animation: reactionSequence 4s linear infinite;
+      .flask-contents  {
       }
       @keyframes reactionSequence {
         0%, 25% { fill: url(#liquidBlue); transform: scaleY(1); } /* Initial state */
@@ -58,10 +63,8 @@
         55% { fill: url(#liquidGreen); transform: scaleY(1.1); filter: brightness(1); } /* Final product */
         85%, 100% { fill: url(#liquidBlue); transform: scaleY(1); } /* Reset */
       }
-
       /* 4. The Reaction Burst/Flash (Synced at 48%) */
-      .reaction-flash {
-        animation: flashBurst 4s steps(1) infinite;
+      .reaction-flash  {
         transform-origin: 100px 110px;
       }
       @keyframes flashBurst {
@@ -69,19 +72,15 @@
         48% { opacity: 1; transform: scale(1.4); } /* BAM! */
         51%, 100% { opacity: 0; transform: scale(0); }
       }
-
       /* 5. Bubbles and Vapor (Post-reaction effects) */
-      .bubbles-group {
-        animation: bubbleRise 4s linear infinite;
+      .bubbles-group  {
         opacity: 0;
       }
       @keyframes bubbleRise {
         48% { opacity: 1; transform: translateY(0px); }
         65% { opacity: 0; transform: translateY(-30px); }
       }
-
-      .vapor-group {
-        animation: vaporRise 4s ease-out infinite;
+      .vapor-group  {
         opacity: 0;
         transform-origin: 100px 70px;
       }
@@ -89,17 +88,47 @@
         50% { opacity: 0.8; transform: translateY(0px) scale(0.8); }
         75% { opacity: 0; transform: translateY(-50px) scale(1.5); }
       }
-    </style>
+      svg:hover .test-tube-group {
+        animation: pourLiquid 4s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+      }
 
+      svg:hover .liquid-stream {
+        animation: streamFlow 4s steps(1) forwards;
+      }
+
+      svg:hover .scoop-group {
+        animation: dropCatalyst 4s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+      }
+
+      svg:hover .falling-powder {
+        animation: powderFall 4s linear forwards;
+      }
+
+      svg:hover .flask-contents {
+        animation: reactionSequence 4s linear forwards;
+      }
+
+      svg:hover .reaction-flash {
+        animation: flashBurst 4s steps(1) forwards;
+      }
+
+      svg:hover .bubbles-group {
+        animation: bubbleRise 4s linear forwards;
+      }
+
+      svg:hover .vapor-group {
+        animation: vaporRise 4s ease-out forwards;
+      }
+
+      </style>
     <linearGradient id="glassClear" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#e0f7fa" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#81ecec" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#3cba92" stop-opacity="0.2"/>
     </linearGradient>
     <linearGradient id="glassEdge" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#b2ebf2" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="#4dd0e1" stop-opacity="0.8"/>
     </linearGradient>
-
     <linearGradient id="liquidBlue" x1="0%" y1="0%" x2="0%" y2="100%"> <stop offset="0%" stop-color="#4fc3f7"/>
       <stop offset="100%" stop-color="#0288d1"/>
     </linearGradient>
@@ -112,17 +141,14 @@
     <linearGradient id="liquidGreen" x1="0%" y1="0%" x2="0%" y2="100%"> <stop offset="0%" stop-color="#69f0ae"/>
       <stop offset="100%" stop-color="#00c853"/>
     </linearGradient>
-
     <linearGradient id="catalystYellow" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffe57f"/>
       <stop offset="100%" stop-color="#ffc107"/>
     </linearGradient>
-
     <linearGradient id="metalSilver" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#e3f2fd"/>
       <stop offset="100%" stop-color="#90caf9"/>
     </linearGradient>
-
     <filter id="chemShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
       <feOffset dx="0" dy="8" result="offsetblur"/>
@@ -137,50 +163,40 @@
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" />
-
+  
   <g transform="translate(0, 10)">
       <polygon points="30,130 100,160 170,130 100,100" fill="#f1f8e9" filter="url(#chemShadow)"/>
       <polygon points="30,130 100,160 100,168 30,138" fill="#dcedc8"/>
       <polygon points="170,130 100,160 100,168 170,138" fill="#c5e1a5"/>
   </g>
-
   <g class="test-tube-group" filter="url(#chemShadow)">
     <path d="M 35 40 L 55 40 L 53 85 C 53 90, 37 90, 37 85 Z" fill="url(#glassClear)" stroke="url(#glassEdge)" stroke-width="1"/>
     <path d="M 36 55 L 54 55 L 52.5 85 C 52.5 88, 37.5 88, 37.5 85 Z" fill="url(#liquidBlue)"/>
     <path d="M 55 45 L 85 80 L 82 80 L 53 45 Z" fill="url(#liquidBlue)" opacity="0.6" class="liquid-stream"/>
   </g>
-
   <g class="scoop-group" filter="url(#chemShadow)">
     <rect x="140" y="58" width="40" height="4" fill="url(#metalSilver)" rx="2"/>
     <path d="M 130 60 C 130 70, 150 70, 150 60 Z" fill="url(#metalSilver)"/>
     <path d="M 132 60 C 132 66, 148 66, 148 60 C 145 55, 135 55, 132 60 Z" fill="url(#catalystYellow)"/>
   </g>
-
    <g class="falling-powder">
       <circle r="3" fill="url(#catalystYellow)" />
       <circle cy="-5" cx="2" r="2" fill="url(#catalystYellow)" />
       <circle cy="5" cx="-2" r="2.5" fill="url(#catalystYellow)" />
    </g>
-
-
   <g filter="url(#chemShadow)">
     <path d="M 90 70 L 110 70 L 125 130 C 125 140, 75 140, 75 130 L 90 70 Z" fill="url(#glassClear)" opacity="0.5"/>
-
     <path d="M 92 85 L 108 85 L 123 130 C 123 136, 77 136, 77 130 Z" class="flask-contents" transform-origin="100 135"/>
-
     <g class="bubbles-group">
       <circle cx="100" cy="120" r="3" fill="#ffffff" opacity="0.6"/>
       <circle cx="90" cy="110" r="2" fill="#ffffff" opacity="0.6"/>
       <circle cx="110" cy="115" r="2.5" fill="#ffffff" opacity="0.6"/>
       <circle cx="100" cy="100" r="4" fill="#ffffff" opacity="0.4"/>
     </g>
-
     <path d="M 90 70 L 110 70 L 125 130 C 125 140, 75 140, 75 130 L 90 70 Z" fill="url(#glassClear)" stroke="url(#glassEdge)" stroke-width="1.5"/>
     <ellipse cx="100" cy="70" rx="10" ry="3" fill="none" stroke="url(#glassEdge)" stroke-width="1.5"/>
     <path d="M 80 130 L 93 80" stroke="#ffffff" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
   </g>
-
   <g class="reaction-flash">
      <circle cx="100" cy="110" r="20" fill="#76ff03" opacity="0.3"/>
      <circle cx="100" cy="110" r="10" fill="#ffffff"/>
@@ -191,9 +207,7 @@
        <line x1="120" y1="110" x2="130" y2="110"/>
      </g>
   </g>
-
   <g class="vapor-group">
      <path d="M 95 65 C 90 55, 110 55, 105 65 C 115 60, 115 50, 100 50 C 85 50, 85 60, 95 65 Z" fill="#e0f7fa" opacity="0.7"/>
   </g>
-
 </svg>

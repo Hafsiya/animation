@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <style>
+      svg { background: radial-gradient(circle at center, #ffffff 0%, #f0f9ff 100%); width: 100vw; height: 100vh; margin: 0; padding: 0; overflow: hidden; cursor: pointer; }
+      .scene { transform-origin: 100px 100px; transform: perspective(800px) rotateX(15deg) rotateZ(0deg) translate(0px, 0px); transform-style: preserve-3d; }
+      
+      /* Phase 1: Presentation (0s-1s) -> Enter from top */
+      .rainbow-group { transform-origin: 100px 100px; transform-style: preserve-3d; }
+      svg:hover .rainbow-group { animation: presentRainbow 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes presentRainbow {
+        0%, 15% { transform: translateY(50px) scale(0.8); }
+        20%, 85% { transform: translateY(0px) scale(1); }
+        90%, 100% { transform: translateY(50px) scale(0.8); }
+      }
+      .floor-shadow { transform-origin: 100px 180px; }
+      svg:hover .floor-shadow { animation: shadowDip 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes shadowDip { 
+        0%, 15% { transform: scale(0.8); opacity: 0.1; } 
+        20%, 85% { transform: scale(1); opacity: 0.4; } 
+        90%, 100% { transform: scale(0.8); opacity: 0.1; } 
+      }
+      
+      /* Phase 2: The Storm (1s-2.5s) */
+      .drop { opacity: 0; transform: translateY(-30px); }
+      svg:hover .drop-1 { animation: rain1 5s forwards; }
+      svg:hover .drop-2 { animation: rain2 5s forwards; }
+      svg:hover .drop-3 { animation: rain3 5s forwards; }
+      @keyframes rain1 { 20%, 30% { opacity: 0; transform: translateY(-40px) scaleY(1); } 35% { opacity: 1; transform: translateY(0px) scaleY(2); } 40% { opacity: 1; transform: translateY(80px) scaleY(2); } 45%, 100% { opacity: 0; transform: translateY(80px) scaleY(1); } }
+      @keyframes rain2 { 25%, 35% { opacity: 0; transform: translateY(-40px) scaleY(1); } 40% { opacity: 1; transform: translateY(0px) scaleY(2); } 45% { opacity: 1; transform: translateY(80px) scaleY(2); } 50%, 100% { opacity: 0; transform: translateY(80px) scaleY(1); } }
+      @keyframes rain3 { 30%, 40% { opacity: 0; transform: translateY(-40px) scaleY(1); } 45% { opacity: 1; transform: translateY(0px) scaleY(2); } 50% { opacity: 1; transform: translateY(80px) scaleY(2); } 55%, 100% { opacity: 0; transform: translateY(80px) scaleY(1); } }
+
+      /* Phase 3: Clearing Up (2.5s-3.5s) */
+      .sun { transform-origin: 100px 100px; transform: scale(0) translateY(50px) rotate(0deg); opacity: 0; }
+      svg:hover .sun { animation: riseSun 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+      @keyframes riseSun { 0%, 45% { transform: scale(0) translateY(50px) rotate(0deg); opacity: 0; } 55%, 85% { transform: scale(1) translateY(0px) rotate(90deg); opacity: 1; } 95%, 100% { transform: scale(0) translateY(50px) rotate(0deg); opacity: 0; } }
+      
+      .ray { opacity: 0; transform: scaleX(0.5); }
+      svg:hover .r1 { animation: pulseRay 5s ease-in-out forwards; }
+      svg:hover .r2 { animation: pulseRay 5s ease-in-out forwards 0.1s; }
+      svg:hover .r3 { animation: pulseRay 5s ease-in-out forwards 0.2s; }
+      svg:hover .r4 { animation: pulseRay 5s ease-in-out forwards 0.3s; }
+      @keyframes pulseRay { 0%, 55% { opacity: 0; transform: scaleX(0.5); } 60%, 85% { opacity: 1; transform: scaleX(1); } 90%, 100% { opacity: 0; transform: scaleX(0.5); } }
+
+      .cloud-group { opacity: 0; transform: translateY(20px) scale(0.5); filter: none; }
+      .cg-left { transform-origin: 50px 140px; } .cg-right { transform-origin: 150px 140px; }
+      svg:hover .cg-left { animation: popCloud 5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+      svg:hover .cg-right { animation: popCloudRight 5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+      @keyframes popCloud { 0%, 50% { opacity: 0; transform: translateY(20px) scale(0.5); filter: none; } 60%, 85% { opacity: 1; transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); } 95%, 100% { opacity: 0; transform: translateY(20px) scale(0.5); filter: none; } }
+      @keyframes popCloudRight { 0%, 55% { opacity: 0; transform: translateY(20px) scale(0.5); filter: none; } 65%, 85% { opacity: 1; transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); } 95%, 100% { opacity: 0; transform: translateY(20px) scale(0.5); filter: none; } }
+
+      /* Phase 4: Rainbow Draws (3.5s-4.5s) */
+      .arc { stroke-dasharray: 400; stroke-dashoffset: 400; stroke-linecap: round; opacity: 1; }
+      svg:hover .arc1 { animation: drawArc1 5s ease-out forwards; }
+      svg:hover .arc2 { animation: drawArc2 5s ease-out forwards; }
+      svg:hover .arc3 { animation: drawArc3 5s ease-out forwards; }
+      svg:hover .arc4 { animation: drawArc4 5s ease-out forwards; }
+      svg:hover .arc5 { animation: drawArc5 5s ease-out forwards; }
+      svg:hover .arc6 { animation: drawArc6 5s ease-out forwards; }
+      @keyframes drawArc1 { 0%, 60% { stroke-dashoffset: 400; opacity: 1; } 70%, 85% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: -400; opacity: 0; } }
+      @keyframes drawArc2 { 0%, 63% { stroke-dashoffset: 400; opacity: 1; } 73%, 85% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: -400; opacity: 0; } }
+      @keyframes drawArc3 { 0%, 66% { stroke-dashoffset: 400; opacity: 1; } 76%, 85% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: -400; opacity: 0; } }
+      @keyframes drawArc4 { 0%, 69% { stroke-dashoffset: 400; opacity: 1; } 79%, 85% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: -400; opacity: 0; } }
+      @keyframes drawArc5 { 0%, 72% { stroke-dashoffset: 400; opacity: 1; } 82%, 85% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: -400; opacity: 0; } }
+      @keyframes drawArc6 { 0%, 75% { stroke-dashoffset: 400; opacity: 1; } 85%, 85% { stroke-dashoffset: 0; opacity: 1; } 90%, 100% { stroke-dashoffset: -400; opacity: 0; } }
+
+      /* Phase 5: Magic Sparkles (4.5s-5s) */
+      .sparkle { opacity: 0; transform-origin: center; }
+      svg:hover .sp-1 { animation: twinkle1 5s forwards; transform-origin: 40px 110px; }
+      svg:hover .sp-2 { animation: twinkle2 5s forwards; transform-origin: 160px 120px; }
+      svg:hover .sp-3 { animation: twinkle3 5s forwards; transform-origin: 100px 50px; }
+      @keyframes twinkle1 { 0%, 75% { opacity: 0; transform: scale(0) rotate(0deg); } 80%, 85% { opacity: 1; transform: scale(1.2) rotate(45deg); filter: drop-shadow(0 0 5px #fff); } 90%, 100% { opacity: 0; transform: scale(0) rotate(90deg); } }
+      @keyframes twinkle2 { 0%, 80% { opacity: 0; transform: scale(0) rotate(0deg); } 85%, 90% { opacity: 1; transform: scale(1.5) rotate(45deg); filter: drop-shadow(0 0 5px #fff); } 95%, 100% { opacity: 0; transform: scale(0) rotate(90deg); } }
+      @keyframes twinkle3 { 0%, 85% { opacity: 0; transform: scale(0) rotate(0deg); } 90%, 95% { opacity: 1; transform: scale(1.2) rotate(45deg); filter: drop-shadow(0 0 5px #fff); } 100% { opacity: 0; transform: scale(0) rotate(90deg); } }
+    </style>
+    <!-- Brilliant Golden Sun -->
+    <radialGradient id="sunCore" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#f6d365"/>
+      <stop offset="80%" stop-color="#fda085"/>
+      <stop offset="100%" stop-color="#e14f2e"/>
+    </radialGradient>
+    <linearGradient id="sunOuter" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffd32a"/>
+      <stop offset="100%" stop-color="#fdcb6e"/>
+    </linearGradient>
+    <!-- Rainbow Arcs (Premium Neons) -->
+    <linearGradient id="neonRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff0844"/>
+      <stop offset="50%" stop-color="#ffb199"/>
+      <stop offset="100%" stop-color="#ff0844"/>
+    </linearGradient>
+    <linearGradient id="neonOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f6d365"/>
+      <stop offset="50%" stop-color="#fda085"/>
+      <stop offset="100%" stop-color="#d35400"/>
+    </linearGradient>
+    <linearGradient id="neonGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0ba360"/>
+      <stop offset="50%" stop-color="#3cba92"/>
+      <stop offset="100%" stop-color="#006b56"/>
+    </linearGradient>
+    <linearGradient id="neonBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#4facfe"/>
+      <stop offset="100%" stop-color="#0984e3"/>
+    </linearGradient>
+    <linearGradient id="neonIndigo" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8e2de2"/>
+      <stop offset="50%" stop-color="#4a00e0"/>
+      <stop offset="100%" stop-color="#6600cc"/>
+    </linearGradient>
+    <linearGradient id="neonViolet" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b224ef"/>
+      <stop offset="50%" stop-color="#7579ff"/>
+      <stop offset="100%" stop-color="#36156e"/>
+    </linearGradient>
+    <!-- Twilight Fluffy Clouds -->
+    <linearGradient id="fluffCore" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#fdfbfb"/>
+      <stop offset="100%" stop-color="#c3cfe2"/>
+    </linearGradient>
+    <radialGradient id="fluffVolume" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#a18cd1"/>
+    </radialGradient>
+    <filter id="beautyGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <path id="sparkle" d="M 0 -8 Q 0 0 8 0 Q 0 0 0 8 Q 0 0 -8 0 Q 0 0 0 -8 Z" fill="#ffffff" />
+    <path id="raindrop" d="M 0 -5 Q 5 5 5 10 A 5 5 0 0 1 -5 10 Q -5 5 0 -5 Z" fill="#74b9ff" />
+  </defs>
+
+  <g class="scene">
+    <ellipse cx="100" cy="180" rx="90" ry="15" fill="#dcdde1" class="floor-shadow" opacity="0.4" filter="url(#textbookShadowBlur)" />
+    
+    <!-- Raindrops (Phase 1) -->
+    <use href="#raindrop" x="60" y="40" class="drop drop-1" />
+    <use href="#raindrop" x="140" y="30" class="drop drop-2" />
+    <use href="#raindrop" x="100" y="60" class="drop drop-3" />
+
+    <g class="rainbow-group">
+      <!-- 2. The Sun -->
+      <g class="sun">
+        <!-- Sun Beams -->
+        <g stroke="url(#sunOuter)" stroke-width="4" stroke-linecap="round" fill="none">
+          <line x1="100" y1="20" x2="100" y2="35" class="ray r1" />
+          <line x1="100" y1="80" x2="100" y2="95" class="ray r1" />
+          <line x1="70" y1="50" x2="55" y2="50" class="ray r2" />
+          <line x1="130" y1="50" x2="145" y2="50" class="ray r2" />
+          <line x1="78" y1="28" x2="68" y2="18" class="ray r3" />
+          <line x1="122" y1="72" x2="132" y2="82" class="ray r3" />
+          <line x1="122" y1="28" x2="132" y2="18" class="ray r4" />
+          <line x1="78" y1="72" x2="68" y2="82" class="ray r4" />
+        </g>
+        <circle cx="100" cy="50" r="22" fill="url(#sunOuter)" filter="url(#beautyGlow)" />
+        <circle cx="100" cy="50" r="18" fill="url(#sunCore)" />
+        <circle cx="94" cy="44" r="5" fill="#ffffff" opacity="0.7" style="mix-blend-mode: overlay;" />
+      </g>
+
+      <!-- 3. The Rainbow Arcs -->
+      <g fill="none" class="arcs-group">
+        <!-- Red -->
+        <path d="M 25 145 C 25 60, 175 60, 175 145" stroke="url(#neonRed)" stroke-width="12" class="arc arc1" filter="url(#beautyGlow)" />
+        <!-- Orange/Yellow -->
+        <path d="M 37 145 C 37 75, 163 75, 163 145" stroke="url(#neonOrange)" stroke-width="12" class="arc arc2" />
+        <!-- Green -->
+        <path d="M 49 145 C 49 90, 151 90, 151 145" stroke="url(#neonGreen)" stroke-width="12" class="arc arc3" filter="url(#beautyGlow)" />
+        <!-- Blue -->
+        <path d="M 61 145 C 61 105, 139 105, 139 145" stroke="url(#neonBlue)" stroke-width="12" class="arc arc4" />
+        <!-- Indigo -->
+        <path d="M 73 145 C 73 120, 127 120, 127 145" stroke="url(#neonIndigo)" stroke-width="12" class="arc arc5" filter="url(#beautyGlow)" />
+        <!-- Violet -->
+        <path d="M 85 145 C 85 135, 115 135, 115 145" stroke="url(#neonViolet)" stroke-width="12" class="arc arc6" />
+      </g>
+
+      <!-- 4. Fluffy Clouds (Left & Right) -->
+      <!-- Left Cloud -->
+      <g class="cloud-group cg-left">
+        <!-- Cloud Shadow -->
+        <path d="M 20 150 Q 50 155, 80 150" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="15" stroke-linecap="round" />
+        <!-- Cloud Body -->
+        <path d="M 30 145 C 25 145, 20 135, 30 130 C 30 115, 50 115, 55 125 C 65 110, 85 120, 80 135 C 90 135, 90 145, 80 145 Z" fill="url(#fluffCore)" />
+        <circle cx="35" cy="135" r="12" fill="url(#fluffVolume)" opacity="0.4" />
+        <circle cx="55" cy="125" r="18" fill="url(#fluffVolume)" opacity="0.6" />
+        <circle cx="70" cy="135" r="14" fill="url(#fluffVolume)" opacity="0.5" />
+      </g>
+      <!-- Right Cloud -->
+      <g class="cloud-group cg-right">
+        <!-- Cloud Shadow -->
+        <path d="M 120 150 Q 150 155, 180 150" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="15" stroke-linecap="round" />
+        <!-- Cloud Body -->
+        <path d="M 125 145 C 115 145, 115 135, 125 135 C 120 120, 140 110, 150 125 C 155 115, 175 115, 175 130 C 185 135, 180 145, 175 145 Z" fill="url(#fluffCore)" />
+        <circle cx="135" cy="135" r="15" fill="url(#fluffVolume)" opacity="0.5" />
+        <circle cx="155" cy="120" r="16" fill="url(#fluffVolume)" opacity="0.6" />
+        <circle cx="170" cy="135" r="12" fill="url(#fluffVolume)" opacity="0.4" />
+      </g>
+      
+      <!-- 5. Ambient Sparkles -->
+      <use href="#sparkle" class="sparkle sp-1" />
+      <use href="#sparkle" class="sparkle sp-2" />
+      <use href="#sparkle" class="sparkle sp-3" />
+    </g>
+  </g>
+</svg>

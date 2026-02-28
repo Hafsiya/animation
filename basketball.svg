@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <style>
+      svg { background: radial-gradient(circle at center, #ffffff 0%, #fffcf2 100%); width: 100vw; height: 100vh; margin: 0; padding: 0; overflow: hidden; cursor: pointer; }
+      
+      .scene { transform-origin: 100px 100px; transform: perspective(800px) rotateX(15deg) rotateZ(0deg) translate(0px, 0px); transform-style: preserve-3d; }
+      
+      /* Phase 1: Presentation (0s-1s) -> Camera tilts up and zoom */
+      svg:hover .scene { animation: courtEnter 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes courtEnter {
+        0%, 15% { transform: perspective(800px) rotateX(45deg) rotateZ(0deg) translate(0px, 50px) scale(0.8); }
+        25%, 85% { transform: perspective(800px) rotateX(15deg) rotateZ(0deg) translate(0px, 0px) scale(1); }
+        95%, 100% { transform: perspective(800px) rotateX(45deg) rotateZ(0deg) translate(0px, 50px) scale(0.8); }
+      }
+
+      svg:hover .floor-shadow { animation: shadowFocus 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes shadowFocus { 
+        0%, 15% { transform: scale(0.8); opacity: 0.1; } 
+         25%, 85% { transform: scale(1); opacity: 0.3; } 
+         95%, 100% { transform: scale(0.8); opacity: 0.1; } 
+      }
+
+      /* Phase 2: Dribble (1.5s-2.5s) -> Ball bounces on court */
+      .ball-wrapper { transform-origin: 100px 145px; transform-style: preserve-3d; }
+      svg:hover .ball-wrapper { animation: playSequence 5s forwards; }
+      @keyframes playSequence {
+        0%, 25% { transform: translate(0,0) scale(1); opacity: 0; }
+        /* Dribble 1 */
+        28% { transform: translate(30px, -40px) scale(0.8); opacity: 1; }
+        32% { transform: translate(25px, 0px) scale(0.9); opacity: 1; }
+        /* Dribble 2 */
+        36% { transform: translate(15px, -30px) scale(0.85); opacity: 1; }
+        40% { transform: translate(10px, 0px) scale(0.95); opacity: 1; }
+        /* Dribble 3 (Setup) */
+        44% { transform: translate(-5px, -20px) scale(0.9); opacity: 1; }
+        48% { transform: translate(-10px, 0px) scale(1); opacity: 1; }
+        /* The Shot */
+        56% { transform: translate(-10px, -110px) scale(0.6); opacity: 1; }
+        64% { transform: translate(0px, -85px) scale(0.5); opacity: 1; } /* Swish */
+        68% { transform: translate(10px, -40px) scale(0.7); opacity: 1; } /* Hit floor */
+        72% { transform: translate(20px, -60px) scale(0.6); opacity: 1; } /* Bounce back */
+        80% { transform: translate(30px, 0px) scale(0.8); opacity: 0; } /* Roll away */
+        100% { opacity: 0; }
+      }
+      
+      .ball { transform-origin: center; animation: spinBall 2s linear infinite; }
+      @keyframes spinBall { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+      .ball-shadow { transform-origin: center; opacity: 0; }
+      svg:hover .ball-shadow { animation: ballShadowAnim 5s forwards; }
+      @keyframes ballShadowAnim {
+        0%, 25% { opacity: 0; transform: translate(0, 0) scale(1); }
+        /* Shadow tracks the dribbles */
+        28% { opacity: 0.1; transform: translate(30px, 40px) scale(0.5); }
+        32% { opacity: 0.3; transform: translate(25px, 0px) scale(1); }
+        36% { opacity: 0.1; transform: translate(15px, 30px) scale(0.6); }
+        40% { opacity: 0.3; transform: translate(10px, 0px) scale(1); }
+        44% { opacity: 0.1; transform: translate(-5px, 20px) scale(0.7); }
+        48% { opacity: 0.3; transform: translate(-10px, 0px) scale(1); }
+        /* The shot */
+        56% { opacity: 0.05; transform: translate(-10px, 110px) scale(0.3); }
+        64% { opacity: 0.1; transform: translate(0px, 85px) scale(0.4); }
+        68% { opacity: 0.25; transform: translate(10px, 40px) scale(0.8); }
+        72% { opacity: 0.1; transform: translate(20px, 60px) scale(0.6); }
+        80% { opacity: 0; transform: translate(30px, 0px) scale(0.8); }
+        100% { opacity: 0; }
+      }
+
+      /* Phase 3: The Board Flex (3.5s) -> Impact of score */
+      .board-group { transform-origin: 100px 70px; }
+      svg:hover .board-group { animation: boardFlex 5s forwards; }
+      @keyframes boardFlex {
+        0%, 62% { transform: rotateX(0deg); }
+        64% { transform: rotateX(-8deg); } /* Impact */
+        66% { transform: rotateX(4deg); }
+        68% { transform: rotateX(-2deg); }
+        72%, 100% { transform: rotateX(0deg); }
+      }
+
+      /* Phase 4: Net Swish (3.5s) */
+      .net { transform-origin: 100px 92px; }
+      svg:hover .net { animation: swishNet 5s forwards; }
+      @keyframes swishNet {
+        0%, 62% { transform: scaleY(1) skewX(0deg); }
+        64% { transform: scaleY(1.3) skewX(15deg); }
+        68% { transform: scaleY(0.8) skewX(-10deg); }
+        72%, 100% { transform: scaleY(1) skewX(0deg); }
+      }
+
+      /* Phase 5: Score Flash (3.5s-4.5s) */
+      .score-flash { opacity: 0; transform-origin: center; transform: scale(0.5); }
+      svg:hover .score-flash { animation: popScore 5s forwards; }
+      @keyframes popScore {
+        0%, 63% { opacity: 0; transform: scale(0.5) translateY(0); }
+        66% { opacity: 1; transform: scale(1.2) translateY(-10px); filter: drop-shadow(0 0 5px #fbc531); }
+        75%, 100% { opacity: 0; transform: scale(1.5) translateY(-20px); filter: none; }
+      }
+
+      .flash-star { opacity: 0; }
+      svg:hover .fs-1 { animation: starPop 5s forwards 0.1s; transform-origin: 80px 70px; }
+      svg:hover .fs-2 { animation: starPop 5s forwards 0.2s; transform-origin: 120px 65px; }
+      svg:hover .fs-3 { animation: starPop 5s forwards 0.3s; transform-origin: 90px 50px; }
+      @keyframes starPop {
+        0%, 63% { opacity: 0; transform: scale(0) rotate(0deg); }
+        66% { opacity: 1; transform: scale(1.5) rotate(45deg); }
+        75%, 100% { opacity: 0; transform: scale(0) rotate(90deg); }
+      }
+
+      svg:hover .playmaker-badge { animation: badgeReveal 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+      @keyframes badgeReveal { 0%, 25% { transform: scale(0); } 30%, 85% { transform: scale(1); } 90%, 100% { transform: scale(0); } }
+
+    </style>
+    <!-- Hardwood Court Floor -->
+    <linearGradient id="hardwood" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f3a683"/>
+      <stop offset="25%" stop-color="#f7d794"/>
+      <stop offset="50%" stop-color="#f3a683"/>
+      <stop offset="75%" stop-color="#e77f67"/>
+      <stop offset="100%" stop-color="#f3a683"/>
+    </linearGradient>
+    <radialGradient id="courtCenter" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff7675"/>
+      <stop offset="100%" stop-color="#d63031"/>
+    </radialGradient>
+    <linearGradient id="backboardGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#eaf5ff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#b2bec3" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="ballLeather" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9f43"/>
+      <stop offset="60%" stop-color="#ee5253"/>
+      <stop offset="100%" stop-color="#833471"/>
+    </linearGradient>
+    <radialGradient id="ballShine" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="10%" stop-color="rgba(255,255,255,0.8)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <linearGradient id="poleMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#636e72"/>
+      <stop offset="50%" stop-color="#b2bec3"/>
+      <stop offset="100%" stop-color="#2d3436"/>
+    </linearGradient>
+    <linearGradient id="rimRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff4757"/>
+      <stop offset="100%" stop-color="#c0392b"/>
+    </linearGradient>
+    
+    <filter id="beautyGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <path id="star" d="M 0 -6 L 2 -2 L 6 0 L 2 2 L 0 6 L -2 2 L -6 0 L -2 -2 Z" fill="#fbc531" />
+  </defs>
+
+  <g class="scene">
+    <ellipse cx="100" cy="160" rx="90" ry="30" fill="#dcdde1" class="floor-shadow" opacity="0.3" filter="url(#textbookShadowBlur)" />
+    
+    <!-- Hardwood Court -->
+    <path d="M 10 160 L 190 160 L 160 190 L 40 190 Z" fill="url(#hardwood)" opacity="0.8" />
+    <path d="M 20 160 L 180 160 L 150 185 L 50 185 Z" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.5" />
+    <!-- Three Point Line -->
+    <path d="M 50 160 A 60 20 0 0 0 150 160" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.8" />
+    <!-- Center Court Logo -->
+    <ellipse cx="100" cy="180" rx="15" ry="5" fill="url(#courtCenter)" opacity="0.9" />
+    <path d="M 85 180 C 85 185, 115 185, 115 180" fill="none" stroke="#ffffff" stroke-width="1.5" />
+    
+    <!-- Basketball Hoop Structure -->
+    <g class="hoop-system">
+      <rect x="96" y="90" width="8" height="70" fill="url(#poleMetal)" />
+      <path d="M 94 150 L 106 150 L 110 160 L 90 160 Z" fill="#2d3436" />
+      <g class="board-group">
+        <!-- Backboard -->
+        <rect x="70" y="50" width="60" height="40" rx="2" fill="url(#backboardGlass)" filter="url(#beautyGlow)"/>
+        <rect x="70" y="50" width="60" height="40" rx="2" fill="none" stroke="#ffffff" stroke-width="2" />
+        <rect x="85" y="70" width="30" height="20" fill="none" stroke="#ffffff" stroke-width="2" />
+        <line x1="100" y1="50" x2="100" y2="70" stroke="#ffffff" stroke-width="2" />
+        <line x1="70" y1="70" x2="85" y2="70" stroke="#ffffff" stroke-width="2" />
+        <line x1="115" y1="70" x2="130" y2="70" stroke="#ffffff" stroke-width="2" />
+        
+        <!-- The Rim and Net -->
+        <g transform="translate(0, 90)">
+          <!-- Back part of Rim -->
+          <ellipse cx="100" cy="0" rx="12" ry="4" fill="none" stroke="#c0392b" stroke-width="2" opacity="0.6" />
+          
+          <g class="net">
+            <path d="M 88 0 L 92 15 L 100 18 L 108 15 L 112 0" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.9" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M 90 5 L 110 5 M 92 10 L 108 10 M 95 15 L 105 15" stroke="#ffffff" stroke-width="1" opacity="0.7" />
+            <path d="M 92 0 L 96 15 M 96 0 L 100 18 M 100 0 L 104 18 M 104 0 L 108 15" stroke="#ffffff" stroke-width="1" opacity="0.5" />
+          </g>
+          
+          <!-- Front part of Rim -->
+          <path d="M 88 0 A 12 4 0 0 0 112 0" fill="none" stroke="url(#rimRed)" stroke-width="2.5" />
+          <path d="M 97 0 L 97 3 L 103 3 L 103 0 Z" fill="#2d3436" /> <!-- bracket -->
+        </g>
+      </g>
+    </g>
+
+    <!-- The Basketball (Dribble & Shot) -->
+    <ellipse cx="100" cy="145" rx="10" ry="3" fill="#2d3436" class="ball-shadow" filter="url(#textbookShadowBlur)" />
+    <g class="ball-wrapper">
+      <g class="ball">
+        <circle cx="100" cy="145" r="12" fill="url(#ballLeather)" />
+        <circle cx="100" cy="145" r="12" fill="url(#ballShine)" />
+        <!-- Ball Lines -->
+        <path d="M 88 145 A 15 15 0 0 0 112 145" fill="none" stroke="#2d3436" stroke-width="1" />
+        <path d="M 94 134 A 8 13 0 0 0 94 156" fill="none" stroke="#2d3436" stroke-width="1" />
+        <path d="M 106 134 A 8 13 0 0 1 106 156" fill="none" stroke="#2d3436" stroke-width="1" />
+        <line x1="100" y1="133" x2="100" y2="157" stroke="#2d3436" stroke-width="1" />
+      </g>
+    </g>
+
+    <g class="score-flash">
+      <path d="M 80 80 Q 100 60, 120 80 L 110 90 Q 100 75, 90 90 Z" fill="#2ecc71" />
+      <text x="100" y="85" font-family="Arial, sans-serif" font-weight="900" font-size="16" fill="#ffffff" text-anchor="middle" letter-spacing="1">SWISH</text>
+    </g>
+    <use href="#star" class="flash-star fs-1" />
+    <use href="#star" class="flash-star fs-2" />
+    <use href="#star" class="flash-star fs-3" />
+
+    <!-- Playmaker Badge -->
+    <g class="playmaker-badge" transform="translate(160, 40)">
+      <circle cx="0" cy="0" r="15" fill="#fbc531" filter="url(#beautyGlow)" />
+      <circle cx="0" cy="0" r="12" fill="#e1b12c" />
+      <path d="M 0 -8 L 3 -2 L 9 0 L 4 4 L 5 10 L 0 7 L -5 10 L -4 4 L -9 0 L -3 -2 Z" fill="#ffffff" />
+    </g>
+  </g>
+</svg>

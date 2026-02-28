@@ -1,57 +1,83 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* --- ANIMATION SEQUENCES --- */
 
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #fff1e3 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
+      svg { cursor: pointer; }
+      /* --- 5s NARRATIVE ANIMATION SEQUENCE --- */
+      /* Story: Scanner activates and sweeps (0-1.5s) to Detects Gold (Au) and stops (1.5-2s) to Element pops up (2-2.5s) to Atom hologram projects and spins (2.5-5s) */
       /* 1. The Scanning Wand */
-      .scanner-stick {
-        animation: scanTable 4s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+      .scanner-stick { transform-origin: 0px 85px; opacity: 0; }
+      svg:hover .scanner-stick {
+        animation: scanSequence 5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
       }
-      @keyframes scanTable {
-        0%, 15% { transform: translateX(0px) rotate(15deg); opacity: 0; }
-        20% { opacity: 1; }
-        48% { transform: translateX(85px) rotate(15deg); opacity: 1; } /* Stops directly over Gold (Au) */
-        55% { transform: translateX(85px) rotate(15deg); opacity: 1; filter: brightness(1.5); } 
-        75% { transform: translateX(150px) rotate(15deg); opacity: 1; }
-        85%, 100% { transform: translateX(180px) rotate(15deg); opacity: 0; }
+      @keyframes scanSequence {
+        0%, 5% { transform: translateX(0px) rotate(15deg); opacity: 0; }
+        10%, 20% { transform: translateX(10px) rotate(15deg); opacity: 1; } /* Powers on */
+        35% { transform: translateX(85px) rotate(15deg); opacity: 1; filter: brightness(1); } /* Moves to target */
+        40%, 65% { transform: translateX(85px) rotate(15deg); opacity: 1; filter: brightness(1.8); } /* Detects Au, flares up */
+        75% { transform: translateX(150px) rotate(15deg); opacity: 1; filter: brightness(1); } /* Finishes sweep */
+        85%, 100% { transform: translateX(180px) rotate(15deg); opacity: 0; } /* Powers off */
       }
-
       /* 2. Target Element Block (Gold - Au) Extrudes */
-      .target-element {
-        animation: popElement 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-        transform-origin: 84px 44px; /* Center of the Au block */
+      .target-element { transform-origin: 84px 44px; }
+      svg:hover .target-element {
+        animation: popElement 5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       }
       @keyframes popElement {
-        0%, 47% { transform: translateY(0px) scale(1); filter: brightness(1); }
-        48% { transform: translateY(-8px) scale(1.4); filter: brightness(1.4); } /* Pops out! */
-        75% { transform: translateY(-8px) scale(1.4); filter: brightness(1.4); }
-        85%, 100% { transform: translateY(0px) scale(1); filter: brightness(1); }
+        0%, 39% { transform: translateY(0px) scale(1); filter: brightness(1); }
+        40% { transform: translateY(-8px) scale(1.4); filter: brightness(1.5); } /* Pops out! */
+        80% { transform: translateY(-8px) scale(1.4); filter: brightness(1.5); }
+        90%, 100% { transform: translateY(0px) scale(1); filter: brightness(1); }
       }
-
       /* 3. The Atom Hologram Burst */
-      .atom-hologram {
-        animation: atomEmerge 4s ease-out infinite;
-        transform-origin: 84px 20px;
+      .atom-hologram { transform-origin: 84px 20px; opacity: 0; }
+      svg:hover .atom-hologram {
+        animation: atomEmerge 5s ease-out forwards;
       }
       @keyframes atomEmerge {
-        0%, 47% { transform: translateY(15px) scale(0); opacity: 0; }
-        48% { transform: translateY(0px) scale(1); opacity: 1; } /* Bursts up from the block */
-        75% { transform: translateY(-5px) scale(1.1); opacity: 0.9; }
-        85%, 100% { transform: translateY(-15px) scale(1.5); opacity: 0; }
+        0%, 42% { transform: translateY(15px) scale(0); opacity: 0; }
+        45% { transform: translateY(0px) scale(1); opacity: 1; } /* Bursts up from the block */
+        80% { transform: translateY(-5px) scale(1.1); opacity: 0.9; } /* Floats nicely */
+        88%, 100% { transform: translateY(-15px) scale(1.5); opacity: 0; } /* Dissipates */
       }
-
-      /* Spin the electron rings */
-      .electron-ring-1 { animation: spinRing 4s linear infinite; transform-origin: 84px 25px; }
-      .electron-ring-2 { animation: spinRingRev 4s linear infinite; transform-origin: 84px 25px; }
-      
-      @keyframes spinRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      @keyframes spinRingRev { 0% { transform: rotate(60deg); } 100% { transform: rotate(-300deg); } }
-
-      /* Base Float */
-      .table-base { animation: floatTable 4s ease-in-out infinite alternate; }
-      @keyframes floatTable { 0% { transform: translateY(0px); } 100% { transform: translateY(3px); } }
-    </style>
-
+      /* Spin the electron rings (Continuous while hologram is up) */
+      .electron-ring-1 { transform-origin: 84px 25px; }
+      .electron-ring-2 { transform-origin: 84px 25px; }
+      svg:hover .electron-ring-1 { animation: spinRing 5s linear forwards; }
+      svg:hover .electron-ring-2 { animation: spinRingRev 5s linear forwards; }
+      @keyframes spinRing { 
+        0%, 42% { transform: rotate(0deg); } 
+        100% { transform: rotate(540deg); } 
+      }
+      @keyframes spinRingRev { 
+        0%, 42% { transform: rotate(60deg); } 
+        100% { transform: rotate(-480deg); } 
+      }
+      /* Base Float (Ambient) */
+      .table-base { }
+      svg:hover .table-base {
+        animation: floatTable 2.5s ease-in-out infinite alternate;
+      }
+      @keyframes floatTable { 
+        0% { transform: translateY(0px); } 
+        100% { transform: translateY(3px); } 
+      }
+      </style>
+    <!-- Gradients -->
     <linearGradient id="s-block" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ff9f43"/>
       <stop offset="100%" stop-color="#ee5253"/>
@@ -75,13 +101,12 @@
     <linearGradient id="stickGlass" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
       <stop offset="50%" stop-color="#e0f7fa" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#81ecec" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3cba92" stop-opacity="0.8"/>
     </linearGradient>
-
+    <!-- UI Grid Pattern -->
     <pattern id="cellGrid" width="8" height="8" patternUnits="userSpaceOnUse">
-      <rect width="8" height="8" fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.4"/>
     </pattern>
-
+    <!-- Filters -->
     <filter id="floatShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
       <feOffset dx="0" dy="8" result="offsetblur"/>
@@ -89,81 +114,72 @@
       <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0.4   0 0 0 0 0.8   0 0 0 1 0" />
       <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-
     <filter id="glowEffect">
       <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
       <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" />
-
+  <!-- Transparent Background -->
+  <!-- The entire table object -->
   <g class="table-base" filter="url(#floatShadow)">
-    
     <rect x="22" y="32" width="156" height="100" rx="4" fill="#f8f9fa" />
-
     <g transform="translate(28, 40)">
-      
+      <!-- Block Backgrounds -->
       <rect x="0" y="8" width="16" height="48" fill="url(#s-block)" />
       <rect x="96" y="8" width="48" height="48" fill="url(#p-block)" />
       <rect x="16" y="24" width="80" height="32" fill="url(#d-block)" />
       <rect x="16" y="64" width="112" height="16" fill="url(#f-block)" />
       <rect x="0" y="0" width="8" height="8" fill="url(#s-block)" />
       <rect x="136" y="0" width="8" height="8" fill="url(#p-block)" />
-
+      <!-- Cell Borders Matrix -->
       <rect x="0" y="8" width="16" height="48" fill="url(#cellGrid)" />
       <rect x="96" y="8" width="48" height="48" fill="url(#cellGrid)" />
       <rect x="16" y="24" width="80" height="32" fill="url(#cellGrid)" />
       <rect x="16" y="64" width="112" height="16" fill="url(#cellGrid)" />
       <rect x="0" y="0" width="8" height="8" fill="url(#cellGrid)" />
       <rect x="136" y="0" width="8" height="8" fill="url(#cellGrid)" />
-
+      <!-- Element Text Layer (Tiny UI details) -->
       <g font-family="system-ui, sans-serif" font-size="3.5" font-weight="bold" fill="#ffffff" opacity="0.9" text-anchor="middle">
         <text x="4" y="5.5">H</text> <text x="140" y="5.5">He</text>
-        
         <text x="4" y="13.5">Li</text> <text x="12" y="13.5">Be</text> 
         <text x="100" y="13.5">B</text> <text x="108" y="13.5">C</text> <text x="116" y="13.5">N</text> <text x="124" y="13.5">O</text> <text x="132" y="13.5">F</text> <text x="140" y="13.5">Ne</text>
-        
         <text x="4" y="21.5">Na</text> <text x="12" y="21.5">Mg</text> 
         <text x="100" y="21.5">Al</text> <text x="108" y="21.5">Si</text> <text x="116" y="21.5">P</text> <text x="124" y="21.5">S</text> <text x="132" y="21.5">Cl</text> <text x="140" y="21.5">Ar</text>
-        
         <text x="4" y="29.5">K</text> <text x="12" y="29.5">Ca</text> <text x="20" y="29.5">Sc</text> <text x="28" y="29.5">Ti</text> <text x="36" y="29.5">V</text> <text x="44" y="29.5">Cr</text> <text x="52" y="29.5">Mn</text> <text x="60" y="29.5">Fe</text> <text x="68" y="29.5">Co</text> <text x="76" y="29.5">Ni</text> <text x="84" y="29.5">Cu</text> <text x="92" y="29.5">Zn</text> <text x="100" y="29.5">Ga</text> <text x="108" y="29.5">Ge</text> <text x="116" y="29.5">As</text> <text x="124" y="29.5">Se</text> <text x="132" y="29.5">Br</text> <text x="140" y="29.5">Kr</text>
-        
         <text x="4" y="37.5">Rb</text> <text x="12" y="37.5">Sr</text> <text x="20" y="37.5">Y</text> <text x="28" y="37.5">Zr</text> <text x="36" y="37.5">Nb</text> <text x="44" y="37.5">Mo</text> <text x="52" y="37.5">Tc</text> <text x="60" y="37.5">Ru</text> <text x="68" y="37.5">Rh</text> <text x="76" y="37.5">Pd</text> <text x="84" y="37.5">Ag</text> <text x="92" y="37.5">Cd</text> <text x="100" y="37.5">In</text> <text x="108" y="37.5">Sn</text> <text x="116" y="37.5">Sb</text> <text x="124" y="37.5">Te</text> <text x="132" y="37.5">I</text> <text x="140" y="37.5">Xe</text>
-        
         <text x="4" y="45.5">Cs</text> <text x="12" y="45.5">Ba</text> <text x="20" y="45.5">Lu</text> <text x="28" y="45.5">Hf</text> <text x="36" y="45.5">Ta</text> <text x="44" y="45.5">W</text> <text x="52" y="45.5">Re</text> <text x="60" y="45.5">Os</text> <text x="68" y="45.5">Ir</text> <text x="76" y="45.5">Pt</text> <text x="84" y="45.5">Au</text> <text x="92" y="45.5">Hg</text> <text x="100" y="45.5">Tl</text> <text x="108" y="45.5">Pb</text> <text x="116" y="45.5">Bi</text> <text x="124" y="45.5">Po</text> <text x="132" y="45.5">At</text> <text x="140" y="45.5">Rn</text>
-        
         <text x="4" y="53.5">Fr</text> <text x="12" y="53.5">Ra</text> <text x="20" y="53.5">Lr</text> <text x="28" y="53.5">Rf</text> <text x="36" y="53.5">Db</text> <text x="44" y="53.5">Sg</text> <text x="52" y="53.5">Bh</text> <text x="60" y="53.5">Hs</text> <text x="68" y="53.5">Mt</text> <text x="76" y="53.5">Ds</text> <text x="84" y="53.5">Rg</text> <text x="92" y="53.5">Cn</text> <text x="100" y="53.5">Nh</text> <text x="108" y="53.5">Fl</text> <text x="116" y="53.5">Mc</text> <text x="124" y="53.5">Lv</text> <text x="132" y="53.5">Ts</text> <text x="140" y="53.5">Og</text>
-
         <text x="20" y="69.5">La</text> <text x="28" y="69.5">Ce</text> <text x="36" y="69.5">Pr</text> <text x="44" y="69.5">Nd</text> <text x="52" y="69.5">Pm</text> <text x="60" y="69.5">Sm</text> <text x="68" y="69.5">Eu</text> <text x="76" y="69.5">Gd</text> <text x="84" y="69.5">Tb</text> <text x="92" y="69.5">Dy</text> <text x="100" y="69.5">Ho</text> <text x="108" y="69.5">Er</text> <text x="116" y="69.5">Tm</text> <text x="124" y="69.5">Yb</text>
-
         <text x="20" y="77.5">Ac</text> <text x="28" y="77.5">Th</text> <text x="36" y="77.5">Pa</text> <text x="44" y="77.5">U</text> <text x="52" y="77.5">Np</text> <text x="60" y="77.5">Pu</text> <text x="68" y="77.5">Am</text> <text x="76" y="77.5">Cm</text> <text x="84" y="77.5">Bk</text> <text x="92" y="77.5">Cf</text> <text x="100" y="77.5">Es</text> <text x="108" y="77.5">Fm</text> <text x="116" y="77.5">Md</text> <text x="124" y="77.5">No</text>
       </g>
-
+      <!-- The specific projected target block (Gold) -->
       <g class="target-element">
         <rect x="80" y="40" width="8" height="8" fill="url(#target-glow)" stroke="#ffffff" stroke-width="0.8" rx="1" filter="url(#glowEffect)"/>
         <text x="84" y="45.5" fill="#ffffff" font-family="system-ui, sans-serif" font-size="3.5" font-weight="bold" text-anchor="middle">Au</text>
       </g>
-
+      <!-- The Holographic Atom that bursts from the block -->
       <g class="atom-hologram" filter="url(#glowEffect)">
+        <!-- Nucleus -->
         <circle cx="84" cy="25" r="3" fill="#feca57" />
-        
+        <!-- Electron Ring 1 -->
         <ellipse cx="84" cy="25" rx="12" ry="4" fill="none" stroke="#0abde3" stroke-width="1" class="electron-ring-1" />
         <circle cx="72" cy="25" r="1.5" fill="#ffffff" class="electron-ring-1" />
-        
+        <!-- Electron Ring 2 (Offset angle provided by transform) -->
         <ellipse cx="84" cy="25" rx="12" ry="4" fill="none" stroke="#1dd1a1" stroke-width="1" class="electron-ring-2" />
         <circle cx="96" cy="25" r="1.5" fill="#ffffff" class="electron-ring-2" />
       </g>
-
     </g>
   </g>
-
+  <!-- The Animated Handheld Scanner Wand -->
   <g class="scanner-stick" filter="url(#glowEffect)">
+    <!-- Glass tube body -->
     <rect x="-5" y="10" width="8" height="150" rx="4" fill="url(#stickGlass)" />
+    <!-- Light core -->
     <line x1="-1" y1="15" x2="-1" y2="155" stroke="#ffffff" stroke-width="1" stroke-linecap="round" />
-    <line x1="-1" y1="15" x2="-1" y2="155" stroke="#00cec9" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <line x1="-1" y1="15" x2="-1" y2="155" stroke="#0ba360" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <!-- Handle mechanics -->
     <rect x="-6" y="10" width="10" height="16" rx="2" fill="#a4b0be" />
-    <circle cx="-1" cy="18" r="1.5" fill="#00cec9" />
+    <circle cx="-1" cy="18" r="1.5" fill="#0ba360" />
   </g>
-
 </svg>

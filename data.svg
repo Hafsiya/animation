@@ -1,87 +1,73 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* 1. Algorithmic Clustering (Moving from chaos to grouped order) */
-      .cluster-cyan {
-        animation: groupCyan 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-      }
-      .cluster-magenta {
-        animation: groupMagenta 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-      }
-      .cluster-gold {
-        animation: groupGold 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-      }
 
-      /* They all start at the origin (100, 100) and separate into 3D space */
-      @keyframes groupCyan {
-        0%, 15% { transform: translate(0px, 0px); opacity: 0.5; }
-        40%, 80% { transform: translate(-35px, -30px); opacity: 1; }
-        95%, 100% { transform: translate(0px, 0px); opacity: 0.5; }
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #d9f8f7 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
-      
-      @keyframes groupMagenta {
-        0%, 15% { transform: translate(0px, 0px); opacity: 0.5; }
-        40%, 80% { transform: translate(40px, -15px); opacity: 1; }
-        95%, 100% { transform: translate(0px, 0px); opacity: 0.5; }
-      }
-
-      @keyframes groupGold {
-        0%, 15% { transform: translate(0px, 0px); opacity: 0.5; }
-        40%, 80% { transform: translate(0px, -60px); opacity: 1; }
-        95%, 100% { transform: translate(0px, 0px); opacity: 0.5; }
-      }
-
-      /* 2. Calculation Lines (Snap into place once clusters form) */
-      .calc-line {
-        animation: snapLines 4s ease-in-out infinite;
-      }
-
-      @keyframes snapLines {
-        0%, 35% { opacity: 0; stroke-dasharray: 0 50; }
-        45%, 80% { opacity: 0.4; stroke-dasharray: 4 4; }
-        90%, 100% { opacity: 0; stroke-dasharray: 0 50; }
-      }
-
-      /* 3. The Dataset Scan (Reading the raw dataframe) */
-      .grid-scan {
-        animation: scanData 4s linear infinite;
-      }
-
-      @keyframes scanData {
-        0% { transform: translate(-50px, -50px); opacity: 0; }
-        10% { opacity: 1; }
-        40% { opacity: 1; }
-        50%, 100% { transform: translate(50px, 50px); opacity: 0; }
-      }
-
-      /* 4. Soft Assembly Hover */
-      .ds-assembly {
-        animation: floatModel 6s ease-in-out infinite alternate;
-        transform-origin: 100px 100px;
-      }
-
-      @keyframes floatModel {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-5px); }
-      }
-
       /* Floor Shadow */
-      .floor-shadow {
-        animation: shadowBreathe 6s ease-in-out infinite alternate;
+      .floor-shadow  {
         transform-origin: 100px 165px;
+        opacity: 0.1;
       }
-
+      @keyframes floatModel {
+        0%, 10% { transform: translateY(40px) scale(0.9); }
+        20%, 85% { transform: translateY(0px) scale(1); }
+        90%, 100% { transform: translateY(40px) scale(0.9); }
+      }
       @keyframes shadowBreathe {
-        0% { transform: scale(1); opacity: 0.15; }
-        100% { transform: scale(1.1); opacity: 0.08; }
+        0%, 10% { transform: scale(0.8); opacity: 0.1; }
+        20%, 85% { transform: scale(1); opacity: 0.3; }
+        90%, 100% { transform: scale(0.8); opacity: 0.1; }
       }
-    </style>
+      @keyframes groupCyan {
+        0%, 25% { transform: translate(0px, 0px) scale(1); opacity: 0; }
+        35%, 85% { transform: translate(-15px, -15px) scale(1.1); opacity: 1; }
+        95%, 100% { transform: translate(0px, 0px) scale(1); opacity: 0; }
+      }
+      @keyframes groupMagenta {
+        0%, 30% { transform: translate(0px, 0px) scale(1); opacity: 0; }
+        40%, 85% { transform: translate(15px, -5px) scale(1.1); opacity: 1; }
+        95%, 100% { transform: translate(0px, 0px) scale(1); opacity: 0; }
+      }
+      @keyframes groupGold {
+        0%, 35% { transform: translate(0px, 0px) scale(1); opacity: 0; }
+        45%, 85% { transform: translate(-5px, 15px) scale(1.1); opacity: 1; }
+        95%, 100% { transform: translate(0px, 0px) scale(1); opacity: 0; }
+      }
+      @keyframes snapLines {
+        0%, 45% { stroke-dasharray: 100; stroke-dashoffset: 100; opacity: 0; }
+        55%, 85% { stroke-dashoffset: 0; opacity: 1; }
+        95%, 100% { stroke-dashoffset: 100; opacity: 0; }
+      }
+      @keyframes scanData {
+        0%, 20% { transform: translateY(-50px); opacity: 0; border-bottom: none; }
+        25%, 85% { transform: translateY(50px); opacity: 1; }
+        90%, 100% { transform: translateY(-50px); opacity: 0; }
+      }
 
+      svg:hover .cluster-cyan { animation: groupCyan 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      svg:hover .cluster-magenta { animation: groupMagenta 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      svg:hover .cluster-gold { animation: groupGold 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      svg:hover .calc-line { animation: snapLines 5s ease-in-out forwards; }
+      svg:hover .grid-scan { animation: scanData 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      svg:hover .ds-assembly { animation: floatModel 5s ease-in-out forwards; }
+      svg:hover .floor-shadow { animation: shadowBreathe 5s ease-in-out forwards; }
+      </style>
     <linearGradient id="gridBase" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f5f6fa"/>
       <stop offset="100%" stop-color="#dcdde1"/>
     </linearGradient>
-
     <filter id="glowCyan" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -94,7 +80,6 @@
       <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-
     <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
       <feOffset dx="0" dy="5" result="offsetblur"/>
@@ -103,17 +88,12 @@
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="165" rx="60" ry="15" fill="#2d3436" class="floor-shadow" />
-
+  
+  <ellipse cx="100" cy="165" rx="60" ry="15" fill="#dcdde1" filter="url(#textbookShadowBlur)" opacity="0.3" class="floor-shadow"  />
   <g class="ds-assembly">
-
     <g transform="translate(100, 140) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
-      
       <rect x="-50" y="-50" width="100" height="100" rx="4" fill="url(#gridBase)" />
-      
-      <g stroke="#b2bec3" stroke-width="1" opacity="0.6">
+      <g stroke="#e0e0e0" stroke-width="1" opacity="0.6">
         <line x1="-30" y1="-50" x2="-30" y2="50" />
         <line x1="-10" y1="-50" x2="-10" y2="50" />
         <line x1="10" y1="-50" x2="10" y2="50" />
@@ -123,55 +103,46 @@
         <line x1="-50" y1="10" x2="50" y2="10" />
         <line x1="-50" y1="30" x2="50" y2="30" />
       </g>
-
       <rect x="-30" y="-30" width="20" height="20" fill="#a4b0be" opacity="0.4" />
       <rect x="10" y="-10" width="20" height="20" fill="#a4b0be" opacity="0.4" />
       <rect x="-10" y="30" width="20" height="20" fill="#a4b0be" opacity="0.4" />
-
-      <line x1="-50" y1="0" x2="50" y2="0" stroke="#00cec9" stroke-width="3" filter="url(#glowCyan)" class="grid-scan" />
+      <line x1="-50" y1="0" x2="50" y2="0" stroke="#0ba360" stroke-width="3" filter="url(#glowCyan)" class="grid-scan" />
     </g>
-
     <g stroke="#a4b0be" stroke-width="2" stroke-linecap="round" opacity="0.7">
       <line x1="100" y1="140" x2="100" y2="30" />
       <line x1="100" y1="140" x2="40" y2="105" />
       <line x1="100" y1="140" x2="160" y2="105" />
-      
       <g fill="#7f8fa6" stroke="none" font-family="monospace" font-size="8" font-weight="bold">
         <text x="96" y="25">Z</text>
         <text x="32" y="108">X</text>
         <text x="162" y="108">Y</text>
       </g>
     </g>
-
-    <g stroke="#2d3436" stroke-width="1" class="calc-line">
+    <g stroke="#37474f" stroke-width="1" class="calc-line">
       <line x1="100" y1="100" x2="65" y2="70" /> <line x1="100" y1="100" x2="140" y2="85" /> <line x1="100" y1="100" x2="100" y2="40" /> </g>
-
     <g class="cluster-cyan" filter="url(#glowCyan)">
       <polygon points="100,97 103,100 100,103 97,100" fill="#ffffff" /> 
-      <circle cx="95" cy="95" r="3" fill="#00cec9" />
-      <circle cx="108" cy="102" r="2.5" fill="#00cec9" />
-      <circle cx="92" cy="106" r="2" fill="#00cec9" />
-      <circle cx="105" cy="92" r="3.5" fill="#00cec9" />
-      <circle cx="100" cy="108" r="2" fill="#00cec9" />
+      <circle cx="95" cy="95" r="3" fill="#0ba360" />
+      <circle cx="108" cy="102" r="2.5" fill="#0ba360" />
+      <circle cx="92" cy="106" r="2" fill="#0ba360" />
+      <circle cx="105" cy="92" r="3.5" fill="#0ba360" />
+      <circle cx="100" cy="108" r="2" fill="#0ba360" />
     </g>
-
     <g class="cluster-magenta" filter="url(#glowMagenta)">
       <polygon points="100,97 103,100 100,103 97,100" fill="#ffffff" />
-      <circle cx="106" cy="95" r="3" fill="#fd79a8" />
-      <circle cx="94" cy="104" r="2.5" fill="#fd79a8" />
-      <circle cx="108" cy="106" r="2" fill="#fd79a8" />
-      <circle cx="95" cy="92" r="3.5" fill="#fd79a8" />
-      <circle cx="102" cy="108" r="2" fill="#fd79a8" />
+      <circle cx="106" cy="95" r="3" fill="#ff7eb3" />
+      <circle cx="94" cy="104" r="2.5" fill="#ff7eb3" />
+      <circle cx="108" cy="106" r="2" fill="#ff7eb3" />
+      <circle cx="95" cy="92" r="3.5" fill="#ff7eb3" />
+      <circle cx="102" cy="108" r="2" fill="#ff7eb3" />
     </g>
-
     <g class="cluster-gold" filter="url(#glowGold)">
       <polygon points="100,97 103,100 100,103 97,100" fill="#ffffff" />
-      <circle cx="96" cy="96" r="3" fill="#fbc531" />
-      <circle cx="104" cy="104" r="2.5" fill="#fbc531" />
-      <circle cx="94" cy="106" r="2" fill="#fbc531" />
-      <circle cx="106" cy="94" r="3.5" fill="#fbc531" />
-      <circle cx="100" cy="90" r="2" fill="#fbc531" />
+      <circle cx="96" cy="96" r="3" fill="#f6a565" />
+      <circle cx="104" cy="104" r="2.5" fill="#f6a565" />
+      <circle cx="94" cy="106" r="2" fill="#f6a565" />
+      <circle cx="106" cy="94" r="3.5" fill="#f6a565" />
+      <circle cx="100" cy="90" r="2" fill="#f6a565" />
     </g>
-
   </g>
 </svg>

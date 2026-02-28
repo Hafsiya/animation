@@ -1,169 +1,262 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* 1. The main flicker and ignite sequence */
-      .bulb-glow {
-        animation: eurekaStrike 5s infinite;
-        transform-origin: 100px 75px;
-      }
-      
-      .atom-ring {
-        animation: eurekaStrike 5s infinite, spinRing 3s linear infinite;
-        transform-origin: 100px 75px;
-      }
 
-      .atom-ring-reverse {
-        animation: eurekaStrike 5s infinite, spinRingReverse 4s linear infinite;
-        transform-origin: 100px 75px;
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #d9f8f7 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
-
-      /* The lightbulb flickers, turns on brightly, and scales up slightly with "genius" energy */
-      @keyframes eurekaStrike {
-        0%, 30% { opacity: 0; transform: scale(0.95); } /* Off */
-        32% { opacity: 0.8; transform: scale(1); } /* Flicker on */
-        34% { opacity: 0; transform: scale(0.95); } /* Flicker off */
-        36% { opacity: 0.5; transform: scale(0.98); } /* Flicker half */
-        38% { opacity: 0; transform: scale(0.95); } /* Flicker off */
-        40%, 85% { opacity: 1; transform: scale(1.05); } /* EUREKA! Full power */
-        90%, 100% { opacity: 0; transform: scale(0.95); } /* Power down */
+    
+      svg { cursor: pointer; }
+      /* --- PREMIUM 2.5D PRESENTATION --- */
+      .scene {
+        transform-origin: 100px 100px;
+        transform: perspective(800px) rotateX(45deg) rotateZ(30deg) translate(-10px, -20px);
+        transform-style: preserve-3d;
       }
-
-      @keyframes spinRing {
-        0% { transform: scale(1.05) rotate(0deg); }
-        100% { transform: scale(1.05) rotate(360deg); }
+      /* Hover Presentation Story */
+      .bulb-group {
+        transform-origin: 100px 120px;
+        transform-style: preserve-3d;
+        transform: translateZ(5px);
       }
-
-      @keyframes spinRingReverse {
-        0% { transform: scale(1.05) rotate(0deg); }
-        100% { transform: scale(1.05) rotate(-360deg); }
+      svg:hover .bulb-group {
+        animation: presentBulb 5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       }
-
-      /* 2. Light Rays shooting out when ON */
-      .ray {
-        animation: shootRay 5s infinite;
-        transform-origin: 100px 75px;
+      svg:hover .item-shadow {
+        animation: interactiveShadow 5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       }
-
-      .ray:nth-child(1) { --r: 0deg; }
-      .ray:nth-child(2) { --r: 45deg; }
-      .ray:nth-child(3) { --r: 90deg; }
-      .ray:nth-child(4) { --r: 135deg; }
-      .ray:nth-child(5) { --r: 180deg; }
-      .ray:nth-child(6) { --r: 225deg; }
-      .ray:nth-child(7) { --r: 270deg; }
-      .ray:nth-child(8) { --r: 315deg; }
-
-      @keyframes shootRay {
-        0%, 38% { opacity: 0; transform: rotate(var(--r)) translateY(0px) scaleY(0); }
-        40% { opacity: 1; transform: rotate(var(--r)) translateY(-55px) scaleY(1); }
-        45%, 85% { opacity: 0.8; transform: rotate(var(--r)) translateY(-65px) scaleY(0.8); }
-        90%, 100% { opacity: 0; transform: rotate(var(--r)) translateY(-70px) scaleY(0); }
+      @keyframes presentBulb {
+        0%, 5% { transform: translateZ(5px) rotateZ(0deg) rotateY(0deg) scale(0.9); }
+        10%, 85% { transform: translateZ(25px) rotateZ(-5deg) rotateY(15deg) scale(1.05); }
+        90%, 100% { transform: translateZ(5px) rotateZ(0deg) rotateY(0deg) scale(0.9); }
       }
-
-      /* 3. The physical bulb bobs up slightly when full of energy */
-      .bulb-assembly {
-        animation: physicalBob 5s ease-in-out infinite;
+      .item-shadow {
         transform-origin: 100px 150px;
+        opacity: 0.3;
       }
-
-      @keyframes physicalBob {
-        0%, 38% { transform: translateY(0px); }
-        40%, 85% { transform: translateY(-8px); }
-        90%, 100% { transform: translateY(0px); }
+      @keyframes interactiveShadow {
+         0%, 5% { transform: scale(0.8) translate(0,0); opacity: 0.3; }
+        10%, 85% { transform: scale(1.1) translate(-15px, -15px); opacity: 0.8; filter: drop-shadow(0 0 15px #00cec9); }
+        90%, 100% { transform: scale(0.8) translate(0,0); opacity: 0.3; }
       }
-
-      /* 4. Floor shadow reacts to the bobbing and the light */
-      .shadow {
-        animation: shadowReact 5s ease-in-out infinite;
-        transform-origin: 100px 175px;
+      /* Glowing Energy Ring / Filament */
+      .glow-core {
+        opacity: 0; /* Fully dark when off */
+        transform-origin: 100px 75px;
       }
-
-      @keyframes shadowReact {
-        0%, 38% { transform: scale(1); opacity: 0.3; } /* Dark shadow when off */
-        40%, 85% { transform: scale(0.8); opacity: 0.05; } /* Washed out by light */
-        90%, 100% { transform: scale(1); opacity: 0.3; }
+      svg:hover .glow-core {
+        animation: eurekaGlow 5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       }
-    </style>
-
-    <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#b2bec3"/>
-      <stop offset="50%" stop-color="#dfe6e9"/>
-      <stop offset="100%" stop-color="#636e72"/>
+      @keyframes eurekaGlow {
+        0%, 9% { opacity: 0; transform: scale(0.9); }
+        10%, 15% { opacity: 0.4; transform: scale(0.95); } /* Flicker */
+        16%, 20% { opacity: 0; transform: scale(0.9); }
+        25%, 85% { opacity: 1; transform: scale(1.15); filter: brightness(1.2); } /* Full Power */
+        90%, 100% { opacity: 0; transform: scale(0.9); }
+      }
+      /* Glass Bulb Shell On/Off logic */
+      .glass-bulb {
+        opacity: 0.2; /* Rest as nearly invisible clear glass instead of dark/dimmed */
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+      }
+      svg:hover .glass-bulb {
+        animation: glassPowerOn 5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      }
+      @keyframes glassPowerOn {
+        0%, 9% { opacity: 0.2; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
+        10%, 15% { opacity: 0.6; filter: brightness(1.2); } /* Flicker */
+        16%, 20% { opacity: 0.2; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
+        25%, 85% { opacity: 1; filter: brightness(1.4) saturate(1.5); } /* Full Power / Bright cyan-magenta sheen */
+        90%, 100% { opacity: 0.2; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
+      }
+      /* Floating Glowing Energy Rings */
+      .energy-ring { opacity: 0; transform-origin: 100px 75px; }
+      svg:hover .energy-ring-1 { animation: spinRing1 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      svg:hover .energy-ring-2 { animation: spinRing2 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes spinRing1 {
+        0%, 20% { opacity: 0; transform: scale(0.5) rotateX(70deg) rotateY(20deg) rotateZ(0deg); }
+        30%, 80% { opacity: 1; transform: scale(1.3) rotateX(70deg) rotateY(20deg) rotateZ(360deg); filter: drop-shadow(0 0 8px #00cec9); }
+        90%, 100% { opacity: 0; transform: scale(0.5) rotateX(70deg) rotateY(20deg) rotateZ(720deg); }
+      }
+      @keyframes spinRing2 {
+        0%, 20% { opacity: 0; transform: scale(0.5) rotateX(70deg) rotateY(-20deg) rotateZ(0deg); }
+        30%, 80% { opacity: 1; transform: scale(1.3) rotateX(70deg) rotateY(-20deg) rotateZ(-360deg); filter: drop-shadow(0 0 8px #fd79a8); }
+        90%, 100% { opacity: 0; transform: scale(0.5) rotateX(70deg) rotateY(-20deg) rotateZ(-720deg); }
+      }
+      /* Animated Trailing Power Wire */
+      .power-wire { stroke-dasharray: 100; stroke-dashoffset: 100; opacity: 0.5; }
+      svg:hover .power-wire { animation: surgeWire 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes surgeWire {
+        0%, 15% { stroke-dashoffset: 100; opacity: 0.5; filter: drop-shadow(0 0 0px #00cec9); }
+        25%, 85% { stroke-dashoffset: 0; opacity: 1; filter: drop-shadow(0 0 8px #00cec9); }
+        90%, 100% { stroke-dashoffset: 100; opacity: 0.5; filter: drop-shadow(0 0 0px #00cec9); }
+      }
+      /* Sparkles */
+      .sparkle { opacity: 0; transform-origin: center; }
+      svg:hover .sp-1 { animation: twinkle1 5s forwards; transform-origin: 70px 50px; }
+      svg:hover .sp-2 { animation: twinkle2 5s forwards; transform-origin: 130px 40px; }
+      svg:hover .sp-3 { animation: twinkle3 5s forwards; transform-origin: 90px 20px; }
+      svg:hover .sp-4 { animation: twinkle1 5s 0.2s forwards; transform-origin: 110px 100px; }
+      @keyframes twinkle1 {
+        0%, 25% { opacity: 0; transform: scale(0) rotate(0deg); }
+        35% { opacity: 1; transform: scale(1.2) rotate(45deg); filter: drop-shadow(0 0 5px #fbc531); }
+        50%, 100% { opacity: 0; transform: scale(0) rotate(90deg); }
+      }
+      @keyframes twinkle2 {
+        0%, 30% { opacity: 0; transform: scale(0) rotate(0deg); }
+        40% { opacity: 1; transform: scale(1.5) rotate(45deg); filter: drop-shadow(0 0 5px #00cec9); }
+        55%, 100% { opacity: 0; transform: scale(0) rotate(90deg); }
+      }
+      @keyframes twinkle3 {
+        0%, 40% { opacity: 0; transform: scale(0) rotate(0deg); }
+        50% { opacity: 1; transform: scale(1.2) rotate(45deg); filter: drop-shadow(0 0 5px #fd79a8); }
+        65%, 100% { opacity: 0; transform: scale(0) rotate(90deg); }
+      }
+      </style>
+    <!-- === HIGHLY VIBRANT GLOSSY GRADIENTS (NO BLACK) === -->
+    <!-- Bulb Base (Rich Warm Bronze/Gold) -->
+    <linearGradient id="baseMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffeaa7"/>
+      <stop offset="50%" stop-color="#fdcb6e"/>
+      <stop offset="100%" stop-color="#b8860b"/>
     </linearGradient>
-
-    <linearGradient id="metalDark" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2d3436"/>
-      <stop offset="100%" stop-color="#636e72"/>
+    <linearGradient id="baseDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b8860b"/>
+      <stop offset="100%" stop-color="#8a5e19"/> <!-- Rich deep bronze, not black -->
     </linearGradient>
-
-    <radialGradient id="lightCore" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="40%" stop-color="#fbc531" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#fbc531" stop-opacity="0"/>
+    <linearGradient id="contactPoint" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b8860b"/>
+      <stop offset="50%" stop-color="#e1b12c"/>
+      <stop offset="100%" stop-color="#8a5e19"/>
+    </linearGradient>
+    <!-- Glass Bulb (Highly Saturated Electric Cyan / Neon Pink sheen) -->
+    <!-- Replaced pale/light colors with heavy, vibrant neon hues -->
+    <radialGradient id="glassBody" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#a1c4fd"/>
+      <stop offset="40%" stop-color="#0984e3"/>
+      <stop offset="70%" stop-color="#6c5ce7" stop-opacity="0.9"/>
+      <stop offset="90%" stop-color="#fd79a8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00cec9" stop-opacity="0.7"/>
     </radialGradient>
-
-    <linearGradient id="glassReflection" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.1"/>
+    <!-- Brilliant Internal Glow (Rich Sunrise Colors) -->
+    <radialGradient id="magicalCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="20%" stop-color="#fff200" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#ff9f43" stop-opacity="0.9"/>
+      <stop offset="80%" stop-color="#ff4757" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="filament" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffa502"/>
+      <stop offset="100%" stop-color="#eccc68"/>
+    </linearGradient>
+    <!-- Glass Specular Highlight -->
+    <linearGradient id="glassShine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.2"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
-
-    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+    <!-- Premium Filters -->
+    <filter id="beautyGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
       <feMerge>
-        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    <filter id="eurekaGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="1.4"/></feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Presentation Shadow Filter -->
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="15" dy="15" stdDeviation="10" flood-color="#0984e3" flood-opacity="0.3"/>
+    </filter>
+    <path id="sparkle" d="M 0 -8 Q 0 0 8 0 Q 0 0 0 8 Q 0 0 -8 0 Q 0 0 0 -8 Z" fill="#ffffff" />
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="175" rx="35" ry="10" fill="#2d3436" class="shadow" />
-
-  <g class="bulb-assembly">
-    
-    <path d="M 88 155 L 88 162 A 12 5 0 0 0 112 162 L 112 155 Z" fill="url(#metalDark)" />
-    <ellipse cx="100" cy="155" rx="14" ry="6" fill="url(#metal)" />
-    <ellipse cx="100" cy="149" rx="16" ry="7" fill="url(#metal)" />
-    <ellipse cx="100" cy="143" rx="18" ry="8" fill="url(#metal)" />
-    <ellipse cx="100" cy="137" rx="20" ry="8" fill="url(#metal)" />
-    <ellipse cx="100" cy="130" rx="22" ry="9" fill="#2d3436" />
-    <ellipse cx="100" cy="129" rx="22" ry="9" fill="url(#metal)" />
-
-    <path d="M 94 129 L 94 105 A 6 3 0 0 0 106 105 L 106 129 Z" fill="rgba(116, 185, 255, 0.4)" />
-    <line x1="97" y1="105" x2="90" y2="85" stroke="#636e72" stroke-width="2" stroke-linecap="round" />
-    <line x1="103" y1="105" x2="110" y2="85" stroke="#636e72" stroke-width="2" stroke-linecap="round" />
-    <path d="M 90 85 L 95 75 L 105 75 L 110 85" fill="none" stroke="#2d3436" stroke-width="2" stroke-linejoin="round" />
-
-    <g class="bulb-glow">
-      <circle cx="100" cy="75" r="50" fill="url(#lightCore)" />
-      
-      <path d="M 90 85 L 95 75 L 105 75 L 110 85" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" filter="url(#neonGlow)" />
-      
-      <g stroke="#fbc531" stroke-width="3" stroke-linecap="round">
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
-        <line x1="100" y1="75" x2="100" y2="60" class="ray" />
+  <!-- 3D Scene -->
+  <g class="scene">
+    <!-- Base Power Cable (Beautiful trailing wire) -->
+    <!-- Wraps behind the base and drops down smoothly -->
+    <path d="M 100 160 C 100 190, 160 170, 180 220" fill="none" stroke="#e1b12c" stroke-width="4" stroke-linecap="round" />
+    <path class="power-wire" pathLength="100" d="M 100 160 C 100 190, 160 170, 180 220" fill="none" stroke="#00cec9" stroke-width="2" stroke-linecap="round" />
+    <g filter="url(#dropShadow)">
+      <!-- Colorful Floor Shadow -->
+      <ellipse cx="100" cy="180" rx="35" ry="16" fill="#0984e3" class="item-shadow" />
+      <g class="bulb-group">
+        <!-- ============================== -->
+        <!-- PREMIUM BULB BASE (ALL GOLD)   -->
+        <!-- NO BLACK OR DARK GREY COLORS   -->
+        <!-- ============================== -->
+        <!-- Threading depth/shadows -->
+        <path d="M 85 130 C 85 150, 115 150, 115 130 Z" fill="url(#baseDark)" />
+        <ellipse cx="100" cy="130" rx="18" ry="8" fill="url(#baseMetal)" />
+        <!-- Thread 1 -->
+        <path d="M 83 140 C 83 148, 117 148, 117 140 C 117 132, 83 132, 83 140 Z" fill="url(#baseDark)" />
+        <ellipse cx="100" cy="140" rx="17" ry="7.5" fill="url(#baseMetal)" />
+        <!-- Thread 2 -->
+        <path d="M 85 150 C 85 158, 115 158, 115 150 C 115 142, 85 142, 85 150 Z" fill="url(#baseDark)" />
+        <ellipse cx="100" cy="150" rx="15" ry="6.5" fill="url(#baseMetal)" />
+        <!-- Electrical Contact Base -->
+        <path d="M 88 158 L 88 165 C 88 172, 112 172, 112 165 L 112 158 Z" fill="url(#contactPoint)" />
+        <ellipse cx="100" cy="168" rx="8" ry="4" fill="#fdcb6e" /> <!-- Golden solder dot -->
+        <!-- ============================== -->
+        <!-- MAGICAL INTERNAL GLOW          -->
+        <!-- ============================== -->
+        <g class="glow-core">
+          <!-- Deep ambient aura -->
+          <circle cx="100" cy="75" r="55" fill="url(#magicalCore)" filter="url(#eurekaGlow)" />
+          <!-- Elegant Loop Filament -->
+          <g transform="translate(100, 105)">
+            <path d="M -8 20 L -12 -15 C -15 -40, 15 -40, 12 -15 L 8 20" fill="none" stroke="url(#filament)" stroke-width="3" stroke-linecap="round" filter="url(#beautyGlow)" />
+            <!-- Glowing hot center of filament -->
+            <path d="M -5 -20 C -8 -35, 8 -35, 5 -20" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" filter="url(#beautyGlow)" />
+          </g>
+          <!-- Golden Support Stems (No more black/grey) -->
+          <path d="M 92 125 L 88 90 M 108 125 L 112 90" fill="none" stroke="#e1b12c" stroke-width="2.5" stroke-linecap="round" />
+          <path d="M 98 125 L 100 80 M 102 125 L 100 80" fill="none" stroke="#e1b12c" stroke-width="1.5" stroke-linecap="round" />
+        </g>
+        <!-- ============================== -->
+        <!-- COLORFUL GLASS BULB SHELL      -->
+        <!-- ============================== -->
+        <g class="glass-bulb">
+          <!-- Outer glass rim (thickness) -->
+          <path d="M 78 128 C 70 100, 45 90, 45 65 C 45 30, 70 20, 100 20 C 130 20, 155 30, 155 65 C 155 90, 130 100, 122 128 Z" fill="url(#glassBody)" opacity="1" />
+          <!-- Inner glass volume -->
+          <path d="M 80 126 C 72 98, 48 88, 48 65 C 48 32, 72 23, 100 23 C 128 23, 152 32, 152 65 C 152 88, 128 98, 120 126 Z" fill="url(#glassReflection)" />
+          <!-- Brilliant Glass Specular Highlight Curve -->
+          <path d="M 55 65 C 55 35, 75 28, 100 28 C 125 28, 145 35, 145 65 C 145 80, 130 90, 124 105 C 120 85, 132 55, 100 35 C 70 45, 62 80, 76 105 C 70 90, 55 80, 55 65 Z" fill="url(#glassShine)" filter="url(#beautyGlow)" />
+          <!-- Secondary small reflection -->
+          <ellipse cx="65" cy="50" rx="8" ry="15" fill="#ffffff" opacity="0.8" transform="rotate(-30 65 50)" filter="url(#beautyGlow)" />
+        </g>
+        <!-- ============================== -->
+        <!-- FLOATING ENERGY RINGS          -->
+        <!-- ============================== -->
+        <circle cx="100" cy="75" r="55" fill="none" stroke="#00cec9" stroke-width="2" class="energy-ring energy-ring-1" />
+        <circle cx="100" cy="75" r="55" fill="none" stroke="#fd79a8" stroke-width="2" class="energy-ring energy-ring-2" />
+        <!-- ============================== -->
+        <!-- MAGICAL SPARKLES               -->
+        <!-- ============================== -->
+        <use href="#sparkle" class="sparkle sp-1" />
+        <use href="#sparkle" class="sparkle sp-2" />
+        <use href="#sparkle" class="sparkle sp-3" />
+        <use href="#sparkle" class="sparkle sp-4" />
       </g>
     </g>
-
-    <path d="M 78 129 C 75 105, 55 95, 55 70 A 45 45 0 1 1 145 70 C 145 95, 125 105, 122 129 Z" fill="rgba(116, 185, 255, 0.15)" stroke="rgba(116, 185, 255, 0.5)" stroke-width="2" />
-    
-    <path d="M 65 65 A 35 35 0 0 1 120 40 A 40 40 0 0 0 65 65 Z" fill="url(#glassReflection)" />
-
-    <g class="bulb-glow" filter="url(#neonGlow)">
-      <ellipse cx="100" cy="75" rx="65" ry="15" fill="none" stroke="#00a8ff" stroke-width="1.5" transform="rotate(30 100 75)" class="atom-ring" />
-      <circle cx="45" cy="43" r="3" fill="#ffffff" class="atom-ring" />
-      
-      <ellipse cx="100" cy="75" rx="65" ry="15" fill="none" stroke="#9c88ff" stroke-width="1.5" transform="rotate(-30 100 75)" class="atom-ring-reverse" />
-      <circle cx="155" cy="43" r="3" fill="#ffffff" class="atom-ring-reverse" />
-    </g>
-
   </g>
 </svg>

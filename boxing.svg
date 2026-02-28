@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <filter id="impactGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      svg { background: radial-gradient(circle at center, #ffffff 0%, #fffcf2 100%); width: 100vw; height: 100vh; margin: 0; padding: 0; overflow: hidden; cursor: pointer; }
+      
+      .scene { transform-origin: 100px 100px; transform: perspective(800px) rotateX(15deg) rotateZ(0deg) translate(0px, 0px); transform-style: preserve-3d; }
+      
+      /* Phase 1: Presentation (0-1s) -> Enter from top */
+      svg:hover .scene { animation: ringEnter 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes ringEnter {
+        0%, 15% { transform: perspective(800px) rotateX(45deg) rotateZ(0deg) translate(0px, 50px) scale(0.8); }
+        25%, 85% { transform: perspective(800px) rotateX(15deg) rotateZ(0deg) translate(0px, 0px) scale(1); }
+        95%, 100% { transform: perspective(800px) rotateX(45deg) rotateZ(0deg) translate(0px, 50px) scale(0.8); }
+      }
+
+      svg:hover .floor-shadow { animation: shadowFocus 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes shadowFocus { 
+        0%, 15% { transform: scale(0.8); opacity: 0.1; } 
+         25%, 85% { transform: scale(1); opacity: 0.3; } 
+         95%, 100% { transform: scale(0.8); opacity: 0.1; } 
+      }
+
+      /* Phase 2: Warmup (1-2s) -> Bag bobs slightly */
+      .heavy-bag-wrapper { transform-origin: 100px 10px; opacity: 1; transform: translateY(0px) rotateX(0deg); }
+      svg:hover .heavy-bag-wrapper { animation: bagWarmup 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes bagWarmup {
+        0%, 25% { transform: rotateX(0deg); }
+        30% { transform: rotateX(5deg); }
+        35% { transform: rotateX(-3deg); }
+        40% { transform: rotateX(2deg); }
+        45%, 100% { transform: rotateX(0deg); }
+      }
+
+      /* Phase 3 &amp; 4: Combo &amp; KO (2-4s) */
+      .glove-wrapper { transform-origin: 60px 160px; opacity: 0; transform: translate(-50px, 50px) scale(0.5); }
+      svg:hover .glove-wrapper { animation: powerCombo 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes powerCombo {
+        0%, 40% { opacity: 0; transform: translate(-50px, 50px) scale(0.5); }
+        45% { opacity: 1; transform: translate(10px, -10px) scale(1); } /* Jab 1 */
+        50% { transform: translate(0px, 0px) scale(0.9); }
+        55% { transform: translate(15px, -15px) scale(1.05) rotate(15deg); } /* Jab 2 */
+        60% { transform: translate(-20px, 20px) scale(0.85) rotate(-15deg); } /* Wind up */
+        70% { transform: translate(45px, -45px) scale(1.2) rotate(45deg); filter: drop-shadow(0 0 10px #ff0844); } /* KO UPPERCUT */
+        80% { transform: translate(30px, -30px) scale(1) rotate(20deg); filter: none; } /* Hold pose */
+        90%, 100% { opacity: 0; transform: translate(50px, -50px) scale(0.5); } /* Exit */
+      }
+
+      /* Heavybag reacts to punches */
+      .heavy-bag-group { transform-origin: 100px 10px; transform-style: preserve-3d; }
+      svg:hover .heavy-bag-group { animation: bagReactions 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes bagReactions {
+        0%, 42% { transform: rotateY(0deg) rotateX(0deg); }
+        46% { transform: rotateY(10deg) rotateX(-5deg); } /* React Jab 1 */
+        51% { transform: rotateY(0deg) rotateX(0deg); }
+        56% { transform: rotateY(15deg) rotateX(-10deg); } /* React Jab 2 */
+        61% { transform: rotateY(-5deg) rotateX(5deg); }
+        70% { transform: rotateY(50deg) rotateX(-30deg); filter: brightness(1.5); } /* React KO */
+        78% { transform: rotateY(-15deg) rotateX(15deg); filter: brightness(1); }
+        85% { transform: rotateY(5deg) rotateX(-5deg); }
+        95%, 100% { transform: rotateY(0deg) rotateX(0deg); }
+      }
+
+      .bag-bend { d: path("M 70 50 L 130 50 L 130 140 C 130 150, 70 150, 70 140 Z"); }
+      svg:hover .bag-bend { animation: bendLeather 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes bendLeather {
+        0%, 68% { d: path("M 70 50 L 130 50 L 130 140 C 130 150, 70 150, 70 140 Z"); }
+        70%, 75% { d: path("M 70 50 L 130 50 L 120 140 C 120 150, 80 150, 80 140 C 80 120, 110 110, 70 85 Z"); fill: url(#blueBagLight); }
+        80%, 100% { d: path("M 70 50 L 130 50 L 130 140 C 130 150, 70 150, 70 140 Z"); }
+      }
+
+      /* Impacts */
+      .impact { opacity: 0; transform-origin: center; }
+      .impact-jab-1 { transform-origin: 90px 105px; }
+      .impact-jab-2 { transform-origin: 95px 100px; }
+      .impact-ko { transform-origin: 85px 115px; }
+      svg:hover .impact-jab-1 { animation: flashJab1 5s forwards; }
+      svg:hover .impact-jab-2 { animation: flashJab2 5s forwards; }
+      svg:hover .impact-ko { animation: flashKO 5s forwards; }
+      
+      @keyframes flashJab1 {
+        44% { opacity: 0; transform: scale(0.2); }
+        45% { opacity: 0.8; transform: scale(1) translate(-10px, 10px) rotate(15deg); }
+        48%, 100% { opacity: 0; transform: scale(0); }
+      }
+      @keyframes flashJab2 {
+        54% { opacity: 0; transform: scale(0.2); }
+        55% { opacity: 0.9; transform: scale(1.2) translate(10px, -10px) rotate(-15deg); }
+        58%, 100% { opacity: 0; transform: scale(0); }
+      }
+      @keyframes flashKO {
+        68% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+        70% { opacity: 1; transform: scale(1.8) rotate(15deg); filter: drop-shadow(0 0 10px #fbc531); } 
+        75%, 100% { opacity: 0; transform: scale(0) rotate(30deg); }
+      }
+
+      /* Phase 5: Victory Stars (4-5s) */
+      .small-victory-star { opacity: 0; transform-origin: 130px 40px; transform: scale(0.5) translateY(10px) rotate(-15deg); }
+      svg:hover .small-victory-star { animation: popSmallStar 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes popSmallStar {
+        0%, 75% { opacity: 0; transform: scale(0.5) translateY(10px) rotate(-15deg); filter: none; }
+        80% { opacity: 1; transform: scale(1.5) translateY(-5px) rotate(15deg); filter: drop-shadow(0 0 5px #fdcb6e); }
+        90%, 100% { opacity: 1; transform: scale(1) translateY(0px) rotate(0deg); filter: drop-shadow(0 0 2px #fdcb6e); }
+      }
+      
+      /* Magical Background Sparks for extra visual pop */
+      .bg-star { opacity: 0; transform-origin: center; }
+      svg:hover .bgs-1 { animation: bgTwinkle 5s forwards; transform-origin: 30px 40px; }
+      svg:hover .bgs-2 { animation: bgTwinkle 5s forwards; transform-origin: 160px 40px; animation-delay: 0.2s; }
+      svg:hover .bgs-3 { animation: bgTwinkle 5s forwards; transform-origin: 40px 160px; animation-delay: 0.4s; }
+      svg:hover .bgs-4 { animation: bgTwinkle 5s forwards; transform-origin: 170px 150px; animation-delay: 0.6s; }
+      @keyframes bgTwinkle { 0%, 20% { opacity: 0; transform: scale(0) rotate(0deg); } 30%, 80% { opacity: 1; transform: scale(1.5) rotate(45deg); filter: url(#impactGlow); } 90%, 100% { opacity: 0; transform: scale(0) rotate(90deg); } }
+    </style>
+    <!-- Vibrant Cyber-Blue Heavy Bag -->
+    <linearGradient id="blueBag" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0ed2f7"/>
+      <stop offset="25%" stop-color="#4facfe"/>
+      <stop offset="50%" stop-color="#00f2fe"/>
+      <stop offset="90%" stop-color="#0062cc"/>
+      <stop offset="100%" stop-color="#003366"/>
+    </linearGradient>
+    <linearGradient id="blueBagLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4facfe"/>
+      <stop offset="50%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#003366"/>
+    </linearGradient>
+    <linearGradient id="bagTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4facfe"/>
+      <stop offset="100%" stop-color="#0062cc"/>
+    </linearGradient>
+    <!-- Premium Sports Red Glove -->
+    <linearGradient id="redGlove" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff4b2b"/>
+      <stop offset="60%" stop-color="#ff416c"/>
+      <stop offset="100%" stop-color="#8a2387"/>
+    </linearGradient>
+    <linearGradient id="redGloveDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c31432"/>
+      <stop offset="100%" stop-color="#240b36"/>
+    </linearGradient>
+    <!-- Chrome Metal Chains -->
+    <linearGradient id="chromeMetal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fdfbfb"/>
+      <stop offset="30%" stop-color="#ebedee"/>
+      <stop offset="60%" stop-color="#b0bec5"/>
+      <stop offset="100%" stop-color="#37474f"/>
+    </linearGradient>
+    <!-- Glove Strap -->
+    <linearGradient id="leatherStrap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f5f6fa"/>
+      <stop offset="100%" stop-color="#dcdde1"/>
+    </linearGradient>
+    <linearGradient id="strapDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b2bec3"/>
+      <stop offset="100%" stop-color="#2d3436"/>
+    </linearGradient>
+    <!-- Shadows and Filters -->
+    <filter id="sceneShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="15" dy="25" stdDeviation="12" flood-color="#0984e3" flood-opacity="0.15"/>
+      <feDropShadow dx="5" dy="10" stdDeviation="5" flood-color="#2d3436" flood-opacity="0.2"/>
+    </filter>
+    <!-- Asset Paths -->
+    <path id="powStar" d="M 0 -25 L 4 -6 L 20 -20 L 7 -2 L 25 0 L 7 2 L 20 20 L 4 6 L 0 25 L -4 6 L -20 20 L -7 2 L -25 0 L -7 -2 L -20 -20 L -4 -6 Z" fill="#fdcb6e" stroke="#ffffff" stroke-width="2.5" />
+    <path id="miniPow" d="M 0 -10 L 2 -3 L 8 -8 L 3 -1 L 10 0 L 3 1 L 8 8 L 2 3 L 0 10 L -2 3 L -8 8 L -3 1 L -10 0 L -3 -1 L -8 -8 L -2 -3 Z" fill="#ffffff" />
+    <path id="star" d="M 0 -8 C 2 -2, 4 -1, 8 0 C 4 1, 2 2, 0 8 C -2 2, -4 1, -8 0 C -4 -1, -2 -2, 0 -8 Z" fill="#3498db" />
+  </defs>
+
+  <!-- Background Ambient Stars -->
+  <use href="#star" class="bg-star bgs-1" />
+  <use href="#star" class="bg-star bgs-2" />
+  <use href="#star" class="bg-star bgs-3" />
+  <use href="#star" class="bg-star bgs-4" />
+
+  <g class="scene">
+    <!-- Ambient Court Lines -->
+    <g opacity="0.4">
+      <ellipse cx="100" cy="120" rx="90" ry="90" fill="none" stroke="#74b9ff" stroke-width="1.5" opacity="0.3" />
+      <ellipse cx="100" cy="120" rx="65" ry="65" fill="none" stroke="#0984e3" stroke-width="2" />
+      <ellipse cx="100" cy="120" rx="40" ry="40" fill="none" stroke="#74b9ff" stroke-width="1" stroke-dasharray="6 4" />
+      <path d="M 35 120 L 165 120 M 100 55 L 100 185" stroke="#74b9ff" stroke-width="1" opacity="0.5" stroke-dasharray="3 3" />
+    </g>
+    
+    <ellipse cx="100" cy="155" rx="35" ry="18" fill="#dcdde1" class="floor-shadow" opacity="0.3" filter="url(#textbookShadowBlur)" />
+
+    <g filter="url(#sceneShadow)">
+      <!-- The Heavy Bag -->
+      <g class="heavy-bag-wrapper">
+        <g class="heavy-bag-group">
+          <!-- Chains -->
+          <g stroke="url(#chromeMetal)" stroke-width="2.5" stroke-linejoin="round" fill="none">
+            <polyline points="95,10 90,50" />
+            <polyline points="100,10 100,50" />
+            <polyline points="105,10 110,50" />
+          </g>
+          <!-- Straps -->
+          <path d="M 90 48 L 110 48 L 115 54 L 85 54 Z" fill="#2d3436" />
+          <!-- Bag Leather Core -->
+          <path class="bag-bend" fill="url(#blueBag)" />
+          <ellipse cx="100" cy="50" rx="30" ry="6" fill="url(#bagTop)" />
+          <ellipse cx="100" cy="46" rx="28" ry="4" fill="rgba(255,255,255,0.1)" />
+          <!-- Bag Branding details -->
+          <path d="M 75 65 L 125 65 M 72 85 L 128 85 M 70 105 L 130 105 M 72 125 L 128 125" fill="none" stroke="#003366" stroke-width="2" opacity="0.3" stroke-dasharray="4 4" />
+          <path d="M 90 40 L 90 54 M 100 40 L 100 54 M 110 40 L 110 54" stroke="#ffffff" stroke-width="1.5" opacity="0.6" />
+          <path d="M 75 55 C 70 80, 70 120, 75 135" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.15" />
+        </g>
+      </g>
+      
+      <!-- The Striker Glove -->
+      <g class="glove-wrapper">
+        <g class="striker-glove">
+          <path d="M 50 150 L 45 125 L 65 120 L 75 145 Z" fill="url(#redGloveDark)" />
+          <path d="M 55 120 L 80 115 C 95 110, 110 120, 105 135 C 100 150, 85 155, 75 150 L 50 145 Z" fill="url(#redGlove)" />
+          <path d="M 70 115 C 80 125, 80 140, 65 148" fill="none" stroke="#8a2387" stroke-width="6" stroke-linecap="round" />
+          <path d="M 70 125 C 85 115, 100 120, 100 135 C 100 145, 90 150, 75 145" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.4" />
+          <path d="M 46 126 L 66 121 M 48 135 L 70 130 M 50 145 L 72 140" fill="none" stroke="#c31432" stroke-width="3" />
+          <path d="M 45 135 L 55 122 L 65 120 L 60 145 Z" fill="url(#leatherStrap)" />
+          <g fill="url(#strapDark)">
+            <circle cx="58" cy="125" r="2" />
+            <circle cx="56" cy="132" r="2" />
+            <circle cx="54" cy="139" r="2" />
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- Impact and Victory Effects -->
+    <use href="#miniPow" class="impact impact-jab-1" filter="url(#impactGlow)" />
+    <use href="#miniPow" class="impact impact-jab-2" filter="url(#impactGlow)" />
+    <use href="#powStar" class="impact impact-ko" />
+    <g class="small-victory-star">
+      <use href="#miniPow" x="130" y="40" />
+      <circle cx="130" cy="40" r="1.5" fill="#fbc531" />
+      <circle cx="140" cy="30" r="1" fill="#ffffff" />
+      <circle cx="120" cy="50" r="1" fill="#ffffff" />
+    </g>
+  </g>
+</svg>

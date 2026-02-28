@@ -1,140 +1,299 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%" style="background-color: #ffffff;">
   <defs>
-    <style>
-      /* 1. Paper is now static (animation removed) */
-      .paper-group {
-        transform-origin: 100px 100px;
-      }
 
-      /* 2. Pen sequence updated to write two lines over 8 seconds */
-      .pen-wrapper {
-        animation: penSequence 8s ease-in-out infinite;
-      }
-
-      @keyframes penSequence {
-        0%, 15% { transform: translate(100px, 250px) rotate(20deg); opacity: 0;} /* Hidden below */
-        20% { transform: translate(100px, 250px) rotate(20deg); opacity: 1;} /* Appears */
-        25% { transform: translate(45px, 55px) rotate(0deg); } /* Reaches start of Line 1 */
-        45% { transform: translate(155px, 60px) rotate(0deg); } /* Sweeps across Line 1 */
-        50% { transform: translate(45px, 85px) rotate(0deg); } /* Drops to start of Line 2 */
-        70% { transform: translate(155px, 90px) rotate(0deg); } /* Sweeps across Line 2 */
-        75%, 100% { transform: translate(200px, 250px) rotate(30deg); opacity: 0; } /* Swoops away */
-      }
-
-      /* 3. High-frequency pen jitter */
-      .pen-wiggle-active {
-          animation: quickJitter 0.15s infinite alternate ease-in-out;
-          transform-origin: 0px 0px; 
-      }
-      
-      @keyframes quickJitter {
-        0% { transform: rotate(0deg) translate(0,0); }
-        100% { transform: rotate(3deg) translate(2px, -1px); }
-      }
-      
-      /* Wiggle synced to Line 1 and Line 2 timing */
-      .pen-wiggle-container {
-         animation: activateWiggle 8s steps(1) infinite;
-      }
-      
-      @keyframes activateWiggle {
-         0%, 25% { opacity: 1; } 
-         25.1%, 45% { opacity: 0.99; } /* Wiggle active L1 */
-         45.1%, 50% { opacity: 1; }    /* Moving, no wiggle */
-         50.1%, 70% { opacity: 0.99; } /* Wiggle active L2 */
-         70.1%, 100% { opacity: 1; } 
-      }
-
-      /* 4. Two Ink Trails perfectly timed to the sweeps */
-      .ink-trail-1, .ink-trail-2 {
-        stroke-dasharray: 140;
-        stroke-dashoffset: 140;
-        fill: none;
-        stroke: #5e4330;
-        stroke-width: 3;
-        stroke-linecap: round;
-      }
-
-      .ink-trail-1 { animation: revealInk1 8s linear infinite; }
-      .ink-trail-2 { animation: revealInk2 8s linear infinite; }
-
-      @keyframes revealInk1 {
-        0%, 25% { stroke-dashoffset: 140; } 
-        45%, 100% { stroke-dashoffset: 0; } 
-      }
-
-      @keyframes revealInk2 {
-        0%, 50% { stroke-dashoffset: 140; } 
-        70%, 100% { stroke-dashoffset: 0; } 
-      }
-    </style>
-
-    <radialGradient id="parchmentSurface" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" stop-color="#f4ecd8"/>
-      <stop offset="80%" stop-color="#e0d5b7"/>
-      <stop offset="100%" stop-color="#c7b299"/>
-    </radialGradient>
-    
-    <linearGradient id="parchmentEdge" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#c7b299"/>
-      <stop offset="100%" stop-color="#a6937c"/>
-    </linearGradient>
-
-    <linearGradient id="classicBarrel" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#5e4330"/>
-      <stop offset="50%" stop-color="#3d2b1f"/>
-      <stop offset="100%" stop-color="#261a13"/>
-    </linearGradient>
-    
-    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#fbc531"/>
-      <stop offset="50%" stop-color="#e1b12c"/>
-      <stop offset="100%" stop-color="#c29a26"/>
-    </linearGradient>
-
-    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
-      <feOffset dx="0" dy="8" result="offsetblur"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.3"/>
-      </feComponentTransfer>
-      <feMerge> 
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/> 
-      </feMerge>
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
     </filter>
+    <style>
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #fce3ef 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
+      svg { cursor: pointer; }
+      /* --- 2.5D Transform and Perspective --- */
+      .scene {
+        transform-origin: 100px 100px;
+        /* Scaled down to 0.85, shifted to stay centered */
+        transform: perspective(600px) rotateX(45deg) rotateZ(-30deg) scale3d(0.85, 0.85, 0.85) translate(30px, 0px);
+        transform-style: preserve-3d;
+      }
+      /* Animated Floor Shadow matching planet.svg implementation */
+      .shadow { transform-origin: 110px 175px; opacity: 0.4; }
+      svg:hover .shadow {
+        animation: shadowScale 8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+      @keyframes shadowScale {
+        0%, 10% { transform: scale(1); opacity: 0.4; }
+        25%, 100% { transform: scale(0.95); opacity: 0.3; } /* subtle shift as cover opens */
+      }
+      /* Hover animation for the Cover */
+      .cover-wrapper {
+        transform-origin: 20px 0; /* hinge along the left spine */
+        transform-style: preserve-3d;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      svg:hover .cover-wrapper {
+        animation: openCover 8s forwards;
+      }
+      @keyframes openCover {
+        0%, 10% { transform: rotateY(0deg); }
+        25%, 100% { transform: rotateY(-175deg); } /* mostly open to lay flat-ish in perspective */
+      }
+      /* Delay the page content until cover opens */
+      .page-content {
+        opacity: 0;
+      }
+      svg:hover .page-content {
+         animation: fadeInContent 8s forwards;
+      }
+      @keyframes fadeInContent {
+          0%, 20% { opacity: 0; }
+          22%, 100% { opacity: 1; }
+      }
+      /* Feather Pen Writing Sequence */
+      .pen-wrapper {
+        opacity: 0;
+        transform-origin: 0px 0px;
+        /* Start translated down and right in 3D space */
+        transform: translate3d(50px, 120px, 40px) rotateZ(-10deg) rotateY(10deg);
+      }
+      svg:hover .pen-wrapper {
+        animation: penSequence25D 8s forwards;
+      }
+      @keyframes penSequence25D {
+        0%, 25% { transform: translate3d(50px, 120px, 40px) rotateZ(-10deg) rotateY(10deg); opacity: 0; }
+        /* Drop in to start of Line 1 */
+        30% { transform: translate3d(-10px, 10px, 30px) rotateZ(-15deg) rotateY(0deg); opacity: 1; }
+        35% { transform: translate3d(35px, 20px, 2px) rotateZ(-20deg) rotateY(0deg); }
+        /* Write Line 1 */
+        55% { transform: translate3d(120px, 20px, 2px) rotateZ(-20deg) rotateY(0deg); }
+        /* Drop to start of Line 2 */
+        60% { transform: translate3d(35px, 45px, 2px) rotateZ(-20deg) rotateY(0deg); }
+        /* Write Line 2 */
+        80% { transform: translate3d(100px, 45px, 2px) rotateZ(-20deg) rotateY(0deg); }
+        /* Lift and fly away */
+        85%, 100% { transform: translate3d(150px, 120px, 40px) rotateZ(-10deg) rotateY(10deg); opacity: 0; }
+      }
+      /* Jitter effect for the pen while writing */
+      .pen-wiggle { transform-origin: 0 0; }
+      svg:hover .pen-wiggle {
+        animation: quickJitter 0.1s infinite alternate ease-in-out;
+      }
+      @keyframes quickJitter {
+        0% { transform: rotateZ(0deg) translate3d(0,0,0); }
+        100% { transform: rotateZ(2deg) translate3d(1px, -1px, 0); }
+      }
+      /* Control when jitter is active (only while writing lines) */
+      .pen-wiggle-controller {
+        opacity: 1;
+      }
+      svg:hover .pen-wiggle-controller {
+         animation: activateWiggle25D 8s forwards;
+      }
+      @keyframes activateWiggle25D {
+         0%, 35% { opacity: 1; } 
+         35.1%, 55% { opacity: 0.99; } /* L1 */
+         55.1%, 60% { opacity: 1; }    
+         60.1%, 80% { opacity: 0.99; } /* L2 */
+         80.1%, 100% { opacity: 1; } 
+      }
+      /* Ink Trails matched to sweeps */
+      .ink-line {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+        fill: none;
+        stroke: #e84393; /* Beautiful deep pink ink matching the notebook theme */
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        filter: drop-shadow(0px 1px 0px rgba(232, 67, 147, 0.4));
+      }
+      svg:hover .ink-trail-1 { animation: revealInk1 8s forwards; }
+      svg:hover .ink-trail-2 { animation: revealInk2 8s forwards; }
+      @keyframes revealInk1 {
+        0%, 35% { stroke-dashoffset: 100; } 
+        55%, 100% { stroke-dashoffset: 0; } 
+      }
+      @keyframes revealInk2 {
+        0%, 60% { stroke-dashoffset: 100; } 
+        80%, 100% { stroke-dashoffset: 0; } 
+      }
+      </style>
+    <!-- Gradients and Filters for Premium 2.5D Look -->
+    <!-- Pink cover (Thick, rich magenta/hot pink) -->
+    <linearGradient id="coverFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fd79a8"/>
+      <stop offset="100%" stop-color="#e84393"/>
+    </linearGradient>
+    <!-- Cover thickness (darker edge) -->
+    <linearGradient id="coverDepth" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e84393"/>
+      <stop offset="100%" stop-color="#b71540"/>
+    </linearGradient>
+    <!-- Paper stack edge -->
+    <linearGradient id="paperEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#dfe6e9"/>
+      <stop offset="100%" stop-color="#b2bec3"/>
+    </linearGradient>
+    <!-- Clean white page face -->
+    <linearGradient id="pageFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f6fa"/>
+    </linearGradient>
+    <!-- Metallic Spiral -->
+    <linearGradient id="metalSpiral" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f6fa"/>
+      <stop offset="50%" stop-color="#a4b0be"/>
+      <stop offset="100%" stop-color="#57606f"/>
+    </linearGradient>
+    <!-- Feather Gradients -->
+    <linearGradient id="featherBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#f1f2f6"/>
+      <stop offset="100%" stop-color="#ced6e0"/>
+    </linearGradient>
+    <linearGradient id="goldNib" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbc531"/>
+      <stop offset="100%" stop-color="#c23616"/>
+    </linearGradient>
+    <!-- Soft, realistic drop shadows -->
+    <filter id="sceneShadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="-10" dy="25" stdDeviation="15" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+    <filter id="pageShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="-2" dy="5" stdDeviation="3" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+    <!-- Aesthetic Dot Grid Pattern for the interior page -->
+    <pattern id="dotGrid" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.8" fill="#e84393" opacity="0.25" />
+    </pattern>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <g class="paper-group">
-    <path d="M 22 175 C 25 180, 175 180, 178 175 L 178 185 C 178 190, 170 193, 160 193 L 40 193 C 30 193, 22 190, 22 185 Z" fill="url(#parchmentEdge)" filter="url(#softShadow)" />
-    
-    <path d="M 22 25 C 25 20, 175 20, 178 25 C 182 30, 180 170, 178 175 C 175 178, 25 178, 22 175 C 20 170, 18 30, 22 25 Z" fill="url(#parchmentSurface)" stroke="#c7b299" stroke-width="0.5" />
-
-    <g stroke="#d1c4b2" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
-        <line x1="35" y1="85" x2="165" y2="85" />
-        <line x1="35" y1="105" x2="165" y2="105" />
-        <line x1="35" y1="125" x2="165" y2="125" />
-        <line x1="35" y1="145" x2="135" y2="145" />
-    </g>
-
-    <path d="M 45 55 C 55 45, 65 65, 75 52 C 85 45, 95 65, 105 55 C 115 45, 125 65, 135 58 C 145 55, 150 55, 155 60" class="ink-trail-1" />
-    <path d="M 45 85 C 55 75, 65 95, 75 82 C 85 75, 95 95, 105 85 C 115 75, 125 95, 135 88 C 145 85, 150 85, 155 90" class="ink-trail-2" />
-  </g>
-
-  <g class="pen-wrapper">
-    <g class="pen-wiggle-container">
-        <g class="pen-wiggle-active">
-          <ellipse cx="0" cy="0" rx="6" ry="2" fill="#3d2b1f" opacity="0.3" transform="translate(2, 4)" />
-
-          <path d="M -5 15 L 5 15 L 0 0 Z" fill="url(#goldAccent)" />
-          <path d="M -1 15 L 1 15 L 0 0 Z" fill="#261a13" />
-          
-          <path d="M -10 30 L 10 30 L 5 15 L -5 15 Z" fill="url(#goldAccent)" />
-
-          <path d="M -15 150 L 15 150 L 10 30 L -10 30 Z" fill="url(#classicBarrel)" />
+  <!-- Background is applied to the SVG tag to ensure it fills any responsive container -->
+  <!-- 3D Scene Container -->
+  <g class="scene">
+    <!-- === Notebook Bottom (Back Cover and Paper Stack Base) === -->
+    <g transform="translate(0, 5)">
+      <!-- Back Cover Extrusion (Dropped lower to account for thick pages) -->
+      <path d="M 28 178 L 152 178 A 8 8 0 0 0 160 170 L 160 35 L 158 37 L 158 172 A 6 6 0 0 1 152 178 Z" fill="url(#coverDepth)" />
+      <!-- Back Cover Face -->
+      <rect x="20" y="27" width="138" height="156" rx="6" fill="url(#coverFace)" />
+      <!-- Paper Stack Extrusion (Thickened stack of pages) -->
+      <!-- Top left drops to bottom left, bottom right up to top right -->
+      <path d="M 35 174 L 148 174 A 4 4 0 0 0 152 170 L 152 25 L 144 32 L 144 165 A 2 2 0 0 1 142 167 L 35 167 Z" fill="url(#paperEdge)" />
+      <!-- Added page lines on the side for depth texture -->
+      <path d="M 146 32 L 146 168 M 148 30 L 148 168 M 150 28 L 150 169" stroke="#b2bec3" stroke-width="1" fill="none" opacity="0.6"/>
+      <!-- Topmost Page Face -->
+      <rect x="35" y="22" width="115" height="150" rx="2" fill="url(#pageFace)" filter="url(#pageShadow)"/>
+      <!-- Spiral Binding Holes (Bottom/Page side) -->
+      <g fill="#2f3640">
+        <ellipse cx="28" cy="35" rx="3" ry="5" />
+        <ellipse cx="28" cy="55" rx="3" ry="5" />
+        <ellipse cx="28" cy="75" rx="3" ry="5" />
+        <ellipse cx="28" cy="95" rx="3" ry="5" />
+        <ellipse cx="28" cy="115" rx="3" ry="5" />
+        <ellipse cx="28" cy="135" rx="3" ry="5" />
+        <ellipse cx="28" cy="155" rx="3" ry="5" />
+      </g>
+      <!-- Content written by pen -->
+      <g class="page-content">
+        <!-- Minimalist Clean Layout (Requested by user) -->
+        <!-- Clean Horizontal Light Grey Ruled Lines -->
+        <g stroke="#dcdde1" stroke-width="1.2" stroke-linecap="round" opacity="0.8">
+            <line x1="45" y1="40" x2="140" y2="40" />
+            <line x1="45" y1="65" x2="140" y2="65" />
+            <line x1="45" y1="90" x2="140" y2="90" />
+            <line x1="45" y1="115" x2="140" y2="115" />
+            <line x1="45" y1="140" x2="140" y2="140" />
         </g>
+        <!-- Subtle Vertical Margin line -->
+        <line x1="40" y1="22" x2="40" y2="172" stroke="#dcdde1" stroke-width="1.5" opacity="0.5" />
+        <!-- Animated Ink -->
+        <!-- Adjusted paths to match 3D coordinate sweeps -->
+        <path d="M 45 45 C 55 35, 75 55, 95 40 C 115 25, 125 50, 135 43" class="ink-line ink-trail-1" />
+        <path d="M 45 70 C 60 60, 80 80, 100 65 C 110 55, 115 75, 120 70" class="ink-line ink-trail-2" />
+        <!-- Beautiful Dangling Diary Thread / Bookmark from the Spring -->
+        <path d="M 30 160 C 30 190, 45 190, 45 220" fill="none" stroke="#6c5ce7" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M 30 160 C 30 190, 45 190, 45 220" fill="none" stroke="#a29bfe" stroke-width="1.2" stroke-linecap="round" />
+        <!-- Small silk tassel at the end -->
+        <line x1="45" y1="220" x2="42" y2="228" stroke="#6c5ce7" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="45" y1="220" x2="45" y2="229" stroke="#6c5ce7" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="45" y1="220" x2="48" y2="228" stroke="#6c5ce7" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Tassel knot/bead -->
+        <circle cx="45" cy="220" r="2.5" fill="#fbc531" />
+      </g>
+    </g>
+    <!-- === Front Cover (Animated) === -->
+    <g class="cover-wrapper">
+      <g transform="translate(0, 0)">
+        <!-- Base Cover Color -->
+        <rect x="20" y="16" width="138" height="156" rx="6" fill="url(#coverFace)" filter="url(#pageShadow)" />
+        <!-- *** New Attractive Cover Design *** -->
+        <!-- Outer Debossed Border -->
+        <rect x="28" y="24" width="122" height="140" rx="3" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.6" />
+        <!-- Aesthetic Geometric Corner Guards (Dark Metal) -->
+        <!-- Top Right -->
+        <path d="M 140 16 L 158 16 A 6 6 0 0 1 158 22 L 158 35 L 140 16 Z" fill="#2d3436" opacity="0.5"/>
+        <path d="M 142 16 L 158 16 A 6 6 0 0 1 158 22 L 158 33 L 142 16 Z" fill="#636e72" />
+        <!-- Bottom Right -->
+        <path d="M 158 155 L 158 172 A 6 6 0 0 1 152 172 L 140 172 Z" fill="#2d3436" opacity="0.5"/>
+        <path d="M 158 157 L 158 172 A 6 6 0 0 1 152 172 L 142 172 Z" fill="#636e72" />
+        <!-- Vertical Accent Band down the left (near spine) -->
+        <rect x="35" y="16" width="12" height="156" fill="#2d3436" opacity="0.05" />
+        <rect x="36" y="16" width="2" height="156" fill="#ffffff" opacity="0.5" />
+        <rect x="42" y="16" width="1" height="156" fill="#e84393" opacity="0.3" />
+        <!-- Cover is kept plain as requested (Label/Emblem removed) -->
+        <!-- Spiral Binding Holes (Top/Cover side) -->
+        <g fill="#2f3640">
+          <ellipse cx="28" cy="30" rx="3" ry="5" />
+          <ellipse cx="28" cy="50" rx="3" ry="5" />
+          <ellipse cx="28" cy="70" rx="3" ry="5" />
+          <ellipse cx="28" cy="90" rx="3" ry="5" />
+          <ellipse cx="28" cy="110" rx="3" ry="5" />
+          <ellipse cx="28" cy="130" rx="3" ry="5" />
+          <ellipse cx="28" cy="150" rx="3" ry="5" />
+        </g>
+      </g>
+    </g>
+    <!-- === Metallic Spiral Binding Rings (Static 3D overlay) === -->
+    <g stroke="url(#metalSpiral)" stroke-width="4.5" stroke-linecap="round" fill="none" filter="drop-shadow(-2px 2px 1px rgba(0,0,0,0.3))">
+      <path d="M 20 28 C 35 25, 38 40, 25 38" />
+      <path d="M 20 48 C 35 45, 38 60, 25 58" />
+      <path d="M 20 68 C 35 65, 38 80, 25 78" />
+      <path d="M 20 88 C 35 85, 38 100, 25 98" />
+      <path d="M 20 108 C 35 105, 38 120, 25 118" />
+      <path d="M 20 128 C 35 125, 38 140, 25 138" />
+      <path d="M 20 148 C 35 145, 38 160, 25 158" />
+    </g>
+    <!-- === Feather Pen (Animated) === -->
+    <g class="pen-wrapper">
+      <g class="pen-wiggle-controller">
+          <g class="pen-wiggle">
+            <g transform="scale(0.65)">
+              <!-- 3D Shadow cast by the pen tip onto the paper -->
+              <ellipse cx="5" cy="10" rx="8" ry="3" fill="#000000" opacity="0.15" />
+              <!-- Nib (Gold/Metallic) -->
+              <path d="M 0 0 L 8 10 L -4 12 Z" fill="url(#goldNib)" />
+              <path d="M 0 0 L 2 11 L -4 12 Z" fill="#b33939" /> <!-- darker shadow side of nib -->
+              <!-- Nib Base / Mount -->
+              <path d="M 8 10 L 14 20 L -2 22 L -4 12 Z" fill="#57606f" />
+              <!-- Feather Body with stylized fluff -->
+              <path d="M -2 22 C -30 50, -60 140, 10 160 C 20 120, 40 50, 14 20 Z" fill="url(#featherBody)" filter="drop-shadow(-3px 5px 3px rgba(0,0,0,0.1))"/>
+              <!-- Quill Stem -->
+              <path d="M -2 22 C -15 60, -25 110, 8 155" fill="none" stroke="#f5f6fa" stroke-width="2.5" />
+              <!-- Subtle feather texture cuts -->
+              <path d="M -15 65 L -5 85" stroke="#dfe6e9" stroke-width="1.5" fill="none"/>
+              <path d="M -22 95 L -10 115" stroke="#dfe6e9" stroke-width="1.5" fill="none"/>
+              <path d="M 12 75 L 0 55" stroke="#dfe6e9" stroke-width="1.5" fill="none"/>
+            </g>
+          </g>
+      </g>
     </g>
   </g>
 </svg>

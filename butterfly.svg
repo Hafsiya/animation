@@ -1,0 +1,337 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <style>
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #eadaf5 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
+      svg { cursor: pointer; }
+      /* --- 2.5D Transform and Perspective --- */
+      .scene {
+        transform-origin: 100px 100px;
+        transform: perspective(600px) rotateX(45deg) rotateZ(30deg) translate(-10px, -15px);
+        transform-style: preserve-3d;
+      }
+      /* Hover animation for the Main Butterfly Wings */
+      .wing-left {
+        transform-origin: 100px 100px; /* Hinge at the center body */
+        transform-style: preserve-3d;
+        transform: rotateY(-15deg); /* resting angled up */
+      }
+      .wing-right {
+        transform-origin: 100px 100px;
+        transform-style: preserve-3d;
+        transform: rotateY(15deg); /* resting angled up */
+      }
+      /* Flapping animation on hover: 5 seconds total (approx 6 full flaps) */
+      svg:hover .wing-left {
+        animation: flapLeft 5s ease-in-out forwards;
+      }
+      svg:hover .wing-right {
+        animation: flapRight 5s ease-in-out forwards;
+      }
+      /* 
+       * 6 flaps over 5 seconds (0.833s per flap). 
+       * Rests at starting angles (-15/15) when finished.
+       */
+      @keyframes flapLeft {
+        0%, 16%, 33%, 50%, 66%, 83% { transform: rotateY(-15deg); }
+        8%, 25%, 41%, 58%, 75%, 91% { transform: rotateY(-60deg); } /* flap down */
+        100% { transform: rotateY(-15deg); }
+      }
+      @keyframes flapRight {
+        0%, 16%, 33%, 50%, 66%, 83% { transform: rotateY(15deg); }
+        8%, 25%, 41%, 58%, 75%, 91% { transform: rotateY(60deg); }
+        100% { transform: rotateY(15deg); }
+      }
+      /* Gentle Floating Body (Active only for 5s on hover) */
+      .butterfly-body {
+        transform-style: preserve-3d;
+        transform: translateZ(5px);
+      }
+      svg:hover .butterfly-body {
+        animation: floatBody 5s ease-in-out forwards;
+      }
+      @keyframes floatBody {
+        0%, 33%, 66%, 100% { transform: translateZ(5px); }
+        15%, 50%, 85% { transform: translateZ(15px); }
+      }
+      /* Delay the smaller companion butterfly */
+      .small-butterfly {
+        transform-origin: 40px 140px;
+        transform-style: preserve-3d;
+        opacity: 0.8;
+      }
+      /* Small butterfly circles exactly once over 5 seconds */
+      svg:hover .small-butterfly {
+        animation: circleFlight 5s linear forwards;
+      }
+      @keyframes circleFlight {
+        0% { transform: translate3d(0, 0, 5px) rotateZ(0deg) scale(0.6); }
+        25% { transform: translate3d(-30px, 10px, 30px) rotateZ(-90deg) scale(0.6); }
+        50% { transform: translate3d(0px, -40px, 50px) rotateZ(-180deg) scale(0.6); }
+        75% { transform: translate3d(40px, -10px, 30px) rotateZ(-270deg) scale(0.6); }
+        100% { transform: translate3d(0, 0, 5px) rotateZ(-360deg) scale(0.6); }
+      }
+      /* Small butterfly wing flaps (10 flaps over 5s) */
+      .small-wing-left { transform-origin: 100px 100px; transform: rotateY(-10deg); }
+      .small-wing-right { transform-origin: 100px 100px; transform: rotateY(10deg); }
+      svg:hover .small-wing-left { animation: fastFlapLeft 5s ease-in-out forwards; }
+      svg:hover .small-wing-right { animation: fastFlapRight 5s ease-in-out forwards; }
+      @keyframes fastFlapLeft {
+        0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% { transform: rotateY(-10deg); }
+        5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% { transform: rotateY(-70deg); }
+      }
+      @keyframes fastFlapRight {
+        0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% { transform: rotateY(10deg); }
+        5%, 15%, 25%, 35%, 45%, 55%, 65%, 75%, 85%, 95% { transform: rotateY(70deg); }
+      }
+      /* Magic Sparkles trailing the small butterfly (timed over 5s) */
+      .sparkle {
+        opacity: 0;
+      }
+      /* Each sparkle pops up during the 5s flight at proportional times */
+      svg:hover .sparkle-1 { animation: twinkle 5s 0.2s forwards; }
+      svg:hover .sparkle-2 { animation: twinkle 5s 1.5s forwards; }
+      svg:hover .sparkle-3 { animation: twinkle 5s 2.8s forwards; }
+      svg:hover .sparkle-4 { animation: twinkle 5s 4.0s forwards; }
+      @keyframes twinkle {
+        0% { opacity: 0; transform: scale(0.5); }
+        5% { opacity: 1; transform: scale(1.5); }
+        15%, 100% { opacity: 0; transform: scale(0); }
+      }
+      </style>
+    <!-- Gradients and Filters for Premium 2.5D Look -->
+    <!-- Deep elegant Blues and Purples for the main butterfly -->
+    <linearGradient id="mainWingPattern" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a29bfe"/>
+      <stop offset="50%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#3c2f94"/>
+    </linearGradient>
+    <!-- Gold Accent Edges -->
+    <linearGradient id="wingEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdcb6e"/>
+      <stop offset="100%" stop-color="#e1b12c"/>
+    </linearGradient>
+    <!-- Small Companion Butterfly (Peach/Pink) -->
+    <linearGradient id="smallWingPattern" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fab1a0"/>
+      <stop offset="100%" stop-color="#e84393"/>
+    </linearGradient>
+    <!-- Golden body -->
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2d3436"/>
+      <stop offset="20%" stop-color="#e1b12c"/>
+      <stop offset="80%" stop-color="#fdcb6e"/>
+      <stop offset="100%" stop-color="#2d3436"/>
+    </linearGradient>
+    <!-- Background Arch/Moon Gradient (Pink/Peach/Purple) -->
+    <linearGradient id="aestheticBackdrop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9a9e"/>
+      <stop offset="50%" stop-color="#fecfef"/>
+      <stop offset="100%" stop-color="#a18cd1"/>
+    </linearGradient>
+    <!-- Glowing Pink Rings -->
+    <linearGradient id="ringGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e84393"/>
+      <stop offset="100%" stop-color="#fdcb6e"/>
+    </linearGradient>
+    <!-- Soft, realistic drop shadows -->
+    <filter id="sceneShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="15" dy="15" stdDeviation="15" flood-color="#6c5ce7" flood-opacity="0.15"/>
+    </filter>
+    <!-- Dynamic Butterfly Cast Shadow (Smaller, colored with butterfly theme) -->
+    <filter id="butterflyShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+      <feOffset dx="-3" dy="20" result="offsetblur"/>
+      <feComponentTransfer result="transparentBlur">
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#6c5ce7" result="colorFlood" />
+      <feComposite in="colorFlood" in2="transparentBlur" operator="in" result="coloredShadow" />
+      <feMerge> 
+        <feMergeNode in="coloredShadow"/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+    <!-- Companion Pink Butterfly Shadow -->
+    <filter id="smallButterflyShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+      <feOffset dx="-3" dy="20" result="offsetblur"/>
+      <feComponentTransfer result="transparentBlur">
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <!-- Color the shadow with the small butterfly's pink theme -->
+      <feFlood flood-color="#e84393" result="colorFlood" />
+      <feComposite in="colorFlood" in2="transparentBlur" operator="in" result="coloredShadow" />
+      <feMerge> 
+        <feMergeNode in="coloredShadow"/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background removed to match sparkle.svg transparency -->
+  <!-- 3D Scene Container -->
+  <g class="scene">
+    <!-- Beautiful Aesthetic Base Elements -->
+    <g filter="url(#sceneShadow)">
+      <!-- Elegant Backdrop Arch (Replaces green leaves/moon) -->
+      <!-- A smooth, beautiful geometric arch shape -->
+      <path d="M 40 100 A 60 60 0 1 1 160 100 L 160 140 C 160 150, 150 160, 140 160 L 60 160 C 50 160, 40 150, 40 140 Z" fill="url(#aestheticBackdrop)" opacity="0.4" />
+      <!-- Offset smaller floating aesthetic circle -->
+      <circle cx="140" cy="50" r="25" fill="#fecfef" opacity="0.5" />
+      <!-- Minimalist Glowing Rings (Replaces dashed yellow circle) -->
+      <!-- Outer Ring -->
+      <ellipse cx="100" cy="110" rx="75" ry="75" fill="none" stroke="url(#ringGlow)" stroke-width="1" opacity="0.3" transform="rotate(-15 100 110)"/>
+      <!-- Inner Thin Ring -->
+      <ellipse cx="100" cy="110" rx="60" ry="60" fill="none" stroke="#e84393" stroke-width="1.5" opacity="0.4" />
+      <!-- Orbital Accents -->
+      <circle cx="40" cy="110" r="3" fill="#fdcb6e" opacity="0.7" />
+      <circle cx="160" cy="110" r="2" fill="#e84393" opacity="0.7" />
+    </g>
+    <!-- === Main Realistic Butterfly === -->
+    <g class="butterfly-body">
+      <!-- Cast Shadow -->
+      <g filter="url(#butterflyShadow)">
+        <!-- === Left Wing Structure === -->
+        <g class="wing-left">
+          <!-- Base Wing Silhouette (Realistic Swallowtail Shape) -->
+          <path d="M 100 85 C 80 50, 40 30, 20 40 C 10 45, 10 70, 25 85 C 40 100, 75 110, 98 100 Z" fill="url(#mainWingPattern)" />
+          <path d="M 98 100 C 80 120, 45 140, 40 160 C 35 180, 50 170, 60 150 C 70 160, 90 145, 100 115 Z" fill="url(#mainWingPattern)" />
+          <!-- Outer Gold Pattern/Edge (Scalloped) (Removed per request) -->
+          <!-- Realistic Wing Veins (Forewing) -->
+          <g stroke="#2d3436" stroke-width="0.8" opacity="0.6" fill="none">
+            <path d="M 95 90 Q 60 70 23 50" />
+            <path d="M 95 90 Q 50 80 17 65" />
+            <path d="M 95 90 Q 60 95 30 85" />
+            <path d="M 95 90 Q 80 105 50 100" />
+            <!-- Cross veins -->
+            <path d="M 60 70 Q 55 75 50 80" />
+            <path d="M 75 80 Q 70 90 60 95" />
+          </g>
+          <!-- Realistic Wing Veins (Hindwing) -->
+          <g stroke="#2d3436" stroke-width="0.8" opacity="0.6" fill="none">
+            <path d="M 95 105 Q 70 120 45 140" />
+            <path d="M 95 105 Q 80 135 60 150" />
+            <path d="M 95 105 Q 90 130 85 145" />
+            <!-- Swallowtail tail vein -->
+            <path d="M 70 120 Q 50 150 42 165" />
+          </g>
+          <!-- Subtle Wing Spots (Eyespots/Edges) -->
+          <circle cx="25" cy="50" r="1.5" fill="#f5f6fa" opacity="0.8" />
+          <circle cx="18" cy="65" r="1.5" fill="#f5f6fa" opacity="0.8" />
+          <circle cx="35" cy="90" r="1.5" fill="#f5f6fa" opacity="0.8" />
+          <circle cx="50" cy="140" r="2.5" fill="#fdcb6e" />
+          <circle cx="75" cy="135" r="1.5" fill="#fdcb6e" />
+        </g>
+        <!-- === Right Wing Structure === -->
+        <g class="wing-right">
+          <!-- Base Wing Silhouette (Realistic Swallowtail Shape) -->
+          <path d="M 100 85 C 120 50, 160 30, 180 40 C 190 45, 190 70, 175 85 C 160 100, 125 110, 102 100 Z" fill="url(#mainWingPattern)" />
+          <path d="M 102 100 C 120 120, 155 140, 160 160 C 165 180, 150 170, 140 150 C 130 160, 110 145, 100 115 Z" fill="url(#mainWingPattern)" />
+          <!-- Outer Gold Pattern/Edge (Scalloped) (Removed per request) -->
+          <!-- Realistic Wing Veins (Forewing) -->
+          <g stroke="#2d3436" stroke-width="0.8" opacity="0.6" fill="none">
+            <path d="M 105 90 Q 140 70 177 50" />
+            <path d="M 105 90 Q 150 80 183 65" />
+            <path d="M 105 90 Q 140 95 170 85" />
+            <path d="M 105 90 Q 120 105 150 100" />
+            <!-- Cross veins -->
+            <path d="M 140 70 Q 145 75 150 80" />
+            <path d="M 125 80 Q 130 90 140 95" />
+          </g>
+          <!-- Realistic Wing Veins (Hindwing) -->
+          <g stroke="#2d3436" stroke-width="0.8" opacity="0.6" fill="none">
+            <path d="M 105 105 Q 130 120 155 140" />
+            <path d="M 105 105 Q 120 135 140 150" />
+            <path d="M 105 105 Q 110 130 115 145" />
+            <!-- Swallowtail tail vein -->
+            <path d="M 130 120 Q 150 150 158 165" />
+          </g>
+          <!-- Subtle Wing Spots (Eyespots/Edges) -->
+          <circle cx="175" cy="50" r="1.5" fill="#f5f6fa" opacity="0.8" />
+          <circle cx="182" cy="65" r="1.5" fill="#f5f6fa" opacity="0.8" />
+          <circle cx="165" cy="90" r="1.5" fill="#f5f6fa" opacity="0.8" />
+          <circle cx="150" cy="140" r="2.5" fill="#fdcb6e" />
+          <circle cx="125" cy="135" r="1.5" fill="#fdcb6e" />
+        </g>
+        <!-- Antennae (Realistic, curved with clubbed ends) -->
+        <path d="M 98 70 Q 90 40 82 48" fill="none" stroke="#2d3436" stroke-width="1.2" stroke-linecap="round" />
+        <ellipse cx="80" cy="49" rx="1.5" ry="2.5" fill="#e1b12c" transform="rotate(-30 80 49)" />
+        <path d="M 102 70 Q 110 40 118 48" fill="none" stroke="#2d3436" stroke-width="1.2" stroke-linecap="round" />
+        <ellipse cx="120" cy="49" rx="1.5" ry="2.5" fill="#e1b12c" transform="rotate(30 120 49)" />
+        <!-- Butterfly Body (Realistic segmented anatomy) -->
+        <!-- Abdomen (Longer lower part) -->
+        <path d="M 96 100 C 96 125, 104 125, 104 100 Z" fill="url(#bodyGradient)" />
+        <path d="M 96 105 Q 100 110 104 105 M 96 112 Q 100 117 104 112 M 97 119 Q 100 123 103 119" stroke="#2d3436" stroke-width="0.5" fill="none" opacity="0.4"/> <!-- Segments -->
+        <!-- Thorax (Middle fuzzy part) -->
+        <ellipse cx="100" cy="88" rx="4.5" ry="12" fill="url(#bodyGradient)" />
+        <!-- Head -->
+        <circle cx="100" cy="72" r="3.5" fill="#2d3436" />
+        <!-- Eyes (Tiny compound eyes) -->
+        <circle cx="97.5" cy="71" r="1.2" fill="#636e72" />
+        <circle cx="102.5" cy="71" r="1.2" fill="#636e72" />
+      </g>
+    </g>
+    <!-- === Companion Small Butterfly (Animated Flight Path) === -->
+    <g class="small-butterfly">
+      <!-- Cast Shadow for the small flying butterfly (now pink!) -->
+      <g filter="url(#smallButterflyShadow)">
+        <g class="butterfly-body">
+          <!-- Left Wing -->
+          <g class="small-wing-left">
+            <path d="M 99 92 C 89 75, 69 65, 59 70 C 54 73, 54 85, 61 93 C 69 100, 86 105, 98 100 Z" fill="url(#smallWingPattern)" />
+            <path d="M 98 100 C 89 110, 71 120, 69 130 C 66 140, 74 135, 79 125 C 84 130, 94 123, 99 108 Z" fill="url(#smallWingPattern)" />
+            <g stroke="#2d3436" stroke-width="0.5" opacity="0.6" fill="none">
+              <path d="M 95 95 Q 75 80 60 70" />
+              <path d="M 95 95 Q 75 98 62 90" />
+              <path d="M 95 102 Q 80 115 75 125" />
+            </g>
+          </g>
+          <!-- Right Wing -->
+          <g class="small-wing-right">
+            <path d="M 101 92 C 111 75, 131 65, 141 70 C 146 73, 146 85, 139 93 C 131 100, 114 105, 102 100 Z" fill="url(#smallWingPattern)" />
+            <path d="M 102 100 C 111 110, 129 120, 131 130 C 134 140, 126 135, 121 125 C 116 130, 106 123, 101 108 Z" fill="url(#smallWingPattern)" />
+            <g stroke="#2d3436" stroke-width="0.5" opacity="0.6" fill="none">
+              <path d="M 105 95 Q 125 80 140 70" />
+              <path d="M 105 95 Q 125 98 138 90" />
+              <path d="M 105 102 Q 120 115 125 125" />
+            </g>
+          </g>
+          <!-- Small Antennae -->
+          <path d="M 99 85 Q 95 70 91 74" fill="none" stroke="#2d3436" stroke-width="0.8" stroke-linecap="round" />
+          <ellipse cx="90" cy="74" rx="0.8" ry="1.5" fill="#e84393" transform="rotate(-30 90 74)" />
+          <path d="M 101 85 Q 105 70 109 74" fill="none" stroke="#2d3436" stroke-width="0.8" stroke-linecap="round" />
+          <ellipse cx="110" cy="74" rx="0.8" ry="1.5" fill="#e84393" transform="rotate(30 110 74)" />
+          <!-- Small Body -->
+          <path d="M 98 100 C 98 112, 102 112, 102 100 Z" fill="#2d3436" />
+          <ellipse cx="100" cy="94" rx="2" ry="6" fill="#e84393" />
+          <circle cx="100" cy="86" r="1.5" fill="#2d3436" />
+        </g>
+      </g>
+    </g>
+    <!-- Magic Sparkles (Fixed positions, glowing on hover mapped to flight path) -->
+    <g fill="#fdcb6e" opacity="0.8">
+      <!-- 4 Point Star path helper -->
+      <defs>
+        <path id="star" d="M 0 -5 L 1 -1 L 5 0 L 1 1 L 0 5 L -1 1 L -5 0 L -1 -1 Z" />
+      </defs>
+      <use href="#star" x="65" y="150" class="sparkle sparkle-1"/>
+      <use href="#star" x="30" y="80" class="sparkle sparkle-2"/>
+      <use href="#star" x="120" y="30" class="sparkle sparkle-3"/>
+      <use href="#star" x="170" y="110" class="sparkle sparkle-4"/>
+    </g>
+  </g>
+</svg>

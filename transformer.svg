@@ -1,92 +1,94 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* 1. Vertical Data Flow (Embedding to FFN) */
-      .vertical-stream {
-        stroke-dasharray: 6 12;
-        animation: dataRise 3s linear infinite;
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #d9f8f7 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
+      
+      /* --- 5s NARRATIVE ANIMATION SEQUENCE --- */
+      /* 1. Vertical Data Flow (Embedding to FFN) */
+      .vertical-stream { stroke-dasharray: 6 12; stroke-dashoffset: 60; opacity: 0; }
       @keyframes dataRise {
-        0% { stroke-dashoffset: 60; opacity: 0; }
-        20% { opacity: 1; }
-        80% { opacity: 1; }
-        100% { stroke-dashoffset: 0; opacity: 0; }
+        0%, 10% { stroke-dashoffset: 60; opacity: 0; }
+        15% { opacity: 1; stroke-dashoffset: 60; }
+        45% { stroke-dashoffset: 0; opacity: 1; }
+        55%, 100% { stroke-dashoffset: 0; opacity: 0; }
       }
 
       /* 2. Attention Head 1 (Cyan) Processing */
-      .head-cyan-pulse {
-        animation: pulseCyan 3s ease-in-out infinite;
-      }
+      .head-cyan-pulse { opacity: 0.1; stroke-width: 1px; }
       @keyframes pulseCyan {
-        0%, 20%, 60%, 100% { opacity: 0.1; stroke-width: 1px; }
-        35%, 45% { opacity: 1; stroke-width: 2.5px; filter: drop-shadow(0px 0px 4px #00cec9); }
+        0%, 30%, 55%, 100% { opacity: 0.1; stroke-width: 1px; filter: none; }
+        35%, 50% { opacity: 1; stroke-width: 2.5px; filter: drop-shadow(0px 0px 4px #0ba360); }
       }
 
-      /* 3. Attention Head 2 (Magenta) Processing - Parallel but slightly staggered */
-      .head-magenta-pulse {
-        animation: pulseMagenta 3s ease-in-out infinite;
-      }
+      /* 3. Attention Head 2 (Magenta) Processing */
+      .head-magenta-pulse { opacity: 0.1; stroke-width: 1px; }
       @keyframes pulseMagenta {
-        0%, 25%, 65%, 100% { opacity: 0.1; stroke-width: 1px; }
-        40%, 50% { opacity: 1; stroke-width: 2.5px; filter: drop-shadow(0px 0px 4px #fd79a8); }
+        0%, 35%, 60%, 100% { opacity: 0.1; stroke-width: 1px; filter: none; }
+        40%, 55% { opacity: 1; stroke-width: 2.5px; filter: drop-shadow(0px 0px 4px #ff7eb3); }
       }
 
       /* 4. Feed Forward Network Block Computing */
-      .ffn-compute {
-        animation: computeFFN 3s ease-in-out infinite;
-      }
+      .ffn-compute { fill: #3a1c71; }
       @keyframes computeFFN {
-        0%, 55%, 85%, 100% { fill: #30336b; filter: none; }
-        65%, 75% { fill: #4834d4; filter: drop-shadow(0px 0px 8px #6c5ce7); }
+        0%, 55%, 85%, 100% { fill: #3a1c71; filter: none; }
+        60%, 80% { fill: #4834d4; filter: drop-shadow(0px 0px 8px #7579ff); }
       }
 
       /* 5. Output Prediction Token */
-      .output-token {
-        animation: spawnToken 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
-        transform-origin: 100px 10px;
-      }
+      .output-token { transform-origin: 100px 10px; opacity: 0; }
       @keyframes spawnToken {
-        0%, 70% { transform: scale(0) translateY(10px); opacity: 0; }
+        0%, 75% { transform: scale(0) translateY(10px); opacity: 0; }
         80%, 90% { transform: scale(1) translateY(0px); opacity: 1; }
         100% { transform: scale(0.5) translateY(-15px); opacity: 0; }
       }
 
       /* 6. Base Levitation */
-      .stack-assembly {
-        animation: hoverModel 6s ease-in-out infinite alternate;
-        transform-origin: 100px 100px;
-      }
+      .stack-assembly { transform-origin: 100px 100px; }
       @keyframes hoverModel {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-5px); }
+        0%, 100% { transform: translateY(0px); }
+        40%, 60% { transform: translateY(-3px); }
       }
-      
-      /* Floor Shadow */
-      .floor-shadow {
-        animation: shadowBreathe 6s ease-in-out infinite alternate;
-        transform-origin: 100px 185px;
-      }
+      .floor-shadow { transform-origin: 100px 185px; }
       @keyframes shadowBreathe {
-        0% { transform: scale(1); opacity: 0.15; }
-        100% { transform: scale(1.05); opacity: 0.08; }
+        0%, 100% { transform: scale(1); opacity: 0.15; }
+        40%, 60% { transform: scale(1.05); opacity: 0.08; }
       }
-    </style>
 
+      svg:hover .vertical-stream { animation: dataRise 5s linear forwards; }
+      svg:hover .head-cyan-pulse { animation: pulseCyan 5s ease-in-out forwards; }
+      svg:hover .head-magenta-pulse { animation: pulseMagenta 5s ease-in-out forwards; }
+      svg:hover .ffn-compute { animation: computeFFN 5s ease-in-out forwards; }
+      svg:hover .output-token { animation: spawnToken 5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+      svg:hover .stack-assembly { animation: hoverModel 5s ease-in-out forwards; }
+      svg:hover .floor-shadow { animation: shadowBreathe 5s ease-in-out forwards; }
+
+      </style>
+      
     <linearGradient id="glassCyan" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="rgba(0, 206, 201, 0.15)"/>
       <stop offset="100%" stop-color="rgba(0, 206, 201, 0.05)"/>
     </linearGradient>
-    
     <linearGradient id="glassMagenta" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="rgba(253, 121, 168, 0.15)"/>
       <stop offset="100%" stop-color="rgba(253, 121, 168, 0.05)"/>
     </linearGradient>
-
     <linearGradient id="ffnTop" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#4834d4"/>
-      <stop offset="100%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#7579ff"/>
     </linearGradient>
-
     <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
       <feOffset dx="0" dy="6" result="offsetblur"/>
@@ -95,75 +97,55 @@
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="185" rx="60" ry="15" fill="#130f40" class="floor-shadow" />
-
+  
+  <ellipse cx="100" cy="185" rx="60" ry="15" fill="#0ba360" filter="url(#textbookShadowBlur)" opacity="0.6" class="floor-shadow"  />
   <g class="stack-assembly">
-
     <g transform="translate(100, 160) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
       <rect x="-45" y="-45" width="90" height="90" rx="4" fill="#f5f6fa" stroke="#dcdde1" stroke-width="2" />
       <g stroke="#dcdde1" stroke-width="1" opacity="0.6">
         <line x1="-30" y1="-45" x2="-30" y2="45" /> <line x1="0" y1="-45" x2="0" y2="45" /> <line x1="30" y1="-45" x2="30" y2="45" />
         <line x1="-45" y1="-30" x2="45" y2="-30" /> <line x1="-45" y1="0" x2="45" y2="0" /> <line x1="-45" y1="30" x2="45" y2="30" />
       </g>
-      
       <rect x="-34" y="26" width="8" height="8" rx="2" fill="#a4b0be" /> <rect x="26" y="-34" width="8" height="8" rx="2" fill="#a4b0be" /> <rect x="26" y="26" width="8" height="8" rx="2" fill="#a4b0be" />  </g>
-
-    <line x1="57.6" y1="160" x2="57.6" y2="50" stroke="#b2bec3" stroke-width="1.5" opacity="0.3" />
-    <line x1="57.6" y1="160" x2="57.6" y2="50" stroke="#00cec9" stroke-width="2.5" class="vertical-stream" />
-    <line x1="142.4" y1="160" x2="142.4" y2="50" stroke="#b2bec3" stroke-width="1.5" opacity="0.3" />
-    <line x1="142.4" y1="160" x2="142.4" y2="50" stroke="#00cec9" stroke-width="2.5" class="vertical-stream" style="animation-delay: 0.2s;" />
-    <line x1="100" y1="181.2" x2="100" y2="71.2" stroke="#b2bec3" stroke-width="1.5" opacity="0.3" />
-    <line x1="100" y1="181.2" x2="100" y2="71.2" stroke="#00cec9" stroke-width="2.5" class="vertical-stream" style="animation-delay: 0.4s;" />
-
-
+    <line x1="57.6" y1="160" x2="57.6" y2="50" stroke="#e0e0e0" stroke-width="1.5" opacity="0.3" />
+    <line x1="57.6" y1="160" x2="57.6" y2="50" stroke="#0ba360" stroke-width="2.5" class="vertical-stream" />
+    <line x1="142.4" y1="160" x2="142.4" y2="50" stroke="#e0e0e0" stroke-width="1.5" opacity="0.3" />
+    <line x1="142.4" y1="160" x2="142.4" y2="50" stroke="#0ba360" stroke-width="2.5" class="vertical-stream" style="animation-delay: 0.2s;" />
+    <line x1="100" y1="181.2" x2="100" y2="71.2" stroke="#e0e0e0" stroke-width="1.5" opacity="0.3" />
+    <line x1="100" y1="181.2" x2="100" y2="71.2" stroke="#0ba360" stroke-width="2.5" class="vertical-stream" style="animation-delay: 0.4s;" />
     <g transform="translate(100, 120) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
-      <rect x="-45" y="-45" width="90" height="90" rx="4" fill="url(#glassCyan)" stroke="#00cec9" stroke-width="1.5" />
-      
-      <g class="head-cyan-pulse" fill="none" stroke="#00cec9" stroke-linecap="round">
+      <rect x="-45" y="-45" width="90" height="90" rx="4" fill="url(#glassCyan)" stroke="#0ba360" stroke-width="1.5" />
+      <g class="head-cyan-pulse" fill="none" stroke="#0ba360" stroke-linecap="round">
         <polygon points="-30,30 30,-30 30,30" />
         <line x1="-30" y1="30" x2="30" y2="-30" />
       </g>
-      
-      <circle cx="-30" cy="30" r="4" fill="#00cec9" />
-      <circle cx="30" cy="-30" r="4" fill="#00cec9" />
-      <circle cx="30" cy="30" r="4" fill="#00cec9" />
+      <circle cx="-30" cy="30" r="4" fill="#0ba360" />
+      <circle cx="30" cy="-30" r="4" fill="#0ba360" />
+      <circle cx="30" cy="30" r="4" fill="#0ba360" />
     </g>
-
-
     <g transform="translate(100, 80) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
-      <rect x="-45" y="-45" width="90" height="90" rx="4" fill="url(#glassMagenta)" stroke="#fd79a8" stroke-width="1.5" />
-      
-      <g class="head-magenta-pulse" fill="none" stroke="#fd79a8" stroke-linecap="round">
+      <rect x="-45" y="-45" width="90" height="90" rx="4" fill="url(#glassMagenta)" stroke="#ff7eb3" stroke-width="1.5" />
+      <g class="head-magenta-pulse" fill="none" stroke="#ff7eb3" stroke-linecap="round">
         <polygon points="-30,30 30,-30 30,30" />
         <line x1="-30" y1="30" x2="30" y2="-30" />
       </g>
-      
-      <circle cx="-30" cy="30" r="4" fill="#fd79a8" />
-      <circle cx="30" cy="-30" r="4" fill="#fd79a8" />
-      <circle cx="30" cy="30" r="4" fill="#fd79a8" />
+      <circle cx="-30" cy="30" r="4" fill="#ff7eb3" />
+      <circle cx="30" cy="-30" r="4" fill="#ff7eb3" />
+      <circle cx="30" cy="30" r="4" fill="#ff7eb3" />
     </g>
-
-
     <g transform="translate(100, 40) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
-      
       <rect x="-30" y="-30" width="60" height="60" rx="2" fill="#130f40" transform="translate(-4, 8)" />
-      
       <rect x="-30" y="-30" width="60" height="60" rx="2" class="ffn-compute" />
-      
-      <g stroke="#81ecec" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
+      <g stroke="#3cba92" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
         <line x1="-20" y1="20" x2="-5" y2="5" />
         <line x1="20" y1="-20" x2="5" y2="-5" />
         <line x1="20" y1="20" x2="5" y2="5" />
-        <circle cx="0" cy="0" r="5" fill="#00cec9" />
+        <circle cx="0" cy="0" r="5" fill="#0ba360" />
       </g>
     </g>
-
     <g class="output-token">
-      <ellipse cx="100" cy="10" rx="12" ry="5" fill="none" stroke="#6c5ce7" stroke-width="1.5" opacity="0.8" />
-      <polygon points="100,2 106,6 106,12 100,16 94,12 94,6" fill="#00cec9" />
-      <polygon points="100,2 106,6 100,9 94,6" fill="#81ecec" /> </g>
-
+      <ellipse cx="100" cy="10" rx="12" ry="5" fill="none" stroke="#7579ff" stroke-width="1.5" opacity="0.8" />
+      <polygon points="100,2 106,6 106,12 100,16 94,12 94,6" fill="#0ba360" />
+      <polygon points="100,2 106,6 100,9 94,6" fill="#3cba92" /> </g>
   </g>
 </svg>

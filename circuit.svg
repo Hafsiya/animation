@@ -1,59 +1,79 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* 1. Alternating LED Blinks */
-      .led-red-glow {
-        animation: blinkRed 2s steps(1) infinite;
-        transform-origin: 90px 75px;
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #f1f3f5 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
-      .led-cyan-glow {
-        animation: blinkCyan 2s steps(1) infinite;
-        transform-origin: 130px 95px;
+    
+      /* --- 5s NARRATIVE ANIMATION SEQUENCE --- */
+      /* Story: 
+         0-1s: Board powers up (LEDs blink on).
+         1-2.5s: Data current flows through the traces.
+         2.5-4s: The CPU processes the data (glows/pulses).
+         4-5s: Power down to idle state.
+      */
+
+      /* 1. LEDs Power Up */
+      .led-red-glow, .led-cyan-glow { transform-origin: center; opacity: 0; }
+      @keyframes powerUpLED {
+        0%, 5% { opacity: 0; transform: scale(0.5); }
+        10%, 80% { opacity: 0.9; transform: scale(1.1); }
+        85%, 100% { opacity: 0; transform: scale(0.5); }
       }
 
-      @keyframes blinkRed {
-        0%, 49% { opacity: 0.9; transform: scale(1.1); } /* ON */
-        50%, 100% { opacity: 0.1; transform: scale(0.9); } /* OFF */
-      }
-      @keyframes blinkCyan {
-        0%, 49% { opacity: 0.1; transform: scale(0.9); } /* OFF */
-        50%, 100% { opacity: 0.9; transform: scale(1.1); } /* ON */
-      }
-
-      /* 2. Visualizing Current Flow through the wire */
+      /* 2. Data Flowing (Electron Traces) */
       .current-flow {
         stroke-dasharray: 4 8;
-        animation: flowElectrons 1s linear infinite;
+        stroke-dashoffset: 24;
+        opacity: 0;
+      }
+      @keyframes flowData {
+        0%, 15% { opacity: 0; stroke-dashoffset: 24; }
+        20% { opacity: 1; stroke-dashoffset: 24; }
+        60%, 80% { opacity: 1; stroke-dashoffset: -24; }
+        85%, 100% { opacity: 0; }
       }
 
-      @keyframes flowElectrons {
-        0% { stroke-dashoffset: 24; }
-        100% { stroke-dashoffset: 0; } /* Moves dots along the path */
+      /* 3. Central Processors (The Resistor looking things) processing */
+      .cpu-process { }
+      @keyframes processCPU {
+        0%, 50% { filter: brightness(1); transform: scale(1); }
+        55%, 65%, 75% { filter: brightness(1.5) drop-shadow(0 0 5px #ffb199); transform: scale(1.05); }
+        60%, 70% { filter: brightness(1); transform: scale(1); }
+        85%, 100% { filter: brightness(1); transform: scale(1); }
       }
 
-      /* 3. Subtle Hover for the whole board */
-      .board-assembly {
-        animation: premiumHover 6s ease-in-out infinite alternate;
-        transform-origin: 100px 145px;
-      }
-
+      /* 4. Subtle Hover for the whole board */
+      .board-assembly { transform-origin: 100px 145px; }
       @keyframes premiumHover {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-4px); }
+        0%, 100% { transform: translateY(0px) rotateX(0deg); }
+        40%, 60% { transform: translateY(-5px) rotateX(2deg); }
       }
 
-      /* 4. Floor Shadow Breathing */
-      .floor-shadow {
-        animation: shadowBreathe 6s ease-in-out infinite alternate;
-        transform-origin: 100px 170px;
-      }
-
+      /* 5. Floor Shadow Breathing */
+      .floor-shadow { transform-origin: 100px 170px; }
       @keyframes shadowBreathe {
-        0% { transform: scale(1); opacity: 0.15; }
-        100% { transform: scale(1.05); opacity: 0.1; }
+        0%, 100% { transform: scale(1); opacity: 0.15; }
+        40%, 60% { transform: scale(1.05); opacity: 0.1; }
       }
-    </style>
 
+      svg:hover .led-red-glow, svg:hover .led-cyan-glow { animation: powerUpLED 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      svg:hover .current-flow { animation: flowData 5s linear forwards; }
+      svg:hover .resistor-group { animation: processCPU 5s ease-in-out forwards; transform-origin: 90px 110px; }
+      svg:hover .board-assembly { animation: premiumHover 5s ease-in-out forwards; }
+      svg:hover .floor-shadow { animation: shadowBreathe 5s ease-in-out forwards; }
+      </style>
     <linearGradient id="boardEdgeLeft" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#dcdde1"/>
       <stop offset="100%" stop-color="#a4b0be"/>
@@ -62,109 +82,78 @@
       <stop offset="0%" stop-color="#a4b0be"/>
       <stop offset="100%" stop-color="#7f8fa6"/>
     </linearGradient>
-
     <linearGradient id="ledRed" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff7675"/>
-      <stop offset="100%" stop-color="#d63031"/>
+      <stop offset="0%" stop-color="#ffb199"/>
+      <stop offset="100%" stop-color="#ff0844"/>
     </linearGradient>
-
     <linearGradient id="ledCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#81ecec"/>
-      <stop offset="100%" stop-color="#00cec9"/>
+      <stop offset="0%" stop-color="#3cba92"/>
+      <stop offset="100%" stop-color="#0ba360"/>
     </linearGradient>
-
     <linearGradient id="resistorBody" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f5cd79"/>
-      <stop offset="100%" stop-color="#e1b12c"/>
+      <stop offset="100%" stop-color="#da8d41"/>
     </linearGradient>
-
     <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-
     <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
       <feOffset dx="-2" dy="6" result="offsetblur"/>
       <feComponentTransfer><feFuncA type="linear" slope="0.25"/></feComponentTransfer>
       <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-
     <pattern id="holePattern" width="10" height="10" patternUnits="userSpaceOnUse">
       <rect x="3" y="3" width="4" height="4" rx="1" fill="#7f8fa6" />
-      <rect x="3.5" y="3.5" width="3" height="3" rx="0.5" fill="#2d3436" />
+      <rect x="3.5" y="3.5" width="3" height="3" rx="0.5" fill="#37474f" />
     </pattern>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="170" rx="65" ry="20" fill="#2f3640" class="floor-shadow" />
-
+  
+  <ellipse cx="100" cy="170" rx="65" ry="20" fill="#a4b0be" filter="url(#textbookShadowBlur)" opacity="0.6" class="floor-shadow"  />
   <g class="board-assembly">
-    
     <g transform="translate(100, 145) scale(1, 0.5) rotate(45)" filter="url(#softShadow)">
-      
       <rect x="-60" y="-80" width="120" height="160" rx="6" fill="#a4b0be" transform="translate(-4, 8)" />
-      
       <rect x="-60" y="-80" width="120" height="160" rx="6" fill="#f5f6fa" />
-      
       <rect x="-5" y="-75" width="10" height="150" rx="2" fill="#dcdde1" />
-      <rect x="-3" y="-75" width="6" height="150" rx="1" fill="#b2bec3" />
-
-      <line x1="-50" y1="-70" x2="-50" y2="70" stroke="#ff7675" stroke-width="1.5" stroke-linecap="round" />
-      <line x1="-40" y1="-70" x2="-40" y2="70" stroke="#74b9ff" stroke-width="1.5" stroke-linecap="round" />
-      <line x1="40" y1="-70" x2="40" y2="70" stroke="#74b9ff" stroke-width="1.5" stroke-linecap="round" />
-      <line x1="50" y1="-70" x2="50" y2="70" stroke="#ff7675" stroke-width="1.5" stroke-linecap="round" />
-
+      <rect x="-3" y="-75" width="6" height="150" rx="1" fill="#e0e0e0" />
+      <line x1="-50" y1="-70" x2="-50" y2="70" stroke="#ffb199" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="-40" y1="-70" x2="-40" y2="70" stroke="#4facfe" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="40" y1="-70" x2="40" y2="70" stroke="#4facfe" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="50" y1="-70" x2="50" y2="70" stroke="#ffb199" stroke-width="1.5" stroke-linecap="round" />
       <rect x="-35" y="-70" width="25" height="140" fill="url(#holePattern)" />
       <rect x="10" y="-70" width="25" height="140" fill="url(#holePattern)" />
     </g>
-
     <ellipse cx="80" cy="120" rx="15" ry="5" fill="#a4b0be" opacity="0.6" transform="rotate(-15 80 120)" />
     <ellipse cx="120" cy="105" rx="8" ry="3" fill="#a4b0be" opacity="0.6" />
-
-    <g filter="url(#softShadow)">
-      <path d="M 60 135 L 60 115 L 70 110 L 80 115" fill="none" stroke="#b2bec3" stroke-width="2.5" stroke-linejoin="round" />
-      <path d="M 100 125 L 110 120 L 110 130" fill="none" stroke="#b2bec3" stroke-width="2.5" stroke-linejoin="round" />
-      
+    <g filter="url(#softShadow)" class="resistor-group">
+      <path d="M 60 135 L 60 115 L 70 110 L 80 115" fill="none" stroke="#e0e0e0" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M 100 125 L 110 120 L 110 130" fill="none" stroke="#e0e0e0" stroke-width="2.5" stroke-linejoin="round" />
       <polygon points="76,111 106,96 110,103 80,118" fill="url(#resistorBody)" />
-      
-      <polygon points="82,108 86,106 90,113 86,115" fill="#e84118" /> <polygon points="88,105 92,103 96,110 92,112" fill="#e84118" /> <polygon points="94,102 98,100 102,107 98,109" fill="#8c1c0b" /> <polygon points="102,98 104,97 108,104 106,105" fill="#fbc531" /> </g>
-
+      <polygon points="82,108 86,106 90,113 86,115" fill="#e84118" /> <polygon points="88,105 92,103 96,110 92,112" fill="#e84118" /> <polygon points="94,102 98,100 102,107 98,109" fill="#8c1c0b" /> <polygon points="102,98 104,97 108,104 106,105" fill="#f6a565" /> </g>
     <g filter="url(#softShadow)">
       <path d="M 50 145 C 40 90, 80 80, 88 110" fill="none" stroke="#ff793f" stroke-width="4.5" stroke-linecap="round" />
       <path d="M 50 145 C 40 90, 80 80, 88 110" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.4" />
-      
       <path d="M 50 145 C 40 90, 80 80, 88 110" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" class="current-flow" />
     </g>
-
     <g filter="url(#softShadow)">
       <line x1="88" y1="110" x2="88" y2="90" stroke="#a4b0be" stroke-width="2" />
-      <line x1="92" y1="112" x2="92" y2="90" stroke="#b2bec3" stroke-width="2" />
-      
-      <circle cx="90" cy="75" r="18" fill="#ff7675" filter="url(#neonGlow)" class="led-red-glow" />
-
-      <ellipse cx="90" cy="90" rx="8" ry="3.5" fill="#d63031" /> <path d="M 82 90 L 82 75 C 82 60, 98 60, 98 75 L 98 90 Z" fill="url(#ledRed)" opacity="0.9" />
-      
-      <line x1="88" y1="90" x2="88" y2="75" stroke="#2d3436" stroke-width="1" opacity="0.5" />
-      <line x1="92" y1="90" x2="92" y2="70" stroke="#2d3436" stroke-width="1" opacity="0.5" />
-      
+      <line x1="92" y1="112" x2="92" y2="90" stroke="#e0e0e0" stroke-width="2" />
+      <circle cx="90" cy="75" r="18" fill="#ffb199" filter="url(#neonGlow)" class="led-red-glow" />
+      <ellipse cx="90" cy="90" rx="8" ry="3.5" fill="#ff0844" /> <path d="M 82 90 L 82 75 C 82 60, 98 60, 98 75 L 98 90 Z" fill="url(#ledRed)" opacity="0.9" />
+      <line x1="88" y1="90" x2="88" y2="75" stroke="#37474f" stroke-width="1" opacity="0.5" />
+      <line x1="92" y1="90" x2="92" y2="70" stroke="#37474f" stroke-width="1" opacity="0.5" />
       <path d="M 84 88 L 84 75 C 84 65, 90 65, 90 75" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
     </g>
-
     <g filter="url(#softShadow)">
       <line x1="128" y1="130" x2="128" y2="110" stroke="#a4b0be" stroke-width="2" />
-      <line x1="132" y1="132" x2="132" y2="110" stroke="#b2bec3" stroke-width="2" />
-      
-      <circle cx="130" cy="95" r="18" fill="#00cec9" filter="url(#neonGlow)" class="led-cyan-glow" />
-
+      <line x1="132" y1="132" x2="132" y2="110" stroke="#e0e0e0" stroke-width="2" />
+      <circle cx="130" cy="95" r="18" fill="#0ba360" filter="url(#neonGlow)" class="led-cyan-glow" />
       <ellipse cx="130" cy="110" rx="8" ry="3.5" fill="#0097e6" /> <path d="M 122 110 L 122 95 C 122 80, 138 80, 138 95 L 138 110 Z" fill="url(#ledCyan)" opacity="0.9" />
-      
-      <line x1="128" y1="110" x2="128" y2="95" stroke="#2d3436" stroke-width="1" opacity="0.5" />
-      <line x1="132" y1="110" x2="132" y2="90" stroke="#2d3436" stroke-width="1" opacity="0.5" />
-      
+      <line x1="128" y1="110" x2="128" y2="95" stroke="#37474f" stroke-width="1" opacity="0.5" />
+      <line x1="132" y1="110" x2="132" y2="90" stroke="#37474f" stroke-width="1" opacity="0.5" />
       <path d="M 124 108 L 124 95 C 124 85, 130 85, 130 95" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.6" />
     </g>
-
   </g>
 </svg>

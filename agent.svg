@@ -1,29 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
-    <style>
-      /* --- MAIN CYCLE DURATION: 5 Seconds --- */
 
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <style>
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #d9f8f7 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
+      /* --- MAIN CYCLE DURATION: 5 Seconds --- */
       /* 1. The Agent Core (The Brain - Thinking and Orchestrating) */
-      .agent-core-pulse {
-        animation: coreThink 5s ease-in-out infinite;
+      .agent-core-pulse  {
         transform-origin: center;
       }
-
       @keyframes coreThink {
         0%, 5% { transform: scale(1); filter: brightness(1); } /* Idle */
-        10%, 25% { transform: scale(1.1); filter: brightness(1.3) drop-shadow(0 0 5px #a29bfe); } /* Planning Phase */
+        10%, 25% { transform: scale(1.1); filter: brightness(1.3) drop-shadow(0 0 5px #e0c3fc); } /* Planning Phase */
         30%, 55% { transform: scale(1.05); filter: brightness(1.1); } /* Waiting for tools */
-        60%, 75% { transform: scale(1.15); filter: brightness(1.4) drop-shadow(0 0 8px #00cec9); } /* Synthesizing Results */
+        60%, 75% { transform: scale(1.15); filter: brightness(1.4) drop-shadow(0 0 8px #0ba360); } /* Synthesizing Results */
         85%, 100% { transform: scale(1); filter: brightness(1); } /* Done */
       }
-
       /* 2. Data Pathways (Inactive traces) */
       .trace-line { stroke-dasharray: 4 2; opacity: 0.3; }
-
       /* 3. Outbound Command Packets (Core to Tools) */
-      .cmd-packet-1 { animation: sendCmd1 5s linear infinite; opacity: 0; }
-      .cmd-packet-2 { animation: sendCmd2 5s linear infinite; opacity: 0; }
-
+      .cmd-packet-1  {  opacity: 0; }
+      .cmd-packet-2  {  opacity: 0; }
       @keyframes sendCmd1 {
         10% { opacity: 1; transform: translate(0,0); }
         15% { opacity: 1; transform: translate(-40px, -30px); } /* Moves to Search Tool */
@@ -34,14 +43,12 @@
         50% { opacity: 1; transform: translate(40px, -30px); } /* Moves to Code Tool */
         55% { opacity: 0; transform: translate(40px, -30px); }
       }
-
       /* 4. Tool Activation and Result Packets (Tools to Core) */
-      .tool-search { animation: activateTool1 5s ease infinite; }
-      .result-packet-1 { animation: sendResult1 5s linear infinite; opacity: 0; }
-
+      .tool-search  {  }
+      .result-packet-1  {  opacity: 0; }
       @keyframes activateTool1 {
         15% { transform: translateY(0) scale(1); filter: none; }
-        20%, 30% { transform: translateY(-5px) scale(1.05); filter: brightness(1.2) drop-shadow(0 0 5px #0984e3); } /* Active */
+        20%, 30% { transform: translateY(-5px) scale(1.05); filter: brightness(1.2) drop-shadow(0 0 5px #00f2fe); } /* Active */
         35% { transform: translateY(0) scale(1); filter: none; }
       }
       @keyframes sendResult1 {
@@ -49,13 +56,11 @@
         30% { opacity: 1; transform: translate(0,0); } /* Returns to Core */
         35% { opacity: 0; transform: translate(0,0); }
       }
-
-      .tool-code { animation: activateTool2 5s ease infinite; }
-      .result-packet-2 { animation: sendResult2 5s linear infinite; opacity: 0; }
-
+      .tool-code  {  }
+      .result-packet-2  {  opacity: 0; }
       @keyframes activateTool2 {
         50% { transform: translateY(0) scale(1); filter: none; }
-        55%, 65% { transform: translateY(-5px) scale(1.05); filter: brightness(1.2) drop-shadow(0 0 5px #00cec9); } /* Active */
+        55%, 65% { transform: translateY(-5px) scale(1.05); filter: brightness(1.2) drop-shadow(0 0 5px #0ba360); } /* Active */
         70% { transform: translateY(0) scale(1); filter: none; }
       }
       @keyframes sendResult2 {
@@ -63,10 +68,8 @@
         65% { opacity: 1; transform: translate(0,0); } /* Returns to Core */
         70% { opacity: 0; transform: translate(0,0); }
       }
-
       /* 5. The Final Goal Achievement Emblem */
-      .goal-emblem {
-        animation: goalSuccess 5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+      .goal-emblem  {
         transform-origin: center;
         opacity: 0;
       }
@@ -75,21 +78,30 @@
         80%, 90% { opacity: 1; transform: translateY(-25px) scale(1); } /* Pops up */
         95%, 100% { opacity: 0; transform: translateY(-30px) scale(0); }
       }
+      /* Levitation and Shadow */
+      .agent-assembly  {  transform-origin: 100px 100px; }
+      @keyframes hoverModel { 0%, 100% { transform: translateY(0px); } 40%, 60% { transform: translateY(-4px); } }
+      .floor-shadow  {  transform-origin: 100px 170px; }
+      @keyframes shadowBreathe { 0%, 100% { transform: scale(1); opacity: 0.15; } 40%, 60% { transform: scale(1.05); opacity: 0.1; } }
+      
+      svg:hover .agent-core-pulse { animation: coreThink 5s ease-in-out forwards; }
+      svg:hover .cmd-packet-1 { animation: sendCmd1 5s linear forwards; }
+      svg:hover .cmd-packet-2 { animation: sendCmd2 5s linear forwards; }
+      svg:hover .tool-search { animation: activateTool1 5s ease forwards; }
+      svg:hover .result-packet-1 { animation: sendResult1 5s linear forwards; }
+      svg:hover .tool-code { animation: activateTool2 5s ease forwards; }
+      svg:hover .result-packet-2 { animation: sendResult2 5s linear forwards; }
+      svg:hover .goal-emblem { animation: goalSuccess 5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+      svg:hover .agent-assembly { animation: hoverModel 5s ease-in-out forwards; }
+      svg:hover .floor-shadow { animation: shadowBreathe 5s ease-in-out forwards; }
 
-      /* Levitation and Shadow (Sped up to 4s to match new energy) */
-      .agent-assembly { animation: hoverModel 4s ease-in-out infinite alternate; transform-origin: 100px 100px; }
-      @keyframes hoverModel { 0% { transform: translateY(0px); } 100% { transform: translateY(-4px); } }
-      .floor-shadow { animation: shadowBreathe 4s ease-in-out infinite alternate; transform-origin: 100px 170px; }
-      @keyframes shadowBreathe { 0% { transform: scale(1); opacity: 0.15; } 100% { transform: scale(1.05); opacity: 0.1; } }
-    </style>
-
+      </style>
     <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#a29bfe"/><stop offset="100%" stop-color="#6c5ce7"/>
+      <stop offset="0%" stop-color="#e0c3fc"/><stop offset="100%" stop-color="#7579ff"/>
     </linearGradient>
     <linearGradient id="platMetal" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#dfe6e9"/><stop offset="100%" stop-color="#b2bec3"/>
+      <stop offset="0%" stop-color="#fdfbfb"/><stop offset="100%" stop-color="#e0e0e0"/>
     </linearGradient>
-
     <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
       <feOffset dx="0" dy="4" result="offsetblur"/>
@@ -98,72 +110,62 @@
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="170" rx="70" ry="20" fill="#2d3436" class="floor-shadow" />
-
+  
+  <ellipse cx="100" cy="170" rx="70" ry="20" fill="#dcdde1" filter="url(#textbookShadowBlur)" opacity="0.4" class="floor-shadow"  />
   <g class="agent-assembly">
-    
     <g transform="translate(100, 120) scale(1, 0.6) rotate(45)">
-
-      <g stroke="#b2bec3" stroke-width="1.5" class="trace-line">
+      <g stroke="#e0e0e0" stroke-width="1.5" class="trace-line">
         <line x1="0" y1="0" x2="-50" y2="-50" /> <line x1="0" y1="0" x2="50" y2="-50" /> <line x1="0" y1="0" x2="0" y2="50" /> </g>
-
-      <circle r="3" fill="#00cec9" class="cmd-packet-1"/>
-      <circle r="3" fill="#00cec9" class="cmd-packet-2"/>
-      <circle r="3" fill="#fbc531" class="result-packet-1"/>
-      <circle r="3" fill="#fbc531" class="result-packet-2"/>
-
+      <circle r="3" fill="#0ba360" class="cmd-packet-1"/>
+      <circle r="3" fill="#0ba360" class="cmd-packet-2"/>
+      <circle r="3" fill="#f6a565" class="result-packet-1"/>
+      <circle r="3" fill="#f6a565" class="result-packet-2"/>
       <g transform="translate(-50, -50)">
         <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#platMetal)" filter="url(#softShadow)"/>
         <g class="tool-search" transform-origin="center">
-          <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#74b9ff" />
-          <rect x="-14" y="-14" width="28" height="6" rx="2" fill="#1e272e" opacity="0.6" />
-          <circle cx="-10" cy="-11" r="1" fill="#ff7675" />
-          <circle cx="-7" cy="-11" r="1" fill="#ffeaa7" />
-          <circle cx="-4" cy="-11" r="1" fill="#55efc4" />
+          <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#4facfe" />
+          <rect x="-14" y="-14" width="28" height="6" rx="2" fill="#263238" opacity="0.6" />
+          <circle cx="-10" cy="-11" r="1" fill="#ffb199" />
+          <circle cx="-7" cy="-11" r="1" fill="#fdfbfb" />
+          <circle cx="-4" cy="-11" r="1" fill="#38f9d7" />
           <rect x="-10" y="-4" width="20" height="6" rx="3" fill="#ffffff" />
-          <circle cx="-6" cy="-1" r="1.5" fill="none" stroke="#0984e3" stroke-width="0.75" />
-          <line x1="-4.5" y1="0.5" x2="-3" y2="2" stroke="#0984e3" stroke-width="0.75" />
+          <circle cx="-6" cy="-1" r="1.5" fill="none" stroke="#00f2fe" stroke-width="0.75" />
+          <line x1="-4.5" y1="0.5" x2="-3" y2="2" stroke="#00f2fe" stroke-width="0.75" />
           <line x1="-10" y1="5" x2="2" y2="5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
           <line x1="-10" y1="9" x2="8" y2="9" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
         </g>
       </g>
-
       <g transform="translate(50, -50)">
         <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#platMetal)" filter="url(#softShadow)"/>
         <g class="tool-code" transform-origin="center">
-          <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#2d3436" />
-          <rect x="-14" y="-14" width="28" height="6" rx="2" fill="#636e72" opacity="0.5" />
-          <path d="M -10 -4 L -8 -2 L -10 0 M -6 0 L -4 0" stroke="#55efc4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-          <line x1="-10" y1="4" x2="4" y2="4" stroke="#a29bfe" stroke-width="1.5" stroke-linecap="round" />
-          <line x1="-10" y1="9" x2="-2" y2="9" stroke="#00cec9" stroke-width="1.5" stroke-linecap="round" />
+          <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#37474f" />
+          <rect x="-14" y="-14" width="28" height="6" rx="2" fill="#b0bec5" opacity="0.5" />
+          <path d="M -10 -4 L -8 -2 L -10 0 M -6 0 L -4 0" stroke="#38f9d7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <line x1="-10" y1="4" x2="4" y2="4" stroke="#e0c3fc" stroke-width="1.5" stroke-linecap="round" />
+          <line x1="-10" y1="9" x2="-2" y2="9" stroke="#0ba360" stroke-width="1.5" stroke-linecap="round" />
         </g>
       </g>
-
       <g transform="translate(0, 50)">
         <rect x="-18" y="-18" width="36" height="36" rx="4" fill="url(#platMetal)" filter="url(#softShadow)"/>
         <g transform-origin="center">
-          <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#b2bec3" />
-          <rect x="-11" y="-10" width="22" height="5" rx="1" fill="#636e72" />
-          <circle cx="7" cy="-7.5" r="1" fill="#00cec9" />
-          <line x1="-8" y1="-7.5" x2="-2" y2="-7.5" stroke="#dfe6e9" stroke-width="1" stroke-linecap="round" />
-          <rect x="-11" y="-2" width="22" height="5" rx="1" fill="#636e72" />
-          <circle cx="7" cy="0.5" r="1" fill="#00cec9" />
-          <line x1="-8" y1="0.5" x2="2" y2="0.5" stroke="#dfe6e9" stroke-width="1" stroke-linecap="round" />
-          <rect x="-11" y="6" width="22" height="5" rx="1" fill="#636e72" />
-          <circle cx="7" cy="8.5" r="1" fill="#00cec9" />
-          <line x1="-8" y1="8.5" x2="0" y2="8.5" stroke="#dfe6e9" stroke-width="1" stroke-linecap="round" />
+          <rect x="-14" y="-14" width="28" height="28" rx="2" fill="#e0e0e0" />
+          <rect x="-11" y="-10" width="22" height="5" rx="1" fill="#b0bec5" />
+          <circle cx="7" cy="-7.5" r="1" fill="#0ba360" />
+          <line x1="-8" y1="-7.5" x2="-2" y2="-7.5" stroke="#fdfbfb" stroke-width="1" stroke-linecap="round" />
+          <rect x="-11" y="-2" width="22" height="5" rx="1" fill="#b0bec5" />
+          <circle cx="7" cy="0.5" r="1" fill="#0ba360" />
+          <line x1="-8" y1="0.5" x2="2" y2="0.5" stroke="#fdfbfb" stroke-width="1" stroke-linecap="round" />
+          <rect x="-11" y="6" width="22" height="5" rx="1" fill="#b0bec5" />
+          <circle cx="7" cy="8.5" r="1" fill="#0ba360" />
+          <line x1="-8" y1="8.5" x2="0" y2="8.5" stroke="#fdfbfb" stroke-width="1" stroke-linecap="round" />
         </g>
       </g>
-
       <g filter="url(#softShadow)">
-        <path d="M 0 -20 L 18 -10 L 18 10 L 0 20 L -18 10 L -18 -10 Z" fill="#6c5ce7"/>
-        
+        <path d="M 0 -20 L 18 -10 L 18 10 L 0 20 L -18 10 L -18 -10 Z" fill="#7579ff"/>
         <g class="agent-core-pulse">
            <path d="M 0 -20 L 18 -10 L 0 0 L -18 -10 Z" fill="url(#coreGrad)" opacity="0.8"/>
-           <path d="M 18 -10 L 18 10 L 0 0 Z" fill="#a29bfe"/>
-           <path d="M -18 10 L -18 -10 L 0 0 Z" fill="#a29bfe"/>
+           <path d="M 18 -10 L 18 10 L 0 0 Z" fill="#e0c3fc"/>
+           <path d="M -18 10 L -18 -10 L 0 0 Z" fill="#e0c3fc"/>
            <circle r="3" fill="#ffffff"/>
            <circle cx="0" cy="-20" r="2" fill="#ffffff" opacity="0.6"/>
            <circle cx="18" cy="-10" r="2" fill="#ffffff" opacity="0.6"/>
@@ -173,12 +175,10 @@
            </g>
         </g>
       </g>
-
       <g class="goal-emblem" transform="translate(0, -30) rotate(-45) scale(1, 1.66)">
-        <circle r="12" fill="#00b894" stroke="#ffffff" stroke-width="2"/>
+        <circle r="12" fill="#0ba360" stroke="#ffffff" stroke-width="2"/>
         <path d="M -6 0 L -2 4 L 6 -4" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </g>
-
     </g>
   </g>
 </svg>

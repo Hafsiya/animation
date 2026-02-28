@@ -1,12 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #ffebf2 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
       /* 1. The Liquid Helium Cooling Pulse (Drops down the chandelier) */
-      .cooling-pulse {
-        animation: dropFreeze 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      .cooling-pulse  {
         transform-origin: 100px 30px;
       }
-
       @keyframes dropFreeze {
         0% { transform: scale(1) translateY(0px); opacity: 0; }
         10% { transform: scale(1) translateY(0px); opacity: 0.8; }
@@ -15,76 +28,81 @@
         80% { transform: scale(0.4) translateY(120px); opacity: 0; }
         100% { transform: scale(1) translateY(0px); opacity: 0; }
       }
-
       /* 2. The Qubit Superposition Spin (The state vector inside the sphere) */
-      .state-vector {
-        animation: superpositionSpin 4s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+      .state-vector  {
         transform-origin: 100px 155px;
       }
-
       @keyframes superpositionSpin {
-        0%, 15% { transform: rotate(0deg) scaleY(1); fill: #fd79a8; }
-        30%, 60% { transform: rotate(180deg) scaleY(0.2); fill: #00cec9; } /* Flattening gives 3D precession illusion */
-        75% { transform: rotate(360deg) scaleY(-0.8); fill: #e1b12c; }
-        90%, 100% { transform: rotate(360deg) scaleY(1); fill: #fd79a8; }
+        0%, 15% { transform: rotate(0deg) scaleY(1); fill: #ff7eb3; }
+        30%, 60% { transform: rotate(180deg) scaleY(0.2); fill: #0ba360; } /* Flattening gives 3D precession illusion */
+        75% { transform: rotate(360deg) scaleY(-0.8); fill: #da8d41; }
+        90%, 100% { transform: rotate(360deg) scaleY(1); fill: #ff7eb3; }
       }
-
       /* 3. The Entanglement Burst (Triggers when the cooling pulse hits) */
-      .entanglement-field {
-        animation: coherenceBurst 4s ease-out infinite;
+      .entanglement-field  {
         transform-origin: 100px 155px;
       }
-
       @keyframes coherenceBurst {
         0%, 75% { transform: scale(0.5); opacity: 0; stroke-width: 4px; }
         80% { transform: scale(1.2); opacity: 0.8; stroke-width: 2px; } /* Coherence Achieved! */
         95%, 100% { transform: scale(2); opacity: 0; stroke-width: 0.5px; }
       }
-
       /* 4. Soft Levitation for the whole system */
-      .quantum-assembly {
-        animation: hoverSystem 6s ease-in-out infinite alternate;
+      .quantum-assembly  {
         transform-origin: 100px 100px;
       }
-
       @keyframes hoverSystem {
         0% { transform: translateY(0px); }
         100% { transform: translateY(-3px); }
       }
-
       /* Floor Shadow */
-      .floor-shadow {
-        animation: shadowBreathe 6s ease-in-out infinite alternate;
+      .floor-shadow  {
         transform-origin: 100px 190px;
       }
       @keyframes shadowBreathe {
         0% { transform: scale(1); opacity: 0.15; }
         100% { transform: scale(1.05); opacity: 0.08; }
       }
-    </style>
+      svg:hover .cooling-pulse {
+        animation: dropFreeze 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
 
+      svg:hover .state-vector {
+        animation: superpositionSpin 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      }
+
+      svg:hover .entanglement-field {
+        animation: coherenceBurst 4s ease-out forwards;
+      }
+
+      svg:hover .quantum-assembly {
+        animation: hoverSystem 6s ease-in-out forwards alternate;
+      }
+
+      svg:hover .floor-shadow {
+        animation: shadowBreathe 6s ease-in-out forwards alternate;
+      }
+
+      </style>
     <linearGradient id="goldTop" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fbc531"/>
-      <stop offset="50%" stop-color="#e1b12c"/>
+      <stop offset="0%" stop-color="#f6a565"/>
+      <stop offset="50%" stop-color="#da8d41"/>
       <stop offset="100%" stop-color="#c28f1b"/>
     </linearGradient>
     <linearGradient id="goldThick" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#c28f1b"/>
       <stop offset="100%" stop-color="#8c640e"/>
     </linearGradient>
-
     <linearGradient id="copperWire" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#e67e22"/>
       <stop offset="50%" stop-color="#d35400"/>
       <stop offset="100%" stop-color="#e67e22"/>
     </linearGradient>
-
     <radialGradient id="glassSphere" cx="30%" cy="30%" r="70%">
       <stop offset="0%" stop-color="rgba(129, 236, 236, 0.4)"/>
       <stop offset="70%" stop-color="rgba(9, 132, 227, 0.1)"/>
       <stop offset="100%" stop-color="rgba(45, 52, 54, 0.3)"/>
     </radialGradient>
-
     <filter id="neonCyan" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -97,64 +115,49 @@
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
-  <ellipse cx="100" cy="190" rx="50" ry="12" fill="#2d3436" class="floor-shadow" />
-
+  
+  <ellipse cx="100" cy="190" rx="50" ry="12" fill="#ff7eb3" filter="url(#textbookShadowBlur)" opacity="0.6" class="floor-shadow"  />
   <g class="quantum-assembly">
-
     <g fill="url(#copperWire)">
       <rect x="85" y="30" width="3" height="45" /> <rect x="112" y="30" width="3" height="45" />
       <rect x="75" y="30" width="2" height="45" /> <rect x="123" y="30" width="2" height="45" />
       <rect x="95" y="30" width="2" height="45" /> <rect x="103" y="30" width="2" height="45" />
       <rect x="90" y="75" width="2" height="35" /> <rect x="108" y="75" width="2" height="35" />
       <rect x="96" y="75" width="1.5" height="35" /> <rect x="102" y="75" width="1.5" height="35" />
-      <rect x="98" y="110" width="1" height="20" fill="#b2bec3" />
-      <rect x="101" y="110" width="1" height="20" fill="#b2bec3" />
+      <rect x="98" y="110" width="1" height="20" fill="#e0e0e0" />
+      <rect x="101" y="110" width="1" height="20" fill="#e0e0e0" />
     </g>
-
     <g filter="url(#softShadow)">
       <path d="M 50 30 C 50 42, 150 42, 150 30 L 150 34 C 150 46, 50 46, 50 34 Z" fill="url(#goldThick)" />
       <ellipse cx="100" cy="30" rx="50" ry="12" fill="url(#goldTop)" />
-      <ellipse cx="100" cy="30" rx="40" ry="8" fill="none" stroke="#e1b12c" stroke-width="1" />
+      <ellipse cx="100" cy="30" rx="40" ry="8" fill="none" stroke="#da8d41" stroke-width="1" />
       <circle cx="65" cy="30" r="1.5" fill="#8c640e" /> <circle cx="135" cy="30" r="1.5" fill="#8c640e" />
     </g>
-
     <g filter="url(#softShadow)">
       <path d="M 65 75 C 65 85, 135 85, 135 75 L 135 78 C 135 88, 65 88, 65 78 Z" fill="url(#goldThick)" />
       <ellipse cx="100" cy="75" rx="35" ry="10" fill="url(#goldTop)" />
-      <ellipse cx="100" cy="75" rx="25" ry="6" fill="none" stroke="#e1b12c" stroke-width="1" />
+      <ellipse cx="100" cy="75" rx="25" ry="6" fill="none" stroke="#da8d41" stroke-width="1" />
     </g>
-
     <g filter="url(#softShadow)">
       <path d="M 80 110 C 80 117, 120 117, 120 110 L 120 113 C 120 120, 80 120, 80 113 Z" fill="url(#goldThick)" />
       <ellipse cx="100" cy="110" rx="20" ry="7" fill="url(#goldTop)" />
     </g>
-
-    <ellipse cx="100" cy="30" rx="45" ry="11" fill="none" stroke="#00cec9" stroke-width="3" class="cooling-pulse" filter="url(#neonCyan)" />
-
+    <ellipse cx="100" cy="30" rx="45" ry="11" fill="none" stroke="#0ba360" stroke-width="3" class="cooling-pulse" filter="url(#neonCyan)" />
     <g transform="translate(0, 5)">
-      
       <circle cx="100" cy="150" r="28" fill="url(#glassSphere)" filter="url(#softShadow)" />
-      <circle cx="100" cy="150" r="28" fill="none" stroke="#81ecec" stroke-width="1.5" opacity="0.6" />
-
-      <line x1="100" y1="120" x2="100" y2="180" stroke="#b2bec3" stroke-width="1" stroke-dasharray="2 2" />
-      <ellipse cx="100" cy="150" rx="28" ry="10" fill="none" stroke="#dfe6e9" stroke-width="1.5" opacity="0.7" />
-      <ellipse cx="100" cy="150" rx="10" ry="28" fill="none" stroke="#dfe6e9" stroke-width="1" opacity="0.4" />
-
-      <g fill="#2d3436" font-family="monospace" font-size="7" font-weight="bold">
+      <circle cx="100" cy="150" r="28" fill="none" stroke="#3cba92" stroke-width="1.5" opacity="0.6" />
+      <line x1="100" y1="120" x2="100" y2="180" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="2 2" />
+      <ellipse cx="100" cy="150" rx="28" ry="10" fill="none" stroke="#fdfbfb" stroke-width="1.5" opacity="0.7" />
+      <ellipse cx="100" cy="150" rx="10" ry="28" fill="none" stroke="#fdfbfb" stroke-width="1" opacity="0.4" />
+      <g fill="#37474f" font-family="monospace" font-size="7" font-weight="bold">
         <text x="105" y="122">|0⟩</text> <text x="105" y="184">|1⟩</text> </g>
-
       <g class="state-vector">
-        <line x1="100" y1="150" x2="100" y2="126" stroke="#fd79a8" stroke-width="2.5" stroke-linecap="round" filter="url(#neonCyan)" />
-        <polygon points="100,123 103,128 97,128" fill="#fd79a8" filter="url(#neonCyan)" />
+        <line x1="100" y1="150" x2="100" y2="126" stroke="#ff7eb3" stroke-width="2.5" stroke-linecap="round" filter="url(#neonCyan)" />
+        <polygon points="100,123 103,128 97,128" fill="#ff7eb3" filter="url(#neonCyan)" />
         <circle cx="100" cy="150" r="2.5" fill="#ffffff" />
       </g>
-
-      <ellipse cx="100" cy="150" rx="28" ry="10" fill="none" stroke="#00cec9" class="entanglement-field" filter="url(#neonCyan)" />
-      <circle cx="100" cy="150" r="28" fill="none" stroke="#fd79a8" class="entanglement-field" style="animation-delay: 0.1s;" filter="url(#neonCyan)" />
-
+      <ellipse cx="100" cy="150" rx="28" ry="10" fill="none" stroke="#0ba360" class="entanglement-field" filter="url(#neonCyan)" />
+      <circle cx="100" cy="150" r="28" fill="none" stroke="#ff7eb3" class="entanglement-field" style="animation-delay: 0.1s;" filter="url(#neonCyan)" />
     </g>
-
   </g>
 </svg>

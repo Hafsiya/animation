@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+    </filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      svg { background: radial-gradient(circle at center, #ffffff 0%, #ffeaa7 100%); width: 100vw; height: 100vh; margin: 0; padding: 0; overflow: hidden; cursor: pointer; }
+      
+      /* Phase 1: Presentation (0s - 1s) - Drop in */
+      .cone-group { transform-origin: 100px 100px; transform-style: preserve-3d; opacity: 1; transform: translateZ(25px) rotateZ(-5deg) rotateY(15deg) scale(1); }
+      svg:hover .cone-group { animation: presentCone 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes presentCone {
+        0%, 15% { transform: translateY(50px) rotate(10deg) scale(0.9); opacity: 0; }
+        25%, 100% { transform: translateZ(25px) rotateZ(-5deg) rotateY(15deg) scale(1); opacity: 1; }
+      }
+
+      /* Phase 2: Scoop 1 (1s - 2s) */
+      .scoop-1 { transform-origin: 100px 110px; opacity: 1; transform: translateY(0px) scale(1); }
+      svg:hover .scoop-1 { animation: dropS1 5s cubic-bezier(0.5, 0, 0.5, 1) forwards; }
+      @keyframes dropS1 {
+        0%, 15% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+        20% { opacity: 1; transform: translateY(5px) scale(1.1); }
+        25%, 100% { opacity: 1; transform: translateY(0px) scale(1); }
+      }
+
+      /* Phase 3: Scoop 2 (2s - 3s) */
+      .scoop-2 { transform-origin: 100px 90px; opacity: 1; transform: translateY(0px) scale(1); }
+      svg:hover .scoop-2 { animation: dropS2 5s cubic-bezier(0.5, 0, 0.5, 1) forwards; }
+      @keyframes dropS2 {
+        0%, 30% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+        35% { opacity: 1; transform: translateY(5px) scale(1.05); }
+        40%, 100% { opacity: 1; transform: translateY(0px) scale(1); }
+      }
+
+      /* Phase 4: Scoop 3 (3s - 4s) */
+      .scoop-3 { transform-origin: 100px 65px; opacity: 1; transform: translateY(0px) scale(1); }
+      svg:hover .scoop-3 { animation: dropS3 5s cubic-bezier(0.5, 0, 0.5, 1) forwards; }
+      @keyframes dropS3 {
+        0%, 45% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+        50% { opacity: 1; transform: translateY(5px) scale(1.05); }
+        55%, 100% { opacity: 1; transform: translateY(0px) scale(1); }
+      }
+
+      /* Phase 5: Garnishes (4s - 5s) */
+      .cherry-group { transform-origin: 90px 45px; opacity: 1; transform: translateY(0px) scale(1); }
+      svg:hover .cherry-group { animation: dropCherry 5s cubic-bezier(0.3, 1.5, 0.5, 1) forwards; }
+      @keyframes dropCherry {
+        0%, 65% { opacity: 0; transform: translateY(-50px) scale(0.5); }
+        70%, 100% { opacity: 1; transform: translateY(0px) scale(1); }
+      }
+
+      .wafer-group { transform-origin: 130px 45px; opacity: 1; transform: translateY(0px) rotate(0deg) scale(1); }
+      svg:hover .wafer-group { animation: dropWafer 5s cubic-bezier(0.3, 1.5, 0.5, 1) forwards; }
+      @keyframes dropWafer {
+        0%, 68% { opacity: 0; transform: translateY(-50px) rotate(20deg) scale(0.5); }
+        73%, 100% { opacity: 1; transform: translateY(0px) rotate(0deg) scale(1); }
+      }
+
+      /* Floor Shadow */
+      .item-shadow { transform-origin: 100px 120px; opacity: 0.15; transform: scale(1.1) translate(-10px, -10px); }
+      svg:hover .item-shadow { animation: interactiveShadow 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes interactiveShadow {
+        0%, 15% { opacity: 0; transform: scale(0.2) translate(0px, 0px); }
+        25%, 100% { transform: scale(1.1) translate(-10px, -10px); opacity: 0.15; }
+      }
+
+      /* Magical Background Sparkles */
+      .bg-sparkle { opacity: 0; transform-origin: center; }
+      svg:hover .bgs-1 { animation: bgTwinkle 5s forwards; transform-origin: 30px 30px; animation-delay: 0.2s; }
+      svg:hover .bgs-2 { animation: bgTwinkle 5s forwards; transform-origin: 170px 40px; animation-delay: 0.5s; }
+      svg:hover .bgs-3 { animation: bgTwinkle 5s forwards; transform-origin: 160px 160px; animation-delay: 0.8s; }
+      svg:hover .bgs-4 { animation: bgTwinkle 5s forwards; transform-origin: 40px 170px; animation-delay: 1.1s; }
+      @keyframes bgTwinkle { 0%, 10% { opacity: 0; transform: scale(0) rotate(0deg); } 20%, 80% { opacity: 1; transform: scale(1) rotate(45deg); filter: url(#glow); } 90%, 100% { opacity: 0; transform: scale(0) rotate(90deg); } }
+    </style>
+    
+    <!-- Rich Baked Sugar Cone -->
+    <linearGradient id="coneColor" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fff2cc"/>
+      <stop offset="20%" stop-color="#f5deb3"/>
+      <stop offset="80%" stop-color="#d2b48c"/>
+      <stop offset="100%" stop-color="#a0522d"/>
+    </linearGradient>
+    <pattern id="sugarWaffle" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <path d="M 0 0 L 10 0 M 0 0 L 0 10" fill="none" stroke="#a0522d" stroke-width="1" opacity="0.3" />
+    </pattern>
+    <radialGradient id="strawberry" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffb8b8"/>
+      <stop offset="50%" stop-color="#ff7979"/>
+      <stop offset="100%" stop-color="#eb4d4b"/>
+    </radialGradient>
+    <radialGradient id="vanilla" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#f1f2f6"/>
+      <stop offset="100%" stop-color="#dfe4ea"/>
+    </radialGradient>
+    <radialGradient id="chocolate" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#8d6e63"/>
+      <stop offset="50%" stop-color="#5d4037"/>
+      <stop offset="100%" stop-color="#3e2723"/>
+    </radialGradient>
+    <linearGradient id="caramel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f39c12"/>
+      <stop offset="100%" stop-color="#e67e22"/>
+    </linearGradient>
+    <linearGradient id="glassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#ecf0f1" stop-opacity="0.6"/>
+      <stop offset="80%" stop-color="#bdc3c7" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#95a5a6" stop-opacity="0.9"/>
+    </linearGradient>
+    
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="-5" dy="8" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <path id="star" d="M 0 -8 C 2 -2, 4 -1, 8 0 C 4 1, 2 2, 0 8 C -2 2, -4 1, -8 0 C -4 -1, -2 -2, 0 -8 Z" fill="#ff9f43" />
+  </defs>
+
+  <use href="#star" class="bg-sparkle bgs-1" />
+  <use href="#star" class="bg-sparkle bgs-2" />
+  <use href="#star" class="bg-sparkle bgs-3" />
+  <use href="#star" class="bg-sparkle bgs-4" />
+  
+  <g class="scene">
+    <ellipse cx="60" cy="150" rx="30" ry="12" fill="#dcdde1" class="cup-group" opacity="0.6"/>
+    <ellipse cx="100" cy="120" rx="35" ry="15" fill="#e17055" filter="url(#textbookShadowBlur)" opacity="0.6" class="item-shadow" />
+
+    <g class="cup-group" transform="translate(-50, 40) scale(0.85)">
+      <path d="M 90 140 C 90 150, 110 150, 110 140 Z" fill="#95a5a6" />
+      <rect x="98" y="110" width="4" height="30" fill="#bdc3c7" />
+      <path d="M 70 60 C 70 120, 130 120, 130 60 Z" fill="url(#glassBody)" />
+      <g filter="url(#softShadow)">
+        <circle cx="90" cy="55" r="18" fill="url(#strawberry)" class="scoop-1" />
+        <circle cx="110" cy="55" r="18" fill="url(#vanilla)" class="scoop-2" />
+        <circle cx="100" cy="40" r="18" fill="url(#chocolate)" class="scoop-3" />
+      </g>
+      <path d="M 90 30 Q 100 25, 110 30 Q 115 40, 110 50 Q 100 60, 90 50 Q 85 40, 90 30 Z" fill="#3e2723" opacity="0.9" />
+      <ellipse cx="100" cy="60" rx="30" ry="8" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.8" />
+      <path d="M 72 65 A 28 8 0 0 0 128 65" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.4" />
+    </g>
+
+    <g class="cone-group">
+      <path d="M 75 100 L 125 100 L 100 170 Z" fill="url(#coneColor)" />
+      <path d="M 75 100 L 125 100 L 100 170 Z" fill="url(#sugarWaffle)" />
+      <path d="M 75 100 L 115 115 L 100 170 Z" fill="#a0522d" opacity="0.3" />
+      <polygon points="73,100 127,100 125,103 75,103" fill="#d2b48c" />
+      
+      <g filter="url(#softShadow)">
+        <g class="scoop-1">
+          <circle cx="100" cy="90" r="28" fill="url(#strawberry)" />
+          <path d="M 70 90 A 30 12 0 0 0 130 90 A 30 10 0 0 0 70 90 Z" fill="url(#strawberry)" />
+          <circle cx="110" cy="85" r="3" fill="#eb4d4b" opacity="0.8" />
+          <circle cx="85" cy="95" r="4" fill="#eb4d4b" opacity="0.8" />
+          <circle cx="105" cy="100" r="2.5" fill="#eb4d4b" opacity="0.8" />
+        </g>
+        <g class="scoop-2">
+          <circle cx="100" cy="70" r="26" fill="url(#vanilla)" />
+          <path d="M 74 70 A 26 10 0 0 0 126 70 A 26 8 0 0 0 74 70 Z" fill="url(#vanilla)" />
+          <path d="M 74 72 A 26 10 0 0 0 126 72 A 26 8 0 0 1 74 72 Z" fill="#dfe4ea" opacity="0.8" />
+          <circle cx="105" cy="65" r="1" fill="#2d3436" /> <circle cx="115" cy="75" r="1" fill="#2d3436" />
+          <circle cx="85" cy="65" r="1" fill="#2d3436" /> <circle cx="95" cy="80" r="1" fill="#2d3436" />
+          <circle cx="100" cy="55" r="1" fill="#2d3436" />
+        </g>
+        <g class="scoop-3">
+          <circle cx="100" cy="50" r="24" fill="url(#chocolate)" />
+          <path d="M 76 50 A 24 10 0 0 0 124 50 A 24 8 0 0 0 76 50 Z" fill="url(#chocolate)" />
+          <path d="M 76 52 A 24 10 0 0 0 124 52 A 24 8 0 0 1 76 52 Z" fill="#3e2723" opacity="0.6" />
+          <path d="M 85 45 Q 95 35, 105 45 T 120 50" fill="none" stroke="url(#caramel)" stroke-width="4" stroke-linecap="round" />
+          <path d="M 80 50 Q 100 55, 115 65" fill="none" stroke="url(#caramel)" stroke-width="5" stroke-linecap="round" />
+          <line x1="105" y1="45" x2="105" y2="55" stroke="url(#caramel)" stroke-width="4" stroke-linecap="round" />
+          <line x1="85" y1="45" x2="85" y2="60" stroke="url(#caramel)" stroke-width="3" stroke-linecap="round" />
+        </g>
+      </g>
+      
+      <g class="cherry-group">
+        <path d="M 100 26 Q 110 10, 125 15" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" />
+        <circle cx="100" cy="26" r="9" fill="#ff4757" filter="url(#glow)"/>
+        <path d="M 97 24 Q 100 26, 103 24" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round" />
+        <ellipse cx="94" cy="22" rx="2.5" ry="1.5" fill="#ffffff" opacity="0.9" transform="rotate(-30 94 22)" />
+      </g>
+      <g class="wafer-group">
+        <g transform="translate(115, 35) rotate(25)">
+          <rect x="0" y="-35" width="10" height="40" rx="3" fill="#eccc68" filter="url(#softShadow)"/>
+          <line x1="3" y1="-35" x2="3" y2="5" stroke="#ff7f50" stroke-width="1" opacity="0.5" />
+          <line x1="7" y1="-35" x2="7" y2="5" stroke="#ff7f50" stroke-width="1" opacity="0.5" />
+          <path d="M 0 -35 L 10 -35 L 10 -15 C 8 -10, 2 -10, 0 -15 Z" fill="#3e2723" />
+          <circle cx="5" cy="-25" r="1.5" fill="#ffffff" opacity="0.3" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

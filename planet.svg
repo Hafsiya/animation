@@ -1,114 +1,174 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* 1. Anti-gravity hover for the entire planet system */
-      .hover-group {
-        animation: float 6s ease-in-out infinite;
-        transform-origin: 100px 100px;
-      }
-
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-12px); }
-      }
-
-      /* 2. Floor shadow scales based on the planet's altitude */
-      .shadow {
-        animation: shadowScale 6s ease-in-out infinite;
-        transform-origin: 100px 175px;
-      }
-
-      @keyframes shadowScale {
-        0%, 100% { transform: scale(1); opacity: 0.2; }
-        50% { transform: scale(0.8); opacity: 0.05; }
-      }
-
-      /* 3. Shooting Comet */
-      .comet-wrapper {
-        animation: shootComet 4s infinite linear;
-      }
-
-      @keyframes shootComet {
-        0% { transform: translate(150px, -50px); opacity: 0; }
-        10% { opacity: 1; }
-        30% { transform: translate(-50px, 150px); opacity: 0; }
-        100% { transform: translate(-50px, 150px); opacity: 0; }
-      }
-
-      /* 4. Twinkling Background Stars */
-      .star { animation: twinkle 3s infinite alternate ease-in-out; }
-      .star:nth-child(2) { animation-delay: 1s; animation-duration: 4s; }
-      .star:nth-child(3) { animation-delay: 2s; animation-duration: 2.5s; }
-
-      @keyframes twinkle {
-        0% { opacity: 0.2; transform: scale(0.8); }
-        100% { opacity: 1; transform: scale(1.2); }
-      }
+      svg { background: radial-gradient(circle at center, #ffffff 0%, #fffcf2 100%); width: 100vw; height: 100vh; margin: 0; padding: 0; overflow: hidden; }
       
-      /* 5. Subtle Ring Rotation / Shimmer */
-      .ring-front { animation: pulseRing 3s ease-in-out infinite alternate; }
-      @keyframes pulseRing {
-        0% { stroke: #00cec9; }
-        100% { stroke: #81ecec; }
+      /* Base float and shadow */
+      .hover-group { transform-origin: 100px 100px; transform-style: preserve-3d; }
+      .shadow { transform-origin: 100px 175px; opacity: 0.3; }
+      svg:hover .hover-group { animation: float 5s ease-in-out forwards; }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        40%, 60% { transform: translateY(-8px) rotate(-1deg); } 
+      }
+      svg:hover .shadow { animation: shadowScale 5s ease-in-out forwards; }
+      @keyframes shadowScale {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        40%, 60% { transform: scale(0.85); opacity: 0.15; }
+      }
+
+      /* ROCKET NARRATIVE (5s Sequence)
+         0-1s: Hide offscreen
+         1-2s: Enter from bottom left to center
+         2-3s: Scan the planet
+         3-4s: Fly away top right
+         4-5s: Gone
+      */
+      .rocket-ship { transform: translate(-100px, -50px) rotate(45deg) scale(0.6); opacity: 0; transform-origin: 6px 15px; }
+      svg:hover .rocket-ship { animation: flyShip 5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+      @keyframes flyShip { 
+        0%, 15% { transform: translate(-50px, -50px) rotate(45deg) scale(0.6); opacity: 0; } 
+        20% { opacity: 1; }
+        35%, 55% { transform: translate(80px, 60px) rotate(90deg) scale(0.6); opacity: 1; } 
+        65% { transform: translate(140px, 20px) rotate(45deg) scale(0.8); opacity: 1;} 
+        80%, 100% { transform: translate(250px, -100px) rotate(30deg) scale(0.4); opacity: 0;} 
+      }
+
+      .engine-fire { transform-origin: 6px 30px; }
+      svg:hover .engine-fire { animation: firePulse 5s forwards; }
+      @keyframes firePulse { 
+        0%, 30% { transform: scaleY(1.5); } 
+        35%, 50% { transform: scaleY(0.3); opacity: 0.5; } 
+        55%, 75% { transform: scaleY(2.5); opacity: 1; } 
+        80%, 100% { transform: scaleY(0); opacity: 0;} 
+      }
+
+      .scanner-beam { transform-origin: 6px 15px; opacity: 0; }
+      svg:hover .scanner-beam { animation: beamScan 5s ease-in-out forwards; }
+      @keyframes beamScan { 
+        0%, 35% { opacity: 0; transform: scaleY(0); } 
+        40%, 50% { opacity: 0.5; transform: scaleY(1); } 
+        55%, 100% { opacity: 0; transform: scaleY(0); } 
+      }
+
+      /* PLANET REACTS TO SCAN (5s Sequence) */
+      .ancient-ruins { opacity: 0.1; }
+      svg:hover .ancient-ruins { animation: ruinGlow 5s ease-in-out forwards; }
+      @keyframes ruinGlow { 
+        0%, 40% { opacity: 0.1; filter: brightness(1); } 
+        45%, 60% { opacity: 1; filter: brightness(1.5); } 
+        65%, 100% { opacity: 0.1; filter: brightness(1); } 
+      }
+
+      .ruin-ping { opacity: 0; transform-origin: 100px 95px; }
+      svg:hover .ruin-ping { animation: pingPulse 5s ease-out forwards; }
+      @keyframes pingPulse { 
+        0%, 43% { opacity: 0; transform: scale(0.5); } 
+        45% { opacity: 0.8; transform: scale(1.2); } 
+        55%, 100% { opacity: 0; transform: scale(2); } 
+      }
+
+      .comet-wrapper { transform: translate(150px, -50px); opacity: 0; }
+      svg:hover .comet-wrapper { animation: shootComet 5s forwards linear; }
+      @keyframes shootComet { 
+        0%, 75% { transform: translate(150px, -50px); opacity: 0; } 
+        80% { opacity: 1; } 
+        95%, 100% { transform: translate(-50px, 150px); opacity: 0; } 
+      }
+
+      svg:hover .star-1 { animation: twinkle 5s forwards alternate ease-in-out; }
+      svg:hover .star-2 { animation: twinkle 5s forwards alternate ease-in-out 1s; }
+      svg:hover .star-3 { animation: twinkle 5s forwards alternate ease-in-out 0.5s; }
+      @keyframes twinkle { 
+        0%, 100% { opacity: 0.2; transform: scale(0.8); } 
+        50% { opacity: 1; transform: scale(1.5); } 
+      }
+
+      svg:hover .ring-front { animation: pulseRing 5s forwards alternate ease-in-out; }
+      @keyframes pulseRing { 
+        0%, 30%, 80%, 100% { stroke: #00cec9; } 
+        45%, 60% { stroke: #ffeaa7; } 
       }
     </style>
-
+    <!-- Deep Space Purple Planet -->
     <radialGradient id="planetBody" cx="35%" cy="35%" r="65%">
       <stop offset="0%" stop-color="#a29bfe"/>
       <stop offset="60%" stop-color="#6c5ce7"/>
       <stop offset="100%" stop-color="#30336b"/>
     </radialGradient>
-
     <linearGradient id="stripes" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
-      <stop offset="100%" stop-color="rgba(255,255,255,0.05)"/>
+      <stop offset="0%" stop-color="rgba(255,255,255,0.5)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.1)"/>
     </linearGradient>
-
     <linearGradient id="cometTail" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffeaa7" stop-opacity="1"/>
       <stop offset="100%" stop-color="#ffeaa7" stop-opacity="0"/>
     </linearGradient>
-    
-    <clipPath id="planetClip">
-      <circle cx="100" cy="95" r="45" />
-    </clipPath>
+    <clipPath id="planetClip"> <circle cx="100" cy="95" r="45" /> </clipPath>
+    <filter id="glowEffect" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" rx="20" />
-
+  <!-- Stars -->
   <g fill="#feca57">
-    <circle cx="40" cy="50" r="2" class="star" />
-    <circle cx="160" cy="30" r="1.5" class="star" />
-    <circle cx="150" cy="140" r="2.5" class="star" />
+    <circle cx="40" cy="50" r="2" class="star star-1" />
+    <circle cx="160" cy="30" r="1.5" class="star star-2" />
+    <circle cx="150" cy="140" r="2.5" class="star star-3" />
+    <circle cx="30" cy="120" r="1" class="star star-1" />
+    <circle cx="90" cy="20" r="1.5" class="star star-3" />
   </g>
-
+  <!-- Comet -->
   <g class="comet-wrapper">
     <line x1="0" y1="0" x2="40" y2="40" stroke="url(#cometTail)" stroke-width="3" stroke-linecap="round" />
-    <circle cx="0" cy="0" r="3" fill="#fff200" />
+    <circle cx="0" cy="0" r="3" fill="#ffffff" />
   </g>
-
-  <ellipse cx="100" cy="175" rx="50" ry="12" fill="#2d3436" class="shadow" />
-
+  
+  <ellipse cx="100" cy="175" rx="50" ry="12" fill="#ffeaa7" class="shadow" filter="url(#textbookShadowBlur)" />
+  
   <g class="hover-group">
-    
+    <!-- Back of the Ring -->
     <path d="M 20 95 A 80 28 0 0 1 180 95" fill="none" stroke="#74b9ff" stroke-width="12" stroke-linecap="round" opacity="0.6" />
-
+    <!-- Planet Body -->
     <circle cx="100" cy="95" r="45" fill="url(#planetBody)" />
-    
+    <!-- Planet Surface Details -->
     <g clip-path="url(#planetClip)">
       <path d="M 50 75 Q 100 85 150 75" fill="none" stroke="url(#stripes)" stroke-width="8" />
       <path d="M 40 95 Q 100 110 160 95" fill="none" stroke="url(#stripes)" stroke-width="14" />
       <path d="M 50 115 Q 100 125 150 115" fill="none" stroke="url(#stripes)" stroke-width="6" />
+      <!-- Ancient Ruins -->
+      <g class="ancient-ruins" transform="translate(85, 95)" filter="url(#glowEffect)">
+        <polygon points="10,0 20,20 0,20" fill="#fbc531" />
+        <polygon points="5,5 15,15 0,15" fill="#ffeaa7" />
+        <circle cx="10" cy="10" r="2" fill="#ffffff" />
+      </g>
     </g>
-
     <circle cx="100" cy="95" r="45" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="3" />
-
+    <circle cx="100" cy="95" r="15" fill="none" stroke="#fbc531" stroke-width="2" class="ruin-ping" opacity="0" />
+    <!-- Front of the Ring -->
     <path d="M 20 95 A 80 28 0 0 0 180 95" fill="none" stroke="#00cec9" stroke-width="12" stroke-linecap="round" class="ring-front" />
-
+    <!-- Ring Gloss/Highlight -->
     <path d="M 20 95 A 80 28 0 0 0 180 95" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round" />
-    
+    <!-- Floating debris -->
     <circle cx="35" cy="110" r="3" fill="#ffeaa7" />
     <circle cx="165" cy="105" r="2" fill="#fd79a8" />
-
+    <!-- Explorer Rocket -->
+    <g class="rocket-ship">
+      <!-- Scanner beam -->
+      <polygon points="6,15 -10,120 22,120" fill="url(#cometTail)" opacity="0.5" class="scanner-beam" />
+      <!-- Engine fire -->
+      <polygon points="3,30 9,30 6,45" fill="#ff7675" class="engine-fire" />
+      <!-- Rocket Body -->
+      <path d="M 2 15 Q 6 -5 10 15 L 12 30 L 0 30 Z" fill="#ffffff" />
+      <path d="M 2 15 L 10 15 L 12 30 L 0 30 Z" fill="#b2bec3" />
+      <circle cx="6" cy="15" r="2" fill="#0984e3" />
+      <!-- Wings -->
+      <polygon points="0,20 -6,32 0,28" fill="#d63031" />
+      <polygon points="12,20 18,32 12,28" fill="#d63031" />
+    </g>
   </g>
 </svg>

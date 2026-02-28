@@ -1,11 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
-    <style>
-      /* --- ANIMATION SEQUENCES (5-second loop) --- */
 
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <style>
+
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #eff1f4 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+    
+      /* --- ANIMATION SEQUENCES (5-second loop) --- */
       /* 1. Paper Sliding In (Input) */
-      .paper-group {
-        animation: slidePaper 5s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+      .paper-group  {
       }
       @keyframes slidePaper {
         0%, 10% { transform: translate(-60px, -30px); opacity: 0; }
@@ -13,10 +26,8 @@
         25%, 80% { transform: translate(0px, 0px); opacity: 1; } /* Rests on pad */
         85%, 100% { transform: translate(60px, 30px); opacity: 0; } /* Slides off */
       }
-
       /* 2. Laser Scanner (Processing) */
-      .laser-sweep {
-        animation: scanDocument 5s linear infinite;
+      .laser-sweep  {
         opacity: 0;
       }
       @keyframes scanDocument {
@@ -25,19 +36,15 @@
         45% { opacity: 1; transform: translate(20px, 10px); } /* Sweeps down paper */
         47%, 100% { opacity: 0; transform: translate(25px, 12.5px); } /* Vanishes at flash */
       }
-
       /* Messy Text Dissolving */
-      .messy-text {
-        animation: dissolveText 5s steps(1) infinite;
+      .messy-text  {
       }
       @keyframes dissolveText {
         0%, 47% { opacity: 1; }
         48%, 100% { opacity: 0; } /* Text disappears instantly at insight moment */
       }
-
       /* AI Core Processing Pulse */
-      .ai-chip-glow {
-        animation: chipPulse 5s ease-in-out infinite;
+      .ai-chip-glow  {
       }
       @keyframes chipPulse {
         0%, 24% { filter: brightness(1); opacity: 0.5; }
@@ -45,10 +52,8 @@
         48% { filter: brightness(2.5); opacity: 1; } /* BAM! */
         55%, 100% { filter: brightness(1); opacity: 0.5; }
       }
-
       /* The Flash Impact */
-      .impact-flash {
-        animation: flashBurst 5s steps(1) infinite;
+      .impact-flash  {
         transform-origin: 100px 115px;
       }
       @keyframes flashBurst {
@@ -56,10 +61,8 @@
         48% { opacity: 1; transform: scale(1.5); }
         52%, 100% { opacity: 0; transform: scale(2.5); }
       }
-
       /* 3. Holographic Charts (Output) */
-      .hologram-charts {
-        animation: popCharts 5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+      .hologram-charts  {
         transform-origin: 100px 115px;
       }
       @keyframes popCharts {
@@ -68,17 +71,42 @@
         55%, 75% { opacity: 1; transform: scale(1) translateY(0px); } /* Full size */
         80%, 100% { opacity: 0; transform: scale(1.1) translateY(-10px); } /* Fades out */
       }
-
       /* Floating Base */
-      .platform-base {
-        animation: floatPlatform 5s ease-in-out infinite alternate;
+      .platform-base  {
       }
       @keyframes floatPlatform {
         0% { transform: translateY(0px); }
         100% { transform: translateY(4px); }
       }
-    </style>
+      svg:hover .paper-group {
+        animation: slidePaper 5s cubic-bezier(0.35, 0, 0.25, 1) forwards;
+      }
 
+      svg:hover .laser-sweep {
+        animation: scanDocument 5s linear forwards;
+      }
+
+      svg:hover .messy-text {
+        animation: dissolveText 5s steps(1) forwards;
+      }
+
+      svg:hover .ai-chip-glow {
+        animation: chipPulse 5s ease-in-out forwards;
+      }
+
+      svg:hover .impact-flash {
+        animation: flashBurst 5s steps(1) forwards;
+      }
+
+      svg:hover .hologram-charts {
+        animation: popCharts 5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      svg:hover .platform-base {
+        animation: floatPlatform 5s ease-in-out forwards alternate;
+      }
+
+      </style>
     <linearGradient id="padTop" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f8f9fa"/>
       <stop offset="100%" stop-color="#e2e8f0"/>
@@ -91,30 +119,24 @@
       <stop offset="0%" stop-color="#e2e8f0"/>
       <stop offset="100%" stop-color="#cbd5e1"/>
     </linearGradient>
-
     <linearGradient id="laserGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00cec9" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#81ecec" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#00cec9" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#0ba360" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#3cba92" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0ba360" stop-opacity="0"/>
     </linearGradient>
-    
     <linearGradient id="chipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6c5ce7"/>
-      <stop offset="100%" stop-color="#0984e3"/>
+      <stop offset="0%" stop-color="#7579ff"/>
+      <stop offset="100%" stop-color="#00f2fe"/>
     </linearGradient>
-
-    <linearGradient id="barPinkTop" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff7675"/><stop offset="100%" stop-color="#ff4757"/></linearGradient>
-    <linearGradient id="barPinkLeft" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff4757"/><stop offset="100%" stop-color="#c23616"/></linearGradient>
+    <linearGradient id="barPinkTop" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffb199"/><stop offset="100%" stop-color="#ff6b81"/></linearGradient>
+    <linearGradient id="barPinkLeft" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff6b81"/><stop offset="100%" stop-color="#c23616"/></linearGradient>
     <linearGradient id="barPinkRight" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff6b81"/><stop offset="100%" stop-color="#e84118"/></linearGradient>
-
-    <linearGradient id="barPurpTop" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#a29bfe"/><stop offset="100%" stop-color="#6c5ce7"/></linearGradient>
-    <linearGradient id="barPurpLeft" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6c5ce7"/><stop offset="100%" stop-color="#4834d4"/></linearGradient>
+    <linearGradient id="barPurpTop" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e0c3fc"/><stop offset="100%" stop-color="#7579ff"/></linearGradient>
+    <linearGradient id="barPurpLeft" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#7579ff"/><stop offset="100%" stop-color="#4834d4"/></linearGradient>
     <linearGradient id="barPurpRight" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8c7ae6"/><stop offset="100%" stop-color="#5f27cd"/></linearGradient>
-
-    <linearGradient id="barGoldTop" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ffeaa7"/><stop offset="100%" stop-color="#fdcb6e"/></linearGradient>
-    <linearGradient id="barGoldLeft" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fdcb6e"/><stop offset="100%" stop-color="#e1b12c"/></linearGradient>
-    <linearGradient id="barGoldRight" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbc531"/><stop offset="100%" stop-color="#e1b12c"/></linearGradient>
-
+    <linearGradient id="barGoldTop" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#fdfbfb"/><stop offset="100%" stop-color="#ffc07c"/></linearGradient>
+    <linearGradient id="barGoldLeft" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffc07c"/><stop offset="100%" stop-color="#da8d41"/></linearGradient>
+    <linearGradient id="barGoldRight" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f6a565"/><stop offset="100%" stop-color="#da8d41"/></linearGradient>
     <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
       <feOffset dx="0" dy="12" result="offsetblur"/>
@@ -122,22 +144,18 @@
       <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.2   0 0 0 0 0.4   0 0 0 1 0" />
       <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-
     <filter id="glowEffect">
       <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
       <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" />
-
+  
   <g class="platform-base" filter="url(#softShadow)">
-    
     <g transform="translate(0, 10)">
       <polygon points="100,160 30,125 30,135 100,170" fill="url(#padEdge1)" />
       <polygon points="100,160 170,125 170,135 100,170" fill="url(#padEdge2)" />
       <polygon points="100,160 30,125 100,90 170,125" fill="url(#padTop)" />
-      
       <g stroke="#cbd5e1" stroke-width="1" opacity="0.6">
         <line x1="65" y1="107.5" x2="135" y2="142.5" />
         <line x1="50" y1="115" x2="120" y2="150" />
@@ -145,18 +163,15 @@
         <line x1="150" y1="115" x2="80" y2="150" />
       </g>
     </g>
-
     <g transform="translate(140, 135)" class="ai-chip-glow">
-      <polygon points="0,5 -15,-2.5 0,-10 15,-2.5" fill="url(#chipGrad)" stroke="#81ecec" stroke-width="1" filter="url(#glowEffect)"/>
+      <polygon points="0,5 -15,-2.5 0,-10 15,-2.5" fill="url(#chipGrad)" stroke="#3cba92" stroke-width="1" filter="url(#glowEffect)"/>
       <path d="M 0 0 L 0 -5 M -5 -2.5 L 5 -2.5" stroke="#ffffff" stroke-width="1" stroke-linecap="round"/>
-      <circle cx="0" cy="-2.5" r="1.5" fill="#00cec9" />
+      <circle cx="0" cy="-2.5" r="1.5" fill="#0ba360" />
     </g>
-
     <g class="paper-group">
       <polygon points="100,147 50,122 100,97 150,122" fill="#94a3b8" opacity="0.3" />
       <polygon points="100,145 50,120 100,95 150,120" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
       <polygon points="50,120 60,115 60,125" fill="#f8f9fa" />
-      
       <g class="messy-text" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7">
         <path d="M 65 118 L 70 115 L 75 119 L 85 113 L 95 118 L 105 112" />
         <path d="M 75 125 L 80 122 L 85 126 L 95 120 L 105 125 L 115 119 L 125 124" />
@@ -166,52 +181,43 @@
         <circle cx="90" cy="138" r="1" fill="#94a3b8" stroke="none" />
       </g>
     </g>
-
     <g class="laser-sweep">
       <polygon points="100,115 50,90 55,87 105,112" fill="url(#laserGrad)" filter="url(#glowEffect)" />
       <line x1="52.5" y1="88.5" x2="102.5" y2="113.5" stroke="#ffffff" stroke-width="1.5" opacity="0.8" />
-      <polygon points="100,115 50,90 60,95 110,120" fill="#81ecec" opacity="0.2" />
+      <polygon points="100,115 50,90 60,95 110,120" fill="#3cba92" opacity="0.2" />
     </g>
-
     <g class="impact-flash" filter="url(#glowEffect)">
-      <circle cx="100" cy="115" r="25" fill="#81ecec" opacity="0.4" />
+      <circle cx="100" cy="115" r="25" fill="#3cba92" opacity="0.4" />
       <circle cx="100" cy="115" r="10" fill="#ffffff" />
-      <g stroke="#00cec9" stroke-width="2" stroke-linecap="round">
+      <g stroke="#0ba360" stroke-width="2" stroke-linecap="round">
         <line x1="100" y1="95" x2="100" y2="85" />
         <line x1="100" y1="135" x2="100" y2="145" />
         <line x1="80" y1="115" x2="70" y2="115" />
         <line x1="120" y1="115" x2="130" y2="115" />
       </g>
     </g>
-
     <g class="hologram-charts">
-      
       <g transform="translate(-15, 5)">
         <polygon points="100,105 92,101 100,97 108,101" fill="url(#barPinkTop)" />
         <polygon points="92,101 100,105 100,120 92,116" fill="url(#barPinkLeft)" />
         <polygon points="100,105 108,101 108,116 100,120" fill="url(#barPinkRight)" />
       </g>
-
       <g transform="translate(0, 0)">
         <polygon points="100,85 92,81 100,77 108,81" fill="url(#barPurpTop)" />
         <polygon points="92,81 100,85 100,125 92,121" fill="url(#barPurpLeft)" />
         <polygon points="100,85 108,81 108,121 100,125" fill="url(#barPurpRight)" />
       </g>
-
       <g transform="translate(15, -5)">
         <polygon points="100,95 92,91 100,87 108,91" fill="url(#barGoldTop)" />
         <polygon points="92,91 100,95 100,130 92,126" fill="url(#barGoldLeft)" />
         <polygon points="100,95 108,91 108,126 100,130" fill="url(#barGoldRight)" />
       </g>
-
       <g transform="translate(115, 80) scale(0.8)" filter="url(#glowEffect)">
-        <path d="M 0 5 C 15 12, 30 5, 30 5 L 30 15 C 30 15, 15 22, 0 15 Z" fill="#0984e3" />
-        <path d="M 0 5 C 0 5, -10 -2, 0 -8 L 0 2 C -10 8, 0 15, 0 15 Z" fill="#fdcb6e" />
-        <path d="M 0 5 C 15 12, 30 5, 30 5 C 30 5, 15 -2, 0 5 Z" fill="#74b9ff" />
-        <path d="M -2 3 C -10 -3, 0 -10, 0 -10 C 0 -10, 10 -3, -2 3 Z" fill="#ffeaa7" />
+        <path d="M 0 5 C 15 12, 30 5, 30 5 L 30 15 C 30 15, 15 22, 0 15 Z" fill="#00f2fe" />
+        <path d="M 0 5 C 0 5, -10 -2, 0 -8 L 0 2 C -10 8, 0 15, 0 15 Z" fill="#ffc07c" />
+        <path d="M 0 5 C 15 12, 30 5, 30 5 C 30 5, 15 -2, 0 5 Z" fill="#4facfe" />
+        <path d="M -2 3 C -10 -3, 0 -10, 0 -10 C 0 -10, 10 -3, -2 3 Z" fill="#fdfbfb" />
       </g>
-
     </g>
-
   </g>
 </svg>

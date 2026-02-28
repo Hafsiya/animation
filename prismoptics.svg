@@ -1,67 +1,118 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
   <defs>
+
+    <filter id="textbookShadowBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
     <style>
-      /* --- ANIMATION SEQUENCES --- */
 
-      /* 1. Input Beam (White light travels to prism) */
-      .input-beam {
-        animation: beamTravel 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-        transform-origin: 40px 95px;
-        opacity: 0;
+      svg {
+        background: radial-gradient(circle at center, #ffffff 0%, #ecfcfc 100%);
+        /* Ensure it covers the full viewport without being constrained by viewBox layout */
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
-      @keyframes beamTravel {
-        10% { opacity: 1; transform: scaleX(0); }
-        45% { opacity: 1; transform: scaleX(1); } /* Hits prism face */
-        48%, 100% { opacity: 0; transform: scaleX(1); } /* Disappears into prism */
+    
+      svg { cursor: pointer; }
+      /* --- 5s NARRATIVE ANIMATION SEQUENCE --- */
+      /* Story: Emitter charges (0-1s) to Fires Beam (1-1.5s) to Prism Absorbs/Glows (1.5-2.5s) to Spectrum Shoots Out (2.5-3.5s) to Hologram Projects (3.5-5s) */
+      /* 1. Emitter Charge and Fire */
+      .emitter-body { transform-origin: 40px 100px; }
+      svg:hover .emitter-body {
+        animation: emitterSequence 5s ease-in-out forwards;
       }
-
-      /* Emitter Pulse (Reacts when firing) */
-      .emitter-body {
-        animation: emitterPulse 4s ease-in-out infinite;
-        transform-origin: 40px 100px;
+      @keyframes emitterSequence {
+        0%, 5% { transform: scale(1); filter: brightness(1); }
+        5%, 20% { transform: scale(1.05); filter: brightness(1.5); } /* Charging */
+        20%, 30% { transform: scale(0.95); filter: brightness(2); } /* Firing recoil */
+        35%, 100% { transform: scale(1); filter: brightness(1); } /* Rest */
       }
-      @keyframes emitterPulse {
-        10%, 45% { transform: scale(1.05); filter: brightness(1.2); }
-        55%, 100% { transform: scale(1); filter: brightness(1); }
+      /* Energy Gathering Particles */
+      .charge-particle { opacity: 0; transform-origin: 45px 100px; }
+      svg:hover .charge-particle {
+        animation: suckIn 5s ease-in forwards;
       }
-
-      /* 2. Prism Reaction (Glows internally upon impact) */
-      .prism-internal-glow {
-        animation: internalRefract 4s steps(1) infinite;
-        opacity: 0;
+      @keyframes suckIn {
+        0%, 5% { opacity: 0; transform: translate(15px, 0) scale(0.5); }
+        15% { opacity: 1; transform: translate(0, 0) scale(1.5); }
+        20%, 100% { opacity: 0; transform: translate(0, 0) scale(0); }
       }
-      @keyframes internalRefract {
-        45%, 55% { opacity: 1; } /* Visible during transit */
+      /* 2. Input Beam */
+      .input-beam { transform-origin: 60px 100px; opacity: 0; }
+      svg:hover .input-beam {
+        animation: beamShoot 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
-
-      /* 3. The Impact Flash (Synced exactly at 48% where beam hits) */
-      .impact-flash {
-        animation: flashBurst 4s steps(1) infinite;
-        transform-origin: 95px 95px;
+      @keyframes beamShoot {
+        0%, 19% { opacity: 0; transform: scaleX(0); }
+        20% { opacity: 1; transform: scaleX(0); }
+        25% { opacity: 1; transform: scaleX(1); } /* Hits prism */
+        50%, 100% { opacity: 0; transform: scaleX(1); } /* Shuts off */
+      }
+      /* 3. Prism Impact and Refraction Glow */
+      .prism-internal-glow { opacity: 0; }
+      svg:hover .prism-internal-glow {
+        animation: prismAbsorb 5s ease-in-out forwards;
+      }
+      @keyframes prismAbsorb {
+        0%, 24% { opacity: 0; filter: brightness(1); }
+        25%, 35% { opacity: 1; filter: brightness(2); } /* Bright flash inside */
+        40%, 100% { opacity: 0.6; filter: brightness(1); } /* Residual glow */
+      }
+      .impact-flash { transform-origin: 95px 95px; opacity: 0; }
+      svg:hover .impact-flash {
+        animation: flashBurst 5s ease-out forwards;
       }
       @keyframes flashBurst {
-        0%, 46% { opacity: 0; transform: scale(0.5); }
-        48% { opacity: 1; transform: scale(1.5); filter: brightness(1.5); } /* BAM! Light hits glass */
-        52%, 100% { opacity: 0; transform: scale(0); }
+        0%, 24% { opacity: 0; transform: scale(0.5); }
+        25% { opacity: 1; transform: scale(1.5); filter: brightness(2); } /* Impact! */
+        30%, 100% { opacity: 0; transform: scale(0); }
       }
-
-      /* 4. Output Spectrum (Rainbow bursts out) */
-      .output-spectrum {
-        animation: spectrumBurst 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-        transform-origin: 115px 95px;
-        opacity: 0;
+      /* 4. Output Spectrum */
+      .output-spectrum { transform-origin: 115px 95px; opacity: 0; }
+      svg:hover .output-spectrum {
+        animation: spectrumErupt 5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
       }
-      @keyframes spectrumBurst {
-        48% { opacity: 1; transform: scaleX(0) scaleY(0.2); } /* Starts at exit face */
-        65% { opacity: 1; transform: scaleX(1) scaleY(1); } /* Full expansion */
-        85%, 100% { opacity: 0; transform: scaleX(1.2) scaleY(1.2); } /* Fades away */
+      @keyframes spectrumErupt {
+        0%, 34% { opacity: 0; transform: scaleX(0) scaleY(0.2); }
+        35% { opacity: 1; transform: scaleX(0) scaleY(0.2); }
+        45%, 100% { opacity: 0.8; transform: scaleX(1) scaleY(1); } /* Reaches target and holds */
       }
-    </style>
-
+      /* 5. Holographic Projection Manifestation */
+      .hologram-group { transform-origin: 170px 70px; opacity: 0; }
+      svg:hover .hologram-group {
+        animation: projectHolo 5s ease-out forwards;
+      }
+      @keyframes projectHolo {
+        0%, 44% { opacity: 0; transform: translateY(20px) scale(0); }
+        45% { opacity: 1; transform: translateY(0px) scale(1.2); filter: brightness(2); } /* Bursts into existence */
+        50%, 100% { opacity: 1; transform: translateY(-5px) scale(1); filter: brightness(1.2); } /* Floats nicely */
+      }
+      /* Hologram Rotation (Continuous once manifested) */
+      .holo-core { transform-origin: 170px 65px; }
+      svg:hover .holo-core {
+        animation: spinHolo 5s linear forwards;
+      }
+      @keyframes spinHolo {
+        0%, 44% { transform: rotateY(0deg); }
+        100% { transform: rotateY(360deg); }
+      }
+      .holo-ring { transform-origin: 170px 65px; }
+      svg:hover .holo-ring {
+        animation: spinHoloRev 5s linear forwards;
+      }
+      @keyframes spinHoloRev {
+        0%, 44% { transform: rotateX(60deg) rotateZ(0deg); }
+        100% { transform: rotateX(60deg) rotateZ(-360deg); }
+      }
+      </style>
+    <!-- Gradients -->
     <linearGradient id="glassSurface" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#e0f7fa" stop-opacity="0.3"/>
       <stop offset="50%" stop-color="#e0f7fa" stop-opacity="0.1"/>
-      <stop offset="100%" stop-color="#81ecec" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#3cba92" stop-opacity="0.2"/>
     </linearGradient>
     <linearGradient id="glassEdge" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#b2ebf2" stop-opacity="0.8"/>
@@ -69,8 +120,8 @@
     </linearGradient>
     <linearGradient id="internalRainbow" x1="0%" y1="50%" x2="100%" y2="50%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#ff00ff"/> </linearGradient>
-
+      <stop offset="100%" stop-color="#ff00ff"/> 
+    </linearGradient>
     <linearGradient id="emitterMetal" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#a1c4fd"/>
       <stop offset="100%" stop-color="#c2e9fb"/>
@@ -79,34 +130,30 @@
       <stop offset="0%" stop-color="#ffffff"/>
       <stop offset="100%" stop-color="#e0f7fa"/>
     </linearGradient>
-
+    <!-- Rainbow Spectrum -->
     <linearGradient id="rainbowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#ff0000"/> <stop offset="15%" stop-color="#ff7f00"/> <stop offset="30%" stop-color="#ffff00"/> <stop offset="50%" stop-color="#00ff00"/> <stop offset="70%" stop-color="#0000ff"/> <stop offset="85%" stop-color="#4b0082"/> <stop offset="100%" stop-color="#8f00ff"/> </linearGradient>
-
+      <stop offset="0%" stop-color="#ff0000"/> <stop offset="15%" stop-color="#ff7f00"/> <stop offset="30%" stop-color="#ffff00"/> <stop offset="50%" stop-color="#00ff00"/> <stop offset="70%" stop-color="#0000ff"/> <stop offset="85%" stop-color="#4b0082"/> <stop offset="100%" stop-color="#8f00ff"/> 
+    </linearGradient>
     <filter id="opticShadow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
       <feOffset dx="0" dy="6" result="offsetblur"/>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.2"/>
-      </feComponentTransfer>
+      <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
       <feColorMatrix type="matrix" values="0 0 0 0 0.1   0 0 0 0 0.3   0 0 0 0 0.8   0 0 0 1 0" /> 
-      <feMerge>
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    
     <filter id="lightGlow">
       <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-      <feMerge>
-          <feMergeNode in="coloredBlur"/>
-          <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Hologram Glow -->
+    <filter id="holoGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
 
-  <rect width="200" height="200" fill="#ffffff" />
-
+  <!-- Transparent Background -->
+  <!-- Base Shadow -->
   <g transform="translate(0, 10)">
       <polygon points="20,140 100,170 180,140 100,110" fill="#f5faff" filter="url(#opticShadow)"/>
       <polygon points="20,140 100,170 100,178 20,148" fill="#ddebf7"/>
@@ -119,38 +166,55 @@
         <circle cx="140" cy="126" r="2"/>
       </g>
   </g>
-
+  <!-- The Emitter Source -->
   <g class="emitter-body" filter="url(#opticShadow)">
     <polygon points="30,130 50,130 45,110 35,110" fill="#c4dff5"/>
     <path d="M 25 90 L 45 85 L 55 95 L 55 105 L 45 115 L 25 110 Z" fill="url(#emitterMetal)"/>
-    <ellipse cx="25" cy="100" rx="5" ry="10" fill="#81ecec"/>
+    <ellipse cx="25" cy="100" rx="5" ry="10" fill="#3cba92"/>
     <polygon points="55 95 58 98 58 102 55 105" fill="url(#emitterLight)"/>
+    <!-- Charging Particles -->
+    <circle cx="45" cy="95" r="1.5" fill="#ffffff" class="charge-particle" filter="url(#lightGlow)"/>
+    <circle cx="45" cy="105" r="1.5" fill="#ffffff" class="charge-particle" filter="url(#lightGlow)" style="animation-delay: 0.1s;"/>
+    <circle cx="40" cy="90" r="2" fill="#3cba92" class="charge-particle" filter="url(#lightGlow)" style="animation-delay: 0.2s;"/>
   </g>
-
+  <!-- The Initial Light Beam -->
   <line x1="58" y1="100" x2="95" y2="100" stroke="#ffffff" stroke-width="4" stroke-linecap="round" filter="url(#lightGlow)" class="input-beam"/>
-
+  <!-- Spectral Output and Hologram -->
   <g transform="translate(0, -10)">
-    <path d="M 115 105 L 170 70 L 170 140 Z" fill="url(#rainbowGrad)" opacity="0.8" filter="url(#lightGlow)" class="output-spectrum"/>
-
+    <!-- Directed Rainbow Spectrum -->
+    <path d="M 115 105 L 165 80 L 175 60 Z" fill="url(#rainbowGrad)" opacity="0.8" filter="url(#lightGlow)" class="output-spectrum"/>
+    <!-- Hologram Projection at the end of the beam -->
+    <g class="hologram-group" filter="url(#holoGlow)">
+      <!-- Projection Base / Target Point -->
+      <ellipse cx="170" cy="78" rx="15" ry="5" fill="#8f00ff" opacity="0.5" />
+      <ellipse cx="170" cy="78" rx="8" ry="2" fill="#ffffff" opacity="0.8" />
+      <!-- Spinning Holographic Diamond Core -->
+      <g class="holo-core" stroke="#e056fd" stroke-width="1.5" fill="none">
+        <polygon points="170,50 160,65 170,75 180,65" fill="#be2edd" opacity="0.4" />
+        <line x1="170" y1="50" x2="170" y2="75" stroke="#ffffff" opacity="0.8" />
+        <line x1="160" y1="65" x2="180" y2="65" />
+      </g>
+      <!-- Orbiting Holographic Data Ring -->
+      <ellipse cx="170" cy="65" rx="18" ry="18" fill="none" stroke="#ff9ff3" stroke-width="1" stroke-dasharray="2 4 8 2" class="holo-ring" />
+    </g>
+    <!-- The Glass Prism -->
     <g filter="url(#opticShadow)">
         <polygon points="115 105 135 65 135 145" fill="url(#glassSurface)" stroke="url(#glassEdge)" stroke-width="0.5" opacity="0.5"/>
-        
+        <!-- Internal Refraction Glow -->
         <polygon points="95 105 115 95 115 115" fill="url(#internalRainbow)" opacity="0.6" class="prism-internal-glow" filter="url(#lightGlow)"/>
-        
         <polygon points="95 105 115 65 115 145" fill="url(#glassSurface)" stroke="url(#glassEdge)" stroke-width="1.5"/>
         <line x1="115" y1="65" x2="135" y2="65" stroke="url(#glassEdge)" stroke-width="1.5"/>
         <line x1="115" y1="145" x2="135" y2="145" stroke="url(#glassEdge)" stroke-width="1.5"/>
         <line x1="100" y1="105" x2="110" y2="75" stroke="#ffffff" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
     </g>
   </g>
-
+  <!-- Impact Flash when beam hits prism -->
   <g class="impact-flash" filter="url(#lightGlow)">
     <circle cx="95" cy="95" r="12" fill="#ffffff"/>
-    <circle cx="95" cy="95" r="20" fill="#81ecec" opacity="0.5"/>
+    <circle cx="95" cy="95" r="20" fill="#3cba92" opacity="0.5"/>
     <g stroke="#ffffff" stroke-width="2" stroke-linecap="round">
         <line x1="95" y1="80" x2="95" y2="110"/>
         <line x1="80" y1="95" x2="110" y2="95"/>
     </g>
   </g>
-
 </svg>
